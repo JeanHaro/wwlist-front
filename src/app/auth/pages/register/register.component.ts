@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-register',
+  selector: 'auth-register',
   standalone: false,
-  
+
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })

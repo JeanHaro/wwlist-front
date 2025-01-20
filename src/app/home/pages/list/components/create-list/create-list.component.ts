@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-create-list',
+  selector: 'home-create-list',
   standalone: false,
-  
+
   templateUrl: './create-list.component.html',
   styleUrl: './create-list.component.scss'
 })

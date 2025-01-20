@@ -1,1 +1,266 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/*
+.bungee-regular {
+  font-family: "Bungee", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.poppins-thin {
+  font-family: "Poppins", serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.poppins-extralight {
+  font-family: "Poppins", serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.poppins-light {
+  font-family: "Poppins", serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.poppins-regular {
+  font-family: "Poppins", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.poppins-medium {
+  font-family: "Poppins", serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.poppins-semibold {
+  font-family: "Poppins", serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.poppins-bold {
+  font-family: "Poppins", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.poppins-extrabold {
+  font-family: "Poppins", serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.poppins-black {
+  font-family: "Poppins", serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.poppins-thin-italic {
+  font-family: "Poppins", serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.poppins-extralight-italic {
+  font-family: "Poppins", serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.poppins-light-italic {
+  font-family: "Poppins", serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.poppins-regular-italic {
+  font-family: "Poppins", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.poppins-medium-italic {
+  font-family: "Poppins", serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.poppins-semibold-italic {
+  font-family: "Poppins", serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.poppins-bold-italic {
+  font-family: "Poppins", serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.poppins-extrabold-italic {
+  font-family: "Poppins", serif;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.poppins-black-italic {
+  font-family: "Poppins", serif;
+  font-weight: 900;
+  font-style: italic;
+}
+*/
+
+:root {
+  // Font Family
+  --principal-font: "Poppins", serif;
+  --secondary-font: "Bungee", serif;
+
+  // Font Weight
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  // Colores para texto
+  --text-color-light: #1C1F36; // Modo Claro
+  --text-color-dark: #F5F5F5; // Modo Oscuro
+
+  // Modo Claro
+  --primary-color-light: #00ADEF;
+  --primary-color-darkened-light: #00A1E0;
+  --secondary-color-light: #00E08E;
+  --secondary-color-darkered-light: #00D084;
+  --background-color-light: #FFFFFF;
+  --header-background-light: #F5F5F5;
+
+  // Modo Oscuro
+  --primary-color-dark: #00E08E;
+  --primary-color-darkened-dark: #00D084;
+  --secondary-color-dark: #00ADEF;
+  --secondary-color-darkened-dark: #00A1E0;
+  --background-color-dark: #1C1F36;
+  --header-background-dark: #333333;
+
+  // Colores Adicionales
+  --delete-color: #FF4C4C;
+  --delete-color-hover: #CF2E2E;
+  --confirm-color: #00CC44;
+  --confirm-color-hover: #009933;
+  --default-color-light: #B0B0B0; // Modo Claro
+  --default-color-lighjt-hover: #9F9E9E;
+  --default-color-dark: #666666; // Modo Oscuro
+  --default-color-dark-hover: #4F4F4F;
+
+  // Inputs
+  --input-background-light: #F0F0F0; // Modo Claro
+  --input-border-light: #B0B0B0; // Modo Claro
+  --input-background-dark: #333333; // Modo Oscuro
+  --input-color-dark: #666666; // Modo Oscuro
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+*, *::after, *::before {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  font-family: var(--principal-font);
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
+  font-size: 1.6rem;
+}
+
+img {
+  max-width: 100%;
+}
+
+// -------------- Global --------------
+h1, h2, h3, h4, h5, p, ul {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 4.5rem;
+}
+
+h2 {
+  font-size: 3.4rem;
+}
+
+h3 {
+  font-size: 2.8rem;
+}
+
+h4 {
+  font-size: 2.4rem;
+}
+
+h5 {
+  font-size: 2rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+.min-width {
+  min-width: 28rem;
+}
+
+.max-width {
+  max-width: 170rem;
+  margin: auto;
+}
+
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+.none {
+  outline: none;
+  border: none;
+}
+
+.btn {
+  font-size: 1.6rem;
+  text-align: center;
+  padding: 1.5rem 2.5rem;
+  border-radius: 1rem;
+
+  cursor: pointer;
+}
+
+
+.input {
+  font-family: var(--fuentePrincipal);
+  font-size: 1.6rem;
+  border: 0.6px solid var(--colorContacto);
+  background-color: var(--colorEntorno);
+  color: var(--colorTexto);
+
+  width: 100%;
+  padding: 1.2rem 1.4rem;
+  border-radius: 0.4rem;
+
+  &::placeholder {
+    color: #979797;
+  }
+}

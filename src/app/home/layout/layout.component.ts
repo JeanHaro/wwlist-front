@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-layout',
+  selector: 'home-layout',
   standalone: false,
-  
+
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 // -> Layout
 import { LayoutComponent } from './layout/layout.component';
-// -> Components Layout
+// Componentes
 import { HeaderComponent } from './layout/components/header/header.component';
 import { FooterComponent } from './layout/components/footer/footer.component';
 
@@ -13,17 +13,21 @@ import { DatesComponent } from './pages/dates/dates.component';
 // Shared Pages
 import { SearchComponent } from './pages/shared/search/search.component';
 
+// Rutas
+import { HomeRoutingModule } from './home.routing';
+
 @NgModule({
   declarations: [
     LayoutComponent,
+    HeaderComponent,
+    FooterComponent,
     CalendarComponent,
     DatesComponent,
     SearchComponent,
-    HeaderComponent,
-    FooterComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    HomeRoutingModule
   ]
 })
 export class HomeModule { }
