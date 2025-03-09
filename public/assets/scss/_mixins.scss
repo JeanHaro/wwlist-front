@@ -1,0 +1,9 @@
+@mixin hidden-mobile {
+  display: none;
+  visibility: hidden;
+
+  @media (min-width: 1024px) {
+    display: block;
+    visibility: visible;
+  }
+}

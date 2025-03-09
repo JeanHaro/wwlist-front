@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Lilita+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 /*
 .bungee-regular {
   font-family: "Bungee", serif;
@@ -114,12 +113,20 @@
   font-weight: 900;
   font-style: italic;
 }
+
+.lilita-one-regular {
+  font-family: "Lilita One", serif;
+  font-weight: 400;
+  font-style: normal;
+}
 */
+
 
 :root {
   // Font Family
   --principal-font: "Poppins", serif;
   --secondary-font: "Bungee", serif;
+  --tertiary-font: "Lilita One", serif;
 
   // Font Weight
   --font-weight-light: 300;
@@ -134,28 +141,30 @@
   --text-color-dark: #F5F5F5; // Modo Oscuro
 
   // Modo Claro
-  --primary-color-light: #00ADEF;
-  --primary-color-darkened-light: #00A1E0;
+  --primary-color-light: #1562CA;
+  --primary-color-darkened-light: #2753A0;
   --secondary-color-light: #00E08E;
   --secondary-color-darkered-light: #00D084;
-  --background-color-light: #FFFFFF;
+  --body-background-light: #FFFFFF;
   --header-background-light: #F5F5F5;
+  --header-background-darkered-light: #1C1F36;
 
   // Modo Oscuro
   --primary-color-dark: #00E08E;
   --primary-color-darkened-dark: #00D084;
-  --secondary-color-dark: #00ADEF;
-  --secondary-color-darkened-dark: #00A1E0;
-  --background-color-dark: #1C1F36;
+  --secondary-color-dark: ##1562CA;
+  --secondary-color-darkened-dark: #2753A0;
+  --body-background-dark: #1C1F36;
   --header-background-dark: #333333;
+  --header-background-darkered-dark: #F5F5F5;
 
   // Colores Adicionales
   --delete-color: #FF4C4C;
   --delete-color-hover: #CF2E2E;
   --confirm-color: #00CC44;
   --confirm-color-hover: #009933;
-  --default-color-light: #B0B0B0; // Modo Claro
-  --default-color-lighjt-hover: #9F9E9E;
+  --default-color-light: #dedede; // Modo Claro
+  --default-color-light-hover: #c5c5c5;
   --default-color-dark: #666666; // Modo Oscuro
   --default-color-dark-hover: #4F4F4F;
 
@@ -197,7 +206,8 @@ h1, h2, h3, h4, h5, p, ul {
 }
 
 h1 {
-  font-size: 4.5rem;
+  font-size: 4rem;
+  font-family: var(--tertiary-font);
 }
 
 h2 {
@@ -225,13 +235,13 @@ a {
 }
 
 .max-width {
-  max-width: 170rem;
+  max-width: 190rem;
   margin: auto;
 }
 
 .hidden {
-  display: none;
-  visibility: hidden;
+  display: none !important;
+  visibility: hidden !important;
 }
 
 .none {
@@ -240,25 +250,61 @@ a {
 }
 
 .btn {
-  font-size: 1.6rem;
-  text-align: center;
   padding: 1.5rem 2.5rem;
   border-radius: 1rem;
+
+  font-size: 1.6rem;
+  text-align: center;
 
   cursor: pointer;
 }
 
+.btn-default {
+  background-color: var(--default-color-light);
+
+  transition: 0.5s ease;
+
+  &:hover {
+    background-color: var(--default-color-light-hover);
+  }
+}
+
+.btn-primary {
+  background-color: var(--primary-color-light);
+  border: 1px solid transparent;
+  color: var(--text-color-dark);
+
+  transition: 0.5s ease;
+
+  &:hover {
+    background-color: var(--primary-color-darkened-light);
+  }
+}
+
+.btn-primary-light {
+  background-color: var(--text-color-dark);
+  border: 1px solid var(--primary-color-light);
+  color: var(--background-color-light);
+
+  transition: 0.5s ease;
+
+  &:hover {
+    background-color: var(--primary-color-light);
+    color: var(--text-color-dark);
+  }
+}
 
 .input {
-  font-family: var(--fuentePrincipal);
-  font-size: 1.6rem;
-  border: 0.6px solid var(--colorContacto);
-  background-color: var(--colorEntorno);
-  color: var(--colorTexto);
-
   width: 100%;
   padding: 1.2rem 1.4rem;
+  border: 0.6px solid var(--colorContacto);
   border-radius: 0.4rem;
+
+  font-family: var(--fuentePrincipal);
+  font-size: 1.6rem;
+  color: var(--colorTexto);
+
+  background-color: var(--colorEntorno);
 
   &::placeholder {
     color: #979797;

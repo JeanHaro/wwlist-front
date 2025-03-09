@@ -16,6 +16,9 @@ import { SearchComponent } from './pages/shared/search/search.component';
 // Rutas
 import { HomeRoutingModule } from './home.routing';
 
+// Modulos
+import { SharedModule } from '../shared/shared.module';
+
 @NgModule({
   declarations: [
     LayoutComponent,
@@ -27,7 +30,8 @@ import { HomeRoutingModule } from './home.routing';
   ],
   imports: [
     CommonModule,
-    HomeRoutingModule
+    HomeRoutingModule,
+    SharedModule
   ]
 })
 export class HomeModule { }

@@ -1,1 +1,107 @@
-<p>header works!</p>
+<header class="header">
+  <div class="header-cotainer max-width">
+    <a class="header_logo">
+      <h1>W&W List</h1>
+    </a><!--& Logo -->
+
+    <input type="checkbox" id="menu-bar">
+    <label for="menu-bar" class="header_menubar">
+      <div class="header_menubar-l1"></div>
+      <div class="header_menubar-l2"></div>
+      <div class="header_menubar-l3"></div>
+    </label><!-- & Menu bar -->
+
+    <div class="header_links">
+      <div class="triangle"></div>
+
+      <nav class="header_links-order">
+        <a class="header_order-link" href="#">
+          <fa-icon [icon]="faBoxesStacked"></fa-icon>
+
+          <span>Cards</span>
+        </a><!--% Cards -->
+
+        <a class="header_order-link" href="#">
+          <fa-icon [icon]="faList"></fa-icon>
+
+          <span>Lista</span>
+        </a><!--% Lista -->
+      </nav><!--$ Enlaces de orden -->
+
+      <nav class="header_links-tools">
+        <a class="header_tools-link" href="#">
+          <fa-icon [icon]="faCalendar"></fa-icon>
+
+          <span>Calendario</span>
+        </a><!--% Calendario -->
+
+        <a routerLink="#" class="header_tools-link" href="#">
+          <fa-icon [icon]="faClock"></fa-icon>
+
+          <span>Fechas</span>
+        </a><!--% Fecha -->
+      </nav><!--$ Enlaces de herramientas (Extra) -->
+
+      <nav class="header_links-btn">
+        <a class="header_tools-link hidden" href="#">
+          <fa-icon [icon]="faArrowRight"></fa-icon>
+
+          <span>Acceder</span>
+        </a><!--% Acceder -->
+
+        <a class="header_tools-link" href="#">
+          <fa-icon [icon]="faUser"></fa-icon>
+
+          <span>Perfil</span>
+        </a><!--% Perfil -->
+      </nav><!--$ Enlaces de iniciar sesión - mobile -->
+    </div><!--& Enlaces -->
+
+    <div class="header_buttons">
+      <button class="none btn btn-primary-light">
+        <fa-icon [icon]="faArrowRight"></fa-icon>
+        <span>Acceder</span>
+      </button><!--$ Login -->
+
+      <button class="none btn btn-primary">
+        <fa-icon [icon]="faUserPlus"></fa-icon>
+        <span>Crear cuenta</span>
+      </button><!--$ Crear cuenta -->
+    </div><!--& Botones -->
+
+    <div class="header_profile">
+      <div class="header_profile-container">
+        <img src="/assets/images/profile.jpg" alt="Foto de perfil">
+
+        <div class="header_profile-content">
+          <span>Jean Haro</span>
+          <span>mi perfil</span>
+        </div><!--% Contenido del perfil -->
+
+        <fa-icon class="header_profile-icon" [icon]="faChevronDown"></fa-icon>
+      </div><!--$ Contenedor del perfil -->
+
+      <div class="header_profile-options">
+        <div class="triangle"></div>
+
+        <a class="header_option-info" href="#">
+          <fa-icon [icon]="faUser"></fa-icon>
+
+          <span>Mi perfil</span>
+        </a><!--% Mi perfil -->
+
+        <a class="header_option-gear" href="#">
+          <fa-icon [icon]="faCog"></fa-icon>
+
+          <span>Configuración</span>
+        </a><!--% Configuración -->
+
+        <a href="header_option-logout">
+          <fa-icon [icon]="faSignOutAlt"></fa-icon>
+
+          <span>Cerrar sesión</span>
+        </a><!--% Cerrar sesión -->
+      </div><!--$ Opciones del perfil -->
+    </div><!--& Perfil -->
+  </div>
+</header><!--# Cabecera -->
