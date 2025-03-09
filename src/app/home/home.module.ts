@@ -32,6 +32,9 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     HomeRoutingModule,
     SharedModule
+  ],
+  exports: [
+    SearchComponent
   ]
 })
 export class HomeModule { }

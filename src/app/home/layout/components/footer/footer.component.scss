@@ -33,12 +33,22 @@
   // & Top
   .footer-top {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
 
     width: 100%;
     margin: 2rem 0 4rem;
     padding: 0 5rem;
+
+    @media (min-width: 600px) {
+      flex-direction: row;
+    }
+
+    .footer-top_logo {
+      text-align: center;
+      margin: 2rem 0;
+    }
 
     fa-icon {
       font-size: 3.2rem;
@@ -48,12 +58,29 @@
   // & Enlaces
   .footer-middle {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
     width: 100%;
     padding: 2rem 0 3rem;
     border-top: 2px dashed var(--primary-color-light);
+
+    @media (min-width: 412px) {
+      flex-direction: row;
+    }
+
+    a {
+      margin: 0;
+
+      @media (min-width: 412px) {
+        margin-right: 2rem;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
   }
 
   // & Copyright
