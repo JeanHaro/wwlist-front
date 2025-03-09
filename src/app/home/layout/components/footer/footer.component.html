@@ -1,1 +1,43 @@
-<p>footer works!</p>
+<footer class="footer">
+  <div class="footer-container max-width">
+    <div class="footer-top">
+      <div class="footer-top_socials">
+        <a href="#">
+          <fa-icon [icon]="faSquareFacebook"></fa-icon>
+        </a>
+
+        <a href="#">
+          <fa-icon [icon]="faSquareInstagram"></fa-icon>
+        </a>
+
+        <a href="#">
+          <fa-icon [icon]="faSquareGithub"></fa-icon>
+        </a>
+      </div><!-- $ Redes sociales -->
+
+      <a class="footer-top_logo" href="#">
+        <h1>W&W List</h1>
+      </a><!-- $ Logo -->
+
+      <nav class="footer-top_languages">
+        <a href="#">
+          <fa-icon [icon]="faAngular"></fa-icon>
+        </a>
+
+        <a href="#">
+          <fa-icon [icon]="faNode"></fa-icon>
+        </a>
+      </nav><!-- $ Lenguajes  -->
+    </div><!-- & Top -->
+
+    <nav class="footer-middle">
+      <a href="#">Cards</a>
+      <a href="#">Lista</a>
+      <a href="#">Calendario</a>
+      <a href="#">Fechas</a>
+      <a href="#">Perfil</a>
+    </nav><!-- & Enlaces -->
+
+    <p>W%W List &copy; {{ year }}. Todos los derechos reservados</p><!-- & Copyright -->
+  </div><!-- Contenedor -->
+</footer><!-- # Footer -->
