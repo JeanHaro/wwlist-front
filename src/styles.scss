@@ -190,7 +190,7 @@ body {
   padding: 0;
 
   font-family: var(--principal-font);
-  background-color: var(--background-color-light);
+  background-color: var(--body-background-light);
   color: var(--text-color-light);
   font-size: 1.6rem;
 }
@@ -296,7 +296,7 @@ a {
 .btn-primary-light {
   background-color: var(--text-color-dark);
   border: 1px solid var(--primary-color-light);
-  color: var(--background-color-light);
+  color: var(--body-background-light);
 
   transition: 0.5s ease;
 
@@ -309,16 +309,16 @@ a {
 .input {
   width: 100%;
   padding: 1.2rem 1.4rem;
-  border: 0.6px solid var(--colorContacto);
+  border: 0.6px solid var(--input-border-light);
   border-radius: 0.4rem;
 
-  font-family: var(--fuentePrincipal);
+  font-family: var(--principal-font);
   font-size: 1.6rem;
-  color: var(--colorTexto);
+  color: var(--primary-color-light);
 
   background-color: var(--colorEntorno);
 
   &::placeholder {
-    color: #979797;
+    color: var(--input-border-light);
   }
 }
