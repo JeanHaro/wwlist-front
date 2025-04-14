@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
 import { DatesComponent } from './pages/dates/dates.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -21,7 +22,8 @@ const routes: Routes = [
         loadChildren: () => import('./pages/list/list.module').then(m => m.ListModule)
       },
       { path: 'calendar', component: CalendarComponent },
-      { path: 'dates', component: DatesComponent }
+      { path: 'dates', component: DatesComponent },
+      { path: 'profile', component: ProfileComponent }
     ]
   }
 ];

@@ -1,2 +1,71 @@
 <home-shared-search></home-shared-search>
-<p>view-gallery works!</p>
+
+<main class="gallery max-width">
+  <!-- track section - optimiza el rendimiento al indicar a Angular cómo identificar cada elemento -->
+  @for (section of sections; track section) {
+    <!-- [attr.aria-label] proporciona una etiqueta descriptiva para lectores de pantalla, cambiando dinámicamente según el tipo de sección -->
+    <div
+      class="gallery-content"
+      role="region"
+      [attr.aria-label]="section === 'filters' ? 'Filtros' : 'Ordenación'"
+    >
+      <!-- [attr.aria-expanded] - comunica a lectores de pantalla si el panel está expandido o colapsado -->
+      <!-- [attr.aria-controls] - vincula este botón con el panel que controla mediante un ID único -->
+      <button
+        class="none btn btn-default-transparent"
+        (click)="toggleSection(section)"
+        [attr.aria-expanded]="!activeSections()[section]"
+        [attr.aria-controls]="section + '-panel'"
+      >
+        <fa-icon
+          [icon]="faSliders"
+          aria-hidden="true"
+        ></fa-icon>
+
+        <span>{{ section === 'filters' ? 'Filtrar por' : 'Ordenar por' }}</span>
+
+        <fa-icon
+          [ngStyle]="{'transform': (activeSections())[section] ? 'rotate(180deg)' : 'rotate(0deg)'}"
+          [icon]="faChevronDown"
+          aria-hidden="true"
+        ></fa-icon>
+      </button><!-- $ Botón para ver filtros y ordenamientos -->
+
+      <!-- [id]="section...'" - proporciona un ID único que conecta con el botón vía aria-controls -->
+      <view-filters-orders
+        [id]="section + '-panel'"
+        (filters_orders)="updateSelect(section, $event)"
+        [activeSections]="activeSections()[section]"
+        [typeOption]="section === 'filters' ? filters() : orders()">
+      </view-filters-orders><!-- $ Filtros y ordenamientos -->
+    </div><!-- & Contenedor de filtros y ordenamientos -->
+  }
+
+  <section class="gallery-cards">
+    <div class="gallery-card gallery-card_1">
+      <div class="gallery-card_header">
+        <div class="gallery-card_state">
+          Visto
+        </div>
+
+        <div class="gallery-card_score">
+          4
+        </div>
+      </div><!-- % Card Header -->
+
+      <div class="gallery-card_footer">
+        <div class="gallery-card_name">
+          Nombre
+        </div>
+
+        <div class="gallery-card_categories">
+          Categoría - Subcategoría
+        </div>
+
+        <div class="gallery-card_platform">
+          Plataforma
+        </div>
+      </div><!-- % Card Footer -->
+    </div><!-- $ Tarjeta-->
+  </section><!-- & Todas las tarjetas -->
+</main><!-- # Galería -->

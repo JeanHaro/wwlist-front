@@ -1,0 +1,111 @@
+@use 'sass:map';
+
+// Variables para reutilización
+$border-radius-sm: 0.5rem;
+$transition-standard: 0.5s ease;
+$primary-color: var(--primary-color-light);
+$input-border: var(--input-border-light);
+$text-dark: var(--text-color-dark);
+
+// Breakpoints para media queries
+// Almacena los breakpoints en un mapa clave-valor
+// Centraliza los puntos de ruptura para asegurar consistencia en todo el diseño responsive.
+$breakpoints: (
+  sm: 540px,
+  md: 768px,
+  lg: 1440px,
+  xl: 1900px
+);
+
+// Mixins para reutilizar estilos
+@mixin respond-to($breakpoint) {
+  // map-get: Obtiene el valor asociado a la clave del mapa de breakpoints
+  $value: map.get($breakpoints, $breakpoint);
+
+  // @if: Verifica que el breakpoint exista antes de generar la media query
+  @if $value != null {
+    @media (min-width: $value) {
+      // @content: Permite inyectar estilos dentro de la media query
+      @content;
+    }
+  }
+}
+
+// -----------------------------------------------------
+// # COMPONENTE GALERÍA PRINCIPAL
+// -----------------------------------------------------
+.gallery {
+  width: 100%;
+  margin-top: 5rem;
+
+  // -----------------------------------------------------
+  // & CONTENEDOR DE FILTROS Y ORDENAMIENTOS
+  // -----------------------------------------------------
+  // &-content: Sintaxis de anidamiento BEM usando el operador & que se traduce a .gallery-content.
+  &-content {
+    position: relative;
+
+    margin-bottom: 8rem;
+
+    &:nth-child(1) {
+      > button {
+        top: -3%;
+
+        // media queries con mixin: Ajusta la posición en diferentes tamaños de pantalla.
+        // Posicionamiento responsive preciso que mantiene la relación visual adecuada en todos los dispositivos.
+        @include respond-to(sm) { top: -4%; }
+
+        @include respond-to(md) { top: -5%; }
+
+        @include respond-to(lg) { top: -6%; }
+      }
+    }
+
+    &:nth-child(2) {
+      > button {
+        top: -5%;
+
+        @include respond-to(sm) { top: -6%; }
+
+        @include respond-to(md) { top: -8%; }
+      }
+    }
+
+    > button {
+      display: flex;
+      align-items: center;
+
+      position: absolute;
+      right: 5%;
+
+      border: 1px solid $input-border;
+      border-radius: $border-radius-sm;
+      box-shadow: 0 1px 3px rgba($color: #000000, $alpha: 0.08);
+
+      color: $primary-color;
+      font-weight: 700;
+
+      z-index: 1;
+      transition:
+        box-shadow $transition-standard,
+        background-color $transition-standard;
+
+      &:hover {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+        background-color: rgba(243, 243, 243, 0.8);
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      span {
+        margin-inline: 0.5rem 1rem;
+      }
+
+      fa-icon {
+        transition: transform $transition-standard;
+      }
+    }
+  }
+}

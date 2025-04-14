@@ -10,6 +10,7 @@ import { FooterComponent } from './layout/components/footer/footer.component';
 // Pages
 import { CalendarComponent } from './pages/calendar/calendar.component';
 import { DatesComponent } from './pages/dates/dates.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 // Shared Pages
 import { SearchComponent } from './pages/shared/search/search.component';
 
@@ -18,7 +19,6 @@ import { HomeRoutingModule } from './home.routing';
 
 // Modulos
 import { SharedModule } from '../shared/shared.module';
-
 @NgModule({
   declarations: [
     LayoutComponent,
@@ -27,6 +27,7 @@ import { SharedModule } from '../shared/shared.module';
     CalendarComponent,
     DatesComponent,
     SearchComponent,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,
@@ -34,7 +35,8 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule
   ],
   exports: [
-    SearchComponent
+    SearchComponent,
+    SharedModule
   ]
 })
 export class HomeModule { }

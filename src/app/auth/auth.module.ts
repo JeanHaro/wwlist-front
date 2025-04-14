@@ -5,11 +5,13 @@ import { RegisterComponent } from './pages/register/register.component';
 
 // Routing
 import { AuthRoutingModule } from './auth.routing';
+import { LayoutComponent } from './layout/layout.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    LayoutComponent
   ],
   imports: [
     CommonModule,

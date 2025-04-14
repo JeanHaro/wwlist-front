@@ -1,0 +1,276 @@
+// Variables para reutilización
+$border-radius-sm: 0.5rem;
+$transition-standart: 0.5s ease;
+$primary-color: var(--primary-color-light);
+$input-border-light: var(--input-border-light);
+$text-dark: var(--text-color-dark);
+
+// Mixins para reutilizar estilos
+@mixin responsive-padding ($sides: '') {
+  @media (min-width: 540px) {
+    padding#{$sides}: 0 2rem;
+  }
+
+  @media (min-width: 768px) {
+    padding#{$sides}: 0 4rem;
+  }
+}
+
+// -----------------------------------------------------
+// COMPONENTE DE FILTROS Y ORDENACIÓN
+// -----------------------------------------------------
+
+// & Filtros y Ordenar
+.gallery-selects {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  height: fit-content;
+  padding: 5rem 0;
+
+  background-color: var( --text-color-dark);
+  opacity: 1;
+
+  transition: 0.5s ease-out;
+
+  @media (min-width: 540px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 8rem 2rem;
+  }
+
+  @media (min-width: 768px) {
+    padding: 8rem 4rem;
+  }
+
+  @media (min-width: 1900px) {
+    border-radius: 2rem;
+  }
+
+  // Estado colapsado - cuando está activa la clase 'active'
+  &.active {
+    height: 0;
+    padding: 0;
+
+    overflow: hidden;
+    opacity: 0;
+
+    @include responsive-padding();
+  }
+
+  // $ Item
+  > div {
+    @media (min-width: 540px) {
+      flex-basis: calc(50% - 1rem);
+
+      margin-right: 2rem;
+
+      &:nth-child(2n) {
+        margin-right: 0;
+      }
+    }
+
+    @media (min-width: 768px) {
+      flex-basis: calc(33% - 2rem);
+
+      margin-right: 2rem !important;
+
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
+    }
+
+    @media (min-width: 1440px) {
+      flex-basis: calc(25% - 2rem);
+
+      margin-right: 2rem !important;
+
+      &:nth-child(4n) {
+        margin-right: 0;
+      }
+    }
+  }
+
+  label {
+    display: block;
+
+    font-weight: 500;
+    color: $primary-color;
+
+    user-select: none;
+  }
+
+  // -----------------------------------------------------
+  // COMPONENTE SELECT PERSONALIZADO
+  // -----------------------------------------------------
+
+  // % Selector
+  .select {
+    position: relative;
+
+    margin: 1rem 0;
+
+    border-radius: $border-radius-sm;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+    transition: box-shadow $transition-standart;
+
+    &:hover {
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+    }
+
+    &.active {
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+
+      input {
+        border-radius: $border-radius-sm $border-radius-sm 0 0 !important;
+      }
+
+      fa-icon {
+        transform: rotate(180deg) !important;
+      }
+
+      .select-options {
+        max-height: 25rem;
+        padding: 1rem;
+
+        opacity: 1;
+
+        overflow-y: auto;
+
+        // Scrollbar general
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
+
+        // Fondo del scrollbar
+        &::-webkit-scrollbar-track {
+          background: #eeeeee;
+        }
+
+        // Barra de desplazamiento (scroll)
+        &::-webkit-scrollbar-thumb {
+          background: $primary-color;
+
+          transition: background 0.3s ease;
+
+          &:hover {
+            background: #0e4a9c;
+          }
+        }
+      }
+    }
+
+    &:not(.active) {
+      .select-options {
+        max-height: 0;
+        padding: 0 1rem;
+
+        opacity: 0;
+      }
+    }
+
+    // -----------------------------------------------------
+    // ENTRADA DEL SELECT (Parte visible siempre)
+    // -----------------------------------------------------
+
+
+    // Input
+    &-input {
+      position: relative;
+
+      input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+
+        border: 1px solid #CCCCCC !important;
+        border-radius: $border-radius-sm;
+        color: $primary-color;
+        background: linear-gradient(to bottom, #FFFFFF, #F7F7F7);
+
+        cursor: pointer;
+        transition: 0.5s ease;
+
+        &:focus {
+          outline: none;
+          border-color: var(--input-border-light);
+        }
+      }
+
+      fa-icon {
+        position: absolute;
+        right: 5%;
+        top: 22%;
+
+        color: $primary-color;
+
+        cursor: pointer;
+        transform: rotate(0deg);
+        transition: $transition-standart;
+      }
+    }
+
+    // -----------------------------------------------------
+    // PANEL DE OPCIONES DESPLEGABLE
+    // -----------------------------------------------------
+
+    // Opciones
+    &-options {
+      position: absolute;
+      z-index: var(--i); // z-index dinámico basado en el índice del filtro
+
+      width: 100%;
+      max-height: 0;
+      padding: 0 1rem;
+
+      border-radius: 0 0 $border-radius-sm $border-radius-sm;
+      border: 1px solid $input-border-light;
+      border-top: none;
+      background: linear-gradient(to bottom, #FFFFFF, #F7F7F7);
+      opacity: 0;
+
+      overflow: hidden;
+      // Transiciones suaves para mostrar/ocultar opciones
+      transition: max-height 0.4s ease-in-out,
+                  opacity 0.3s ease-in-out,
+                  padding 0.3s ease-in-out;
+
+      // Estilo de opciones individuales
+      > div {
+        margin-top: 0.4rem;
+        padding: 1rem;
+
+        border-radius: $border-radius-sm;
+
+        cursor: pointer;
+        transition: background-color 0.5s ease,
+                    color 0.5s ease;
+
+        &:hover {
+          background-color: #eeeeee;
+        }
+
+        &[aria-selected='true'] {
+          background-color: #eeeeee;
+          font-weight: 500;
+        }
+      }
+
+      &_stars {
+        fa-icon {
+          margin-right: 2px;
+          font-size: 1.4rem;
+
+          &.star-filled {
+            color: $primary-color;
+          }
+
+          &.star-empty {
+            color: #cccccc; 
+          }
+        }
+      }
+    }
+  }
+}

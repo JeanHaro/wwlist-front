@@ -191,7 +191,7 @@ body {
 
   font-family: var(--principal-font);
   background-color: var(--body-background-light);
-  color: var(--text-color-light);
+  color: var(--primary-color-light);
   font-size: 1.6rem;
 }
 
@@ -228,6 +228,10 @@ h5 {
 
 a {
   text-decoration: none;
+}
+
+ul {
+  list-style: none;
 }
 
 .min-width {
@@ -296,7 +300,7 @@ a {
 .btn-primary-light {
   background-color: var(--text-color-dark);
   border: 1px solid var(--primary-color-light);
-  color: var(--body-background-light);
+  color: var(--primary-color-light);
 
   transition: 0.5s ease;
 
