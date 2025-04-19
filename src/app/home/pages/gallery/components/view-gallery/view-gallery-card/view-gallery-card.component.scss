@@ -1,0 +1,185 @@
+@use "sass:color";
+
+:host {
+  width: 100%;
+  max-width: 25rem;
+  height: 25rem;
+}
+
+// $ Tarjeta
+.gallery-card {
+  width: 100%;
+  max-width: 25rem;
+  height: 25rem;
+
+  cursor: pointer;
+  perspective: 1000px;
+  will-change: transform; // avisa al navegador de que propiedades de un elemento van a cambiar
+  user-select: none;
+
+  // Contenido de la tarjeta
+  &_content {
+    position: relative;
+
+    display: flex;
+
+    overflow: hidden;
+
+    width: 100%;
+    max-width: 25rem;
+    height: 25rem;
+
+    flex-direction: column;
+    justify-content: space-between;
+
+    border-radius: 1rem;
+    box-shadow: 8px 8px 5px 0px rgba(0, 0, 0, 0.4);
+
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      box-shadow: 2px 8px 5px 0px rgba(0, 0, 0, 0.4);
+
+      transform: rotateX(20deg) rotateZ(2deg);
+
+      // Estado
+      .gallery-card_state {
+        &.completed {
+          background-color: color.adjust(#009688, $lightness: -5%);
+        }
+
+        &.in-progress {
+          background-color: color.adjust(#2196F3, $lightness: -5%);;
+        }
+
+        &.waiting {
+          background-color: color.adjust(#FF9800, $lightness: -5%);
+        }
+      }
+
+      .gallery-card_score {
+        background-color: color.adjust(#1562CA, $lightness: -5%);
+      }
+
+      img {
+        filter: grayscale(0%);
+        transform: scale(1.1);
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+
+      background-color: rgba(0, 0, 0, 0.2);
+
+      z-index: 1;
+    }
+
+    img {
+      position: absolute;
+
+      width: 100%;
+      height: 25rem;
+
+      filter: grayscale(100%);
+      object-fit: cover;
+      object-position: center;
+
+      transition: filter 0.3s ease, transform 0.5s ease;
+    }
+  }
+
+  // % Card Header
+  &_header {
+    display: flex;
+    justify-content: space-between;
+
+    z-index: 2;
+
+    padding: 1.5rem;
+
+    font-size: 1.3rem;
+    color: var(--text-color-dark);
+
+    // Estado
+    .gallery-card_state {
+      padding: 0.5rem 1rem;
+
+      border-radius: 0.8rem 0.2rem 0.8rem 0.2rem;
+
+      transition: background-color 0.3s ease;
+
+      &.completed {
+        background-color: #009688;
+      }
+
+      &.in-progress {
+        background-color: #2196F3;
+      }
+
+      &.waiting {
+        background-color: #FF9800;
+      }
+    }
+
+    // Puntuacion
+    .gallery-card_score {
+      padding: 0.5rem 1rem;
+
+      background-color: var(--primary-color-light);
+      border-radius: 0.2rem 0.8rem 0.2rem 0.8rem;
+
+      transition: background-color 0.3s ease;
+
+      span {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  // % Card Footer
+  &_footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    z-index: 2;
+
+    padding: 0.8rem 1rem;
+
+    color: var(--text-color-dark);
+    letter-spacing: 0.5px;
+    text-align: center;
+
+    background-color: rgba(0, 0, 0, 0.7);
+
+
+    .gallery-card_name {
+      margin-bottom: 0.3rem;
+
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .gallery-card_categories {
+      margin-bottom: 0.3rem;
+
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .gallery-card_platform {
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+  }
+}

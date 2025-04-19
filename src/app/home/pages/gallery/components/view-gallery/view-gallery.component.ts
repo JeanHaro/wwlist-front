@@ -2,12 +2,15 @@ import { ChangeDetectionStrategy, signal,  Component } from '@angular/core';
 
 // Interfaces
 import { Select } from '../../interfaces/select.interface';
+import { GalleryCard } from '../../interfaces/gallery-card.interface';
 
 // FontAwesome
 import {
   faSliders,
   faChevronDown,
   IconDefinition,
+  faStar,
+  faPlus
 } from '@fortawesome/free-solid-svg-icons';
 
 /*
@@ -29,6 +32,8 @@ export class ViewGalleryComponent {
   // Iconos
   readonly faSliders: IconDefinition = faSliders;
   readonly faChevronDown: IconDefinition = faChevronDown;
+  readonly faStar: IconDefinition = faStar;
+  readonly faPlus: IconDefinition = faPlus;
 
   // Estados
   // signals para reactividad
@@ -65,6 +70,49 @@ export class ViewGalleryComponent {
   // Array de secciones para el bucle @for
   readonly sections = ['filters', 'orders'];
 
+  // Cards
+  galleryCards = signal<GalleryCard[]>([
+    {
+      id: '1',
+      name: 'Solo Leveling',
+      category: 'Animes',
+      subcategory: 'Acción',
+      rating: 5,
+      year: '2023',
+      status: 'completed', // Estado: Completado
+      platform: 'Crunchyroll',
+      completed: true,
+      imageUrl: 'assets/images/anime.jpg',
+      linkUrl: 'https://www.crunchyroll.com/es-es/solo-leveling',
+    },
+    {
+      id: '2',
+      name: 'El Novato',
+      category: 'Series',
+      subcategory: 'Acción',
+      rating: 4,
+      year: '2023',
+      status: 'in-progress', // Estado: Completado
+      platform: 'Netflix',
+      completed: false,
+      imageUrl: 'assets/images/serie.jpg',
+      linkUrl: 'https://www.netflix.com/',
+    },
+    {
+      id: '3',
+      name: 'Doctor Strange en el Multiverso de la Locura',
+      category: 'Películas',
+      subcategory: 'Acción',
+      rating: 3,
+      year: '2025',
+      status: 'waiting', // Estado: Completado
+      platform: 'Disney+',
+      completed: false,
+      imageUrl: 'assets/images/movie.jpg',
+      linkUrl: 'https://www.disneyplus.com/'
+    }
+  ])
+
    // Métodos
    // Esconder los selects
   toggleSection(section: string) {
@@ -82,5 +130,10 @@ export class ViewGalleryComponent {
   updateSelect(section: string, value: Select) {
     // signal.set(): Reemplaza completamente el valor anterior con el nuevo valor
     (section === "filters") ? this.filters.set(value) : this.orders.set(value);
+  }
+
+  // Ayuda a Angular a identificar qué elementos del DOM deben recrearse cuando cambia la lista.
+  trackByCardId (index: number, card: GalleryCard): string {
+    return card.id;
   }
 }

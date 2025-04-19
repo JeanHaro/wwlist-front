@@ -1,0 +1,30 @@
+<div class="gallery-card gallery-card_1">
+  <div class="gallery-card_content">
+    <div class="gallery-card_header">
+      <div class="gallery-card_state" [ngClass]="getStateInfo().class">
+        {{ getStateInfo().text }}
+      </div><!-- Estado -->
+
+      <div class="gallery-card_score">
+        <span>{{ cardData()?.rating }}</span>
+        <fa-icon [icon]="faStar"></fa-icon>
+      </div><!-- Puntuacion -->
+    </div><!-- % Card Header -->
+
+    <img [src]="cardData()?.imageUrl" [alt]="'Imagen de ' + cardData()?.name">
+
+    <div class="gallery-card_footer">
+      <div class="gallery-card_name">
+        <span>{{ cardData()?.name }}</span>
+      </div>
+
+      <div class="gallery-card_categories">
+        {{ cardData()?.category }} - {{ cardData()?.subcategory }}
+      </div>
+
+      <div class="gallery-card_platform">
+        {{ cardData()?.platform }}
+      </div>
+    </div><!-- % Card Footer -->
+  </div><!-- Contenido de la tarjeta -->
+</div><!-- $ Tarjeta-->

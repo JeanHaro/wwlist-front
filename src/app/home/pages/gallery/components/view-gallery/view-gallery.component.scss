@@ -108,4 +108,65 @@ $breakpoints: (
       }
     }
   }
+
+  // -----------------------------------------------------
+  // & CONTENEDOR DE TARJETAS
+  // -----------------------------------------------------
+  // & Todas las tarjetas
+  &-cards {
+    display: flex;
+
+    margin-bottom: 6rem;
+
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem;
+
+    // $ Botón
+    &_btn {
+      display: flex;
+
+      width: 100%;
+      max-width: 24rem;
+      height: 24rem;
+
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      box-shadow: 10px 5px 24px -2px rgba(0,0,0,0.46);
+      border-radius: 1rem;
+
+      &:hover {
+        box-shadow: 10px 5px 24px -2px rgba(0,0,0,0.46),
+                    inset -2px 5px 10px rgba(0, 0, 0, 0.5);
+
+        fa-icon {
+          transform: rotateZ(180deg); // Rota el icono +
+        }
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+
+      fa-icon {
+        margin-top: -3rem;
+        margin-bottom: -1rem;
+
+        font-size: 10rem;
+        font-weight: 900;
+
+        transition: transform 0.5s ease;
+      }
+
+      p {
+        font-size: 1.8rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
 }

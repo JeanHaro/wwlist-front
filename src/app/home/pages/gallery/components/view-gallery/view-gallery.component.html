@@ -42,30 +42,13 @@
   }
 
   <section class="gallery-cards">
-    <div class="gallery-card gallery-card_1">
-      <div class="gallery-card_header">
-        <div class="gallery-card_state">
-          Visto
-        </div>
+    @for (card of galleryCards(); track trackByCardId($index, card)) {
+      <view-gallery-card [cardData]="card" ></view-gallery-card>
+    }
 
-        <div class="gallery-card_score">
-          4
-        </div>
-      </div><!-- % Card Header -->
-
-      <div class="gallery-card_footer">
-        <div class="gallery-card_name">
-          Nombre
-        </div>
-
-        <div class="gallery-card_categories">
-          Categoría - Subcategoría
-        </div>
-
-        <div class="gallery-card_platform">
-          Plataforma
-        </div>
-      </div><!-- % Card Footer -->
-    </div><!-- $ Tarjeta-->
+    <button class="none btn btn-primary-light gallery-cards_btn">
+      <fa-icon [icon]="faPlus"></fa-icon>
+      <p>Agregar más</p>
+    </button><!-- $ Boton -->
   </section><!-- & Todas las tarjetas -->
 </main><!-- # Galería -->
