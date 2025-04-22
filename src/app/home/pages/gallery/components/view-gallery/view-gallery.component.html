@@ -41,12 +41,23 @@
     </div><!-- & Contenedor de filtros y ordenamientos -->
   }
 
-  <section class="gallery-cards">
+  <!-- role=list - indica a tecnologias asistivas que este elemento funciona como una lista, mejorando la navegacion por teclado -->
+  <!-- aria-label="galeria..." - proporciona un nombre descriptivo accesible para la lista -->
+  <section
+    class="gallery-cards"
+    role="list"
+    aria-label="Galería de contenido"
+  >
+    <!-- track trackByCardId($index, card) - Optimiza el rendimiento usando IDs únicos para que Angular solo actualice los elementos que cambian -->
     @for (card of galleryCards(); track trackByCardId($index, card)) {
-      <view-gallery-card [cardData]="card" ></view-gallery-card>
+      <!-- role=listitem - indica que cada tarjeta es un elemento dentro de una lista, creando una estructura de navegacion semantica -->
+      <view-gallery-card [cardData]="card" role="listitem"></view-gallery-card>
     }
-
-    <button class="none btn btn-primary-light gallery-cards_btn">
+    
+    <button
+      class="none btn btn-primary-light gallery-cards_btn"
+      aria-label="Agregar nuevo elemento a la galería"
+    >
       <fa-icon [icon]="faPlus"></fa-icon>
       <p>Agregar más</p>
     </button><!-- $ Boton -->

@@ -35,7 +35,7 @@ export class ViewGalleryComponent {
   readonly faStar: IconDefinition = faStar;
   readonly faPlus: IconDefinition = faPlus;
 
-  // Estados
+  // TODO: Estados de visibilidad de las secciones (true = colapsado)
   // signals para reactividad
   // signal<Record<string, boolean>>: Crea un estado reactivo tipado
   // Record<string, boolean>: Definición de tipo para un objeto con claves de string y valores booleanos
@@ -44,7 +44,7 @@ export class ViewGalleryComponent {
     orders: true
   });
 
-  // Opciones de filtros y ordenamientos
+  // TODO: Opciones de filtros y ordenamientos
   filters = signal<Select>({
     category: { name: 'Categorias', value: '', options: ['Acción', 'Drama', 'Comedia'] },
     subcategory: { name: 'Subcategorías', value: '', options: ['Clásico', 'Moderno'] },
@@ -55,22 +55,22 @@ export class ViewGalleryComponent {
       '★★★★☆',
       '★★★★★'
     ]},
-    year: { name: 'Año',  value: '', options: ['2021', '2022', '2023'] },
-    state: { name: 'Estado', value: '', options: ['Activo', 'Inactivo'] },
-    platform: { name: 'Plataforma', value: '', options: ['Netflix', 'Amazon', 'HBO'] },
+    year: { name: 'Año',  value: '', options: ['2021', '2022', '2023', '2024', '2025'] },
+    state: { name: 'Estado', value: '', options: ['Completado', 'En proceso', 'En espera'] },
+    platform: { name: 'Plataforma', value: '', options: ['Netflix', 'Amazon', 'HBO', 'Disney+', 'Crunchyroll'] },
     filled: { name: 'Completado', value: '', options: ['Sí', 'No'] }
   });
 
   orders= signal<Select>({
     date: { name: 'Fecha', value: '', options: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'] },
-    name: { name: 'Nombre', value: '', options: ['A-Z', 'Z - A'] },
+    name: { name: 'Nombre', value: '', options: ['A - Z', 'Z - A'] },
     others: { name: 'Otros', value: '', options: ['Estado', 'Completado'] }
   })
 
-  // Array de secciones para el bucle @for
+  // TODO: Array de secciones para el bucle @for
   readonly sections = ['filters', 'orders'];
 
-  // Cards
+  // TODO: Datos de tarjetas de galería
   galleryCards = signal<GalleryCard[]>([
     {
       id: '1',
@@ -114,25 +114,31 @@ export class ViewGalleryComponent {
   ])
 
    // Métodos
-   // Esconder los selects
-  toggleSection(section: string) {
+   // Alterna la visibilidad de una sección específica (filtros u ordenamiento)
+  toggleSection (section: string): void {
     // activeSections.update(): Método de signals para actualizar el estado de forma inmutable
     this.activeSections.update(
       current => ({
-        ...current, // Usa el operador spread (...) para crear un nuevo objeto
+        ...current, // Usa el operador spread (...) para crear un nuevo objeto y mantener las propiedades existentes
         // [section] permite usar una variable como nombre de propiedad
         [section]: !current[section]
       })
     );
   }
 
-  // Actualizar opciones usando signals
-  updateSelect(section: string, value: Select) {
+  //  Actualiza las opciones de filtros u ordenamiento según la sección
+  updateSelect (section: string, value: Select): void {
     // signal.set(): Reemplaza completamente el valor anterior con el nuevo valor
     (section === "filters") ? this.filters.set(value) : this.orders.set(value);
   }
 
-  // Ayuda a Angular a identificar qué elementos del DOM deben recrearse cuando cambia la lista.
+  /**
+   * Función de seguimiento para optimizar el renderizado de listas
+   * Ayuda a Angular a identificar qué elementos han cambiado
+   * @param index Índice del elemento en el array
+   * @param card Elemento del array
+   * @returns Identificador único del elemento
+   */
   trackByCardId (index: number, card: GalleryCard): string {
     return card.id;
   }

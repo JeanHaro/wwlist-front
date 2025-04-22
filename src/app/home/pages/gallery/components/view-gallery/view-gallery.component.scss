@@ -1,3 +1,4 @@
+// importa el modulo map de Sass para trabajar con el mapa de breakpoints
 @use 'sass:map';
 
 // Variables para reutilización
@@ -54,9 +55,7 @@ $breakpoints: (
         // media queries con mixin: Ajusta la posición en diferentes tamaños de pantalla.
         // Posicionamiento responsive preciso que mantiene la relación visual adecuada en todos los dispositivos.
         @include respond-to(sm) { top: -4%; }
-
         @include respond-to(md) { top: -5%; }
-
         @include respond-to(lg) { top: -6%; }
       }
     }
@@ -66,26 +65,27 @@ $breakpoints: (
         top: -5%;
 
         @include respond-to(sm) { top: -6%; }
-
         @include respond-to(md) { top: -8%; }
       }
     }
 
     > button {
       display: flex;
-      align-items: center;
 
       position: absolute;
       right: 5%;
+
+      z-index: 1;
+
+      align-items: center;
+
+      color: $primary-color;
+      font-weight: 700;
 
       border: 1px solid $input-border;
       border-radius: $border-radius-sm;
       box-shadow: 0 1px 3px rgba($color: #000000, $alpha: 0.08);
 
-      color: $primary-color;
-      font-weight: 700;
-
-      z-index: 1;
       transition:
         box-shadow $transition-standard,
         background-color $transition-standard;
@@ -97,6 +97,7 @@ $breakpoints: (
 
       &:focus {
         outline: none;
+        box-shadow: 0 0 0 2px rgba($primary-color, 0.5);
       }
 
       span {
@@ -149,6 +150,15 @@ $breakpoints: (
 
       &:active {
         transform: scale(0.95);
+      }
+
+      &:focus {
+        box-shadow: 10px 5px 24px -2px rgba(0,0,0,0.46),
+                    inset -2px 5px 10px rgba(0, 0, 0, 0.5);
+        background-color: $primary-color;
+        color: $text-dark;
+
+        outline: none;
       }
 
       fa-icon {

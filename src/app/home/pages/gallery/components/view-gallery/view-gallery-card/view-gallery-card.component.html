@@ -1,4 +1,16 @@
-<div class="gallery-card gallery-card_1">
+<!-- #cardElement - Crea una referencia de plantilla que se conecta con la propiedad viewChild en el TS -->
+<!-- tabindex=0 - Hace que la tarjeta sea focusable con teclado, mejorando la accesibilidad para usuarios que no usan raton -->
+<!-- attr.aria-label - proporciona una descripción concisa para lectores de pantalla  -->
+<!-- attr.aria-describedby - proporciona una descripcion mas detallada incluyendo plataforma -->
+<div
+  #cardElement
+  class="gallery-card"
+  (mousemove)="onMouseMove($event)"
+  (mouseleave)="onMouseLeave()"
+  tabindex="0"
+  [attr.aria-label]="'Tarjeta de ' + cardData()?.name"
+  [attr.aria-describedby]="'Tarjeta de ' + cardData()?.name + ' en ' + cardData()?.platform"
+>
   <div class="gallery-card_content">
     <div class="gallery-card_header">
       <div class="gallery-card_state" [ngClass]="getStateInfo().class">
@@ -11,20 +23,21 @@
       </div><!-- Puntuacion -->
     </div><!-- % Card Header -->
 
-    <img [src]="cardData()?.imageUrl" [alt]="'Imagen de ' + cardData()?.name">
+    <!-- loading=lazy - optimiza el rendimiento cargando la imagen solo cuando está cerca del viewport -->
+    <img [src]="cardData()?.imageUrl" [alt]="'Imagen de ' + cardData()?.name" loading="lazy">
 
     <div class="gallery-card_footer">
       <div class="gallery-card_name">
-        <span>{{ cardData()?.name }}</span>
-      </div>
+        <span>{{ cardData()?.name | slice:0:20 }}{{ cardData()?.name && cardData()!.name.length > 20 ? '...' : '' }}</span>
+      </div><!-- Mombre usando pipe slice -->
 
       <div class="gallery-card_categories">
         {{ cardData()?.category }} - {{ cardData()?.subcategory }}
-      </div>
+      </div><!-- Categoria -->
 
       <div class="gallery-card_platform">
         {{ cardData()?.platform }}
-      </div>
+      </div><!-- Plataforma -->
     </div><!-- % Card Footer -->
   </div><!-- Contenido de la tarjeta -->
 </div><!-- $ Tarjeta-->
