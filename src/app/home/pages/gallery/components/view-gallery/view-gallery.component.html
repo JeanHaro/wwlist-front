@@ -1,4 +1,4 @@
-<home-shared-search></home-shared-search>
+<home-shared-search [pageType]="'gallery'" (searchValue)="handleSearch($event)"></home-shared-search>
 
 <main class="gallery max-width">
   <!-- track section - optimiza el rendimiento al indicar a Angular cómo identificar cada elemento -->
@@ -53,7 +53,7 @@
       <!-- role=listitem - indica que cada tarjeta es un elemento dentro de una lista, creando una estructura de navegacion semantica -->
       <view-gallery-card [cardData]="card" role="listitem"></view-gallery-card>
     }
-    
+
     <button
       class="none btn btn-primary-light gallery-cards_btn"
       aria-label="Agregar nuevo elemento a la galería"

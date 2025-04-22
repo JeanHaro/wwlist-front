@@ -1,11 +1,31 @@
-<div class="search max-width">
-  <p><span>Crea y Organiza</span> tu propia <span>Galería</span> y <span>Categoría</span> de los temas que deseas <span>guardar</span></p>
+<!-- role="search" - Atributo ARIA que indica que este elemento funciona como un campo de búsqueda -->
+<div class="search max-width" role="search">
+  <!-- Texto dinámico que cambia según el contexto -->
+  <!-- aria-live="polite" - Informa a los lectores de pantalla cuando el contenido cambia -->
+  <p aria-live="polite">
+    <span>Crea y Organiza</span> tu propia
+    <!-- Utilizamos [innerHTML] para que el HTML dentro de displayText se renderice correctamente -->
+    <span [innerHTML]="displayText().text"></span>
+    de los temas que deseas <span>guardar</span>
+  </p>
 
-  <form class="search-form">
-    <input class="none input" type="text" placeholder="Busca algún item de tu lista o por categoría...">
+  <!-- Formulario de búsqueda con event binding para emitir señales -->
+  <form class="search-form" (submit)="onSubmit($event)" aria-label="Formulario de búsqueda">
+    <input
+      class="none input"
+      type="text"
+      [value]="searchTerm"
+      (input)="updateSearchTerm($event)"
+      [attr.placeholder]="displayText().placeholder"
+      aria-label="Campo de búsqueda"
+    >
 
-    <button class="none btn btn-default" type="submit">
-      <fa-icon [icon]="faMagnifyingGlass"></fa-icon>
+    <button
+      class="none btn btn-default"
+      type="submit"
+      aria-label="Iniciar búsqueda"
+    >
+      <fa-icon [icon]="faMagnifyingGlass" aria-hidden="true"></fa-icon>
       <span>Buscar</span>
     </button>
   </form><!-- $ Formulario de busqueda -->

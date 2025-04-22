@@ -175,7 +175,6 @@ $text-dark: var(--text-color-dark);
     // ENTRADA DEL SELECT (Parte visible siempre)
     // -----------------------------------------------------
 
-
     // Input
     &-input {
       position: relative;
@@ -194,7 +193,7 @@ $text-dark: var(--text-color-dark);
 
         &:focus {
           outline: none;
-          border-color: var(--input-border-light);
+          border-color: var(--primary-color-light) !important;
         }
       }
 
@@ -267,7 +266,7 @@ $text-dark: var(--text-color-dark);
           }
 
           &.star-empty {
-            color: #cccccc; 
+            color: #cccccc;
           }
         }
       }

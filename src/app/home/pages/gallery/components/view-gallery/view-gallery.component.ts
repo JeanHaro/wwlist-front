@@ -113,8 +113,13 @@ export class ViewGalleryComponent {
     }
   ])
 
-   // Métodos
-   // Alterna la visibilidad de una sección específica (filtros u ordenamiento)
+  // Métodos
+  // TODO: Implementamos la lógica de búsqueda específica para cada contexto
+  handleSearch (searchTerm: string): void {
+    console.log(`Búsqueda: ${searchTerm}`)
+  }
+
+   // TODO: Alterna la visibilidad de una sección específica (filtros u ordenamiento)
   toggleSection (section: string): void {
     // activeSections.update(): Método de signals para actualizar el estado de forma inmutable
     this.activeSections.update(
@@ -126,7 +131,7 @@ export class ViewGalleryComponent {
     );
   }
 
-  //  Actualiza las opciones de filtros u ordenamiento según la sección
+  // TODO: Actualiza las opciones de filtros u ordenamiento según la sección
   updateSelect (section: string, value: Select): void {
     // signal.set(): Reemplaza completamente el valor anterior con el nuevo valor
     (section === "filters") ? this.filters.set(value) : this.orders.set(value);
