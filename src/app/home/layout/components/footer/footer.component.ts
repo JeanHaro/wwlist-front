@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 // FontAwesome
 import {
@@ -14,15 +14,16 @@ import {
   standalone: false,
 
   templateUrl: './footer.component.html',
-  styleUrl: './footer.component.scss'
+  styleUrl: './footer.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FooterComponent {
-  // Atributos
-  faSquareFacebook: IconDefinition = faSquareFacebook;
-  faSquareInstagram: IconDefinition = faSquareInstagram;
-  faSquareGithub: IconDefinition = faSquareGithub;
-  faAngular: IconDefinition = faAngular;
-  faNode: IconDefinition = faNode;
+  // Iconos
+  readonly faSquareFacebook: IconDefinition = faSquareFacebook;
+  readonly faSquareInstagram: IconDefinition = faSquareInstagram;
+  readonly faSquareGithub: IconDefinition = faSquareGithub;
+  readonly faAngular: IconDefinition = faAngular;
+  readonly faNode: IconDefinition = faNode;
 
-  year = new Date().getFullYear();
+  readonly year = new Date().getFullYear();
 }

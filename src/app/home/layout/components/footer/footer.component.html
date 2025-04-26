@@ -1,41 +1,41 @@
-<footer class="footer">
+<footer class="footer" role="contentinfo">
   <div class="footer-container max-width">
     <div class="footer-top">
-      <div class="footer-top_socials">
-        <a href="#">
+      <div class="footer-top_socials" aria-label="Social networks">
+        <a href="#" target="_blank" aria-label="Facebook">
           <fa-icon [icon]="faSquareFacebook"></fa-icon>
         </a>
 
-        <a href="#">
+        <a href="#" target="_blank" aria-label="Instagram">
           <fa-icon [icon]="faSquareInstagram"></fa-icon>
         </a>
 
-        <a href="#">
+        <a href="#" target="_blank" aria-label="Github">
           <fa-icon [icon]="faSquareGithub"></fa-icon>
         </a>
       </div><!-- $ Redes sociales -->
 
-      <a class="footer-top_logo" href="#">
+      <a class="footer-top_logo" routerLink="/" aria-label="W&W List Home">
         <h1>W&W List</h1>
       </a><!-- $ Logo -->
 
-      <nav class="footer-top_languages">
-        <a href="#">
+      <nav class="footer-top_languages" aria-label="Technologies">
+        <a href="#" aria-label="Angular">
           <fa-icon [icon]="faAngular"></fa-icon>
         </a>
 
-        <a href="#">
+        <a href="#" aria-label="Node.js">
           <fa-icon [icon]="faNode"></fa-icon>
         </a>
       </nav><!-- $ Lenguajes  -->
     </div><!-- & Top -->
 
-    <nav class="footer-middle">
-      <a href="#">Cards</a>
-      <a href="#">Lista</a>
-      <a href="#">Calendario</a>
-      <a href="#">Fechas</a>
-      <a href="#">Perfil</a>
+    <nav class="footer-middle" aria-label="Main navigation">
+      <a routerLink="/gallery">Cards</a>
+      <a routerLink="/list">Lista</a>
+      <a routerLink="/calendar">Calendario</a>
+      <a routerLink="/dates">Fechas</a>
+      <a routerLink="/profile">Perfil</a>
     </nav><!-- & Enlaces -->
 
     <p>W%W List &copy; {{ year }}. Todos los derechos reservados</p><!-- & Copyright -->
