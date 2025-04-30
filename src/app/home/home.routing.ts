@@ -21,9 +21,18 @@ const routes: Routes = [
         path: 'list',
         loadChildren: () => import('./pages/list/list.module').then(m => m.ListModule)
       },
-      { path: 'calendar', component: CalendarComponent },
-      { path: 'dates', component: DatesComponent },
-      { path: 'profile', component: ProfileComponent }
+      {
+        path: 'calendar',
+        loadComponent: () => import('./pages/calendar/calendar.component').then(c => c.CalendarComponent)
+      },
+      {
+        path: 'dates',
+        loadComponent: () => import('./pages/dates/dates.component').then(c => c.DatesComponent)
+      },
+      {
+        path: 'profile',
+        loadComponent: () => import('./pages/profile/profile.component').then(c => c.ProfileComponent)
+      }
     ]
   }
 ];

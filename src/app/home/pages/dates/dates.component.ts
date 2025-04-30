@@ -1,8 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'home-dates',
-  standalone: false,
+  standalone: true,
+  imports: [
+    CommonModule
+  ],
 
   templateUrl: './dates.component.html',
   styleUrl: './dates.component.scss',
