@@ -12,7 +12,7 @@
       <!-- [attr.aria-expanded] - comunica a lectores de pantalla si el panel está expandido o colapsado -->
       <!-- [attr.aria-controls] - vincula este botón con el panel que controla mediante un ID único -->
       <button
-        class="none btn btn-default-transparent"
+        class="none btn btn-default-light"
         (click)="toggleSection(section)"
         [attr.aria-expanded]="!activeSections()[section]"
         [attr.aria-controls]="section + '-panel'"

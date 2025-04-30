@@ -1,126 +1,22 @@
+@use 'assets/scss/dark-theme' as *;
+
 @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Lilita+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-/*
-.bungee-regular {
-  font-family: "Bungee", serif;
-  font-weight: 400;
-  font-style: normal;
-}
 
-.poppins-thin {
-  font-family: "Poppins", serif;
-  font-weight: 100;
-  font-style: normal;
-}
-
-.poppins-extralight {
-  font-family: "Poppins", serif;
-  font-weight: 200;
-  font-style: normal;
-}
-
-.poppins-light {
-  font-family: "Poppins", serif;
-  font-weight: 300;
-  font-style: normal;
-}
-
-.poppins-regular {
-  font-family: "Poppins", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.poppins-medium {
-  font-family: "Poppins", serif;
-  font-weight: 500;
-  font-style: normal;
-}
-
-.poppins-semibold {
-  font-family: "Poppins", serif;
-  font-weight: 600;
-  font-style: normal;
-}
-
-.poppins-bold {
-  font-family: "Poppins", serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.poppins-extrabold {
-  font-family: "Poppins", serif;
-  font-weight: 800;
-  font-style: normal;
-}
-
-.poppins-black {
-  font-family: "Poppins", serif;
-  font-weight: 900;
-  font-style: normal;
-}
-
-.poppins-thin-italic {
-  font-family: "Poppins", serif;
-  font-weight: 100;
-  font-style: italic;
-}
-
-.poppins-extralight-italic {
-  font-family: "Poppins", serif;
-  font-weight: 200;
-  font-style: italic;
-}
-
-.poppins-light-italic {
-  font-family: "Poppins", serif;
-  font-weight: 300;
-  font-style: italic;
-}
-
-.poppins-regular-italic {
-  font-family: "Poppins", serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.poppins-medium-italic {
-  font-family: "Poppins", serif;
-  font-weight: 500;
-  font-style: italic;
-}
-
-.poppins-semibold-italic {
-  font-family: "Poppins", serif;
-  font-weight: 600;
-  font-style: italic;
-}
-
-.poppins-bold-italic {
-  font-family: "Poppins", serif;
-  font-weight: 700;
-  font-style: italic;
-}
-
-.poppins-extrabold-italic {
-  font-family: "Poppins", serif;
-  font-weight: 800;
-  font-style: italic;
-}
-
-.poppins-black-italic {
-  font-family: "Poppins", serif;
-  font-weight: 900;
-  font-style: italic;
-}
-
-.lilita-one-regular {
-  font-family: "Lilita One", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-*/
-
+// Variables
+$white: #FFFFFF;
+$off-white: #F5F5F5;
+$light-gray: #F0F0F0;
+$medium-gray: #DEDEDE;
+$dark-gray: #B0B0B0;
+$darker-gray: #666666;
+$darkest-gray: #333333;
+$very-dark-blue: #1C1F36;
+$primary-blue: #1562CA;
+$dark-blue: #2753A0;
+$delete-red: #FF4C4C;
+$delete-dark-red: #CF2E2E;
+$confirm-green: #00CC44;
+$confirm-dark-green: #009933;
 
 :root {
   // Font Family
@@ -136,43 +32,53 @@
   --font-weight-bold: 700;
   --font-weight-extrabold: 800;
 
+  // Border Radii
+  --border-radius-sm: 0.4rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 1rem;
+
+  // Border Widths
+  --border-width-thin: 0.6px;
+  --border-width-regular: 1px;
+  --border-width-thick: 2px;
+
+  // Transition Timings
+  --transition-fast: 0.3s ease;
+  --transition-normal: 0.5s ease;
+  --transition-slow: 0.7s ease;
+
+  // Shadows
+  --shadow-sm: 0px 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0px 4px 12px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0px 12px 12px -4px rgba(0, 0, 0, 0.06);
+
   // Colores para texto
-  --text-color-light: #1C1F36; // Modo Claro
-  --text-color-dark: #F5F5F5; // Modo Oscuro
+  --text-color-light: #{$very-dark-blue};
+  --text-color-dark: #{$off-white};
 
   // Modo Claro
-  --primary-color-light: #1562CA;
-  --primary-color-darkened-light: #2753A0;
-  --secondary-color-light: #00E08E;
-  --secondary-color-darkered-light: #00D084;
-  --body-background-light: #FFFFFF;
-  --header-background-light: #F5F5F5;
-  --header-background-darkered-light: #1C1F36;
+  --primary-color-light: #{$primary-blue};
+  --primary-color-darkened-light: #{$dark-blue};
+  --body-background-light: #{$white};
+  --header-background-light: #{$off-white};
+  --header-background-darkered-light: #{$very-dark-blue};
 
-  // Modo Oscuro
-  --primary-color-dark: #00E08E;
-  --primary-color-darkened-dark: #00D084;
-  --secondary-color-dark: ##1562CA;
-  --secondary-color-darkened-dark: #2753A0;
-  --body-background-dark: #1C1F36;
-  --header-background-dark: #333333;
-  --header-background-darkered-dark: #F5F5F5;
+  // Backgrounds con gradiente
+  --background-gradient-light: linear-gradient(to bottom, #{$white}, #{$off-white});
 
   // Colores Adicionales
-  --delete-color: #FF4C4C;
-  --delete-color-hover: #CF2E2E;
-  --confirm-color: #00CC44;
-  --confirm-color-hover: #009933;
-  --default-color-light: #dedede; // Modo Claro
+  --delete-color: #{$delete-red};
+  --delete-color-hover: #{$delete-dark-red};
+  --confirm-color: #{$confirm-green};
+  --confirm-color-hover: #{$confirm-dark-green};
+  --default-color-light: #{$medium-gray}; // Modo Claro
   --default-color-light-hover: #c5c5c5;
-  --default-color-dark: #666666; // Modo Oscuro
+  --default-color-dark: #{$darker-gray}; // Modo Oscuro
   --default-color-dark-hover: #4F4F4F;
 
   // Inputs
-  --input-background-light: #F0F0F0; // Modo Claro
-  --input-border-light: #B0B0B0; // Modo Claro
-  --input-background-dark: #333333; // Modo Oscuro
-  --input-color-dark: #666666; // Modo Oscuro
+  --input-background-light: #{$light-gray}; // Modo Claro
+  --input-border-light: #{$dark-gray}; // Modo Claro
 }
 
 html {
@@ -260,37 +166,42 @@ ul {
 }
 
 .header-shadow {
-  -webkit-box-shadow: 0px 12px 12px -4px rgba(0,0,0,0.06);
-  -moz-box-shadow: 0px 12px 12px -4px rgba(0,0,0,0.06);
-  box-shadow: 0px 12px 12px -4px rgba(0,0,0,0.06);
+  box-shadow: var(--shadow-md);
 }
 
 .btn {
   padding: 1.5rem 2.5rem;
-  border-radius: 1rem;
+  border-radius: var(--border-radius-sm);
+  border: var(--border-width-regular) solid transparent;
 
   font-size: 1.6rem;
   text-align: center;
 
   cursor: pointer;
+
+  transition: var(--transition-normal);
 }
 
 .btn-default {
   background-color: var(--default-color-light);
-
-  transition: 0.5s ease;
 
   &:hover {
     background-color: var(--default-color-light-hover);
   }
 }
 
+.btn-default-light {
+  background-color: var(--text-color-dark);
+  color: var(--primary-color-light);
+
+  &:hover {
+    background-color: rgba(243, 243, 243, 0.8);
+  }
+}
+
 .btn-primary {
   background-color: var(--primary-color-light);
-  border: 1px solid transparent;
   color: var(--text-color-dark);
-
-  transition: 0.5s ease;
 
   &:hover {
     background-color: var(--primary-color-darkened-light);
@@ -299,10 +210,8 @@ ul {
 
 .btn-primary-light {
   background-color: var(--text-color-dark);
-  border: 1px solid var(--primary-color-light);
+  border-color: var(--primary-color-light);
   color: var(--primary-color-light);
-
-  transition: 0.5s ease;
 
   &:hover {
     background-color: var(--primary-color-light);
@@ -313,14 +222,14 @@ ul {
 .input {
   width: 100%;
   padding: 1.2rem 1.4rem;
-  border: 0.6px solid var(--input-border-light);
-  border-radius: 0.4rem;
+  border: var(--border-width-thin) solid var(--input-border-light);
+  border-radius: var(--border-radius-sm);
 
   font-family: var(--principal-font);
   font-size: 1.6rem;
   color: var(--primary-color-light);
 
-  background-color: var(--colorEntorno);
+  background-color: var(--input-background-light);
 
   &::placeholder {
     color: var(--input-border-light);

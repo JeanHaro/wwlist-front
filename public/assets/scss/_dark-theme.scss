@@ -1,0 +1,260 @@
+// Variables de color para tema oscuro
+$very-dark-black: #121212; // Material Design negro
+$dark-surface: #1E1E1E;    // Superficie oscura
+$dark-elevation-1: #242424; // Elevación 1
+$dark-elevation-2: #2C2C2C; // Elevación 2
+$dark-border: #444444;     // Bordes oscuros
+$text-primary: #FFFFFF;    // Texto principal
+$text-secondary: #AFAFAF;  // Texto secundario
+$accent-blue: #1562CA;     // Azul para acentos secundarios
+
+// Variables CSS para el tema oscuro
+:root {
+  // Colores de fondo y superficies
+  --body-background-dark: #{$very-dark-black};
+  --header-background-dark: #{$dark-surface};
+  --card-background-dark: #{$dark-elevation-1};
+  --elevated-background-dark: #{$dark-elevation-2};
+
+  // Colores de acento y bordes
+  --border-color-dark: #{$dark-border};
+  --primary-color-dark: #{$accent-blue};
+  --primary-color-darkened-dark: #0E4EA0;
+
+  // Colores de texto
+  --text-primary-dark: #{$text-primary};
+  --text-secondary-dark: #{$text-secondary};
+
+  // Inputs y formularios
+  --input-background-dark: #{$dark-elevation-1};
+  --input-border-dark: #{$dark-border};
+
+  // Sombras
+  --shadow-dark-sm: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-dark-md: 0px 4px 8px rgba(0, 0, 0, 0.4);
+  --shadow-dark-lg: 0px 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+// Estilos para tema oscuro
+body.dark-theme {
+  background-color: var(--body-background-dark);
+  color: var(--text-primary-dark) !important;
+
+  // ==============================================
+  // Elementos básicos
+  // ==============================================
+  h1, h2, h3, h4, h5 {
+    color: var(--text-primary-dark);
+  }
+
+  a {
+    color: var(--text-primary-dark) !important;
+  }
+
+  // ==============================================
+  // Clases utilitarias
+  // ==============================================
+  .btn-default {
+    background-color: var(--card-background-dark);
+    color: var(--text-primary-dark);
+
+    &:hover {
+      background-color: var(--elevated-background-dark) !important;
+    }
+  }
+
+  .btn-default-light {
+    background-color: var(--elevated-background-dark);
+    color: var(--text-primary-dark);
+
+    &:hover {
+      background-color: var(--card-background-dark);
+    }
+  }
+
+  .btn-primary {
+    background-color: var(--primary-color-dark);
+    color: var(--text-primary-dark);
+
+    &:hover {
+      background-color: var(--primary-color-darkened-dark);
+    }
+  }
+
+  .btn-primary-light {
+    background-color: transparent;
+    border-color: var(--text-primary-dark);
+    color: var(--text-primary-dark) !important;
+
+    &:hover {
+      border-color: var(--primary-color-dark);
+      background-color: var(--primary-color-dark) !important;
+    }
+  }
+
+  .input {
+    border-color: var(--border-color-dark);
+    color: var(--text-primary-dark);
+    background-color: var(--input-background-dark);
+
+    &::placeholder {
+      color: var(--text-secondary-dark);
+    }
+
+    &:focus {
+      border-color: var(--primary-color-dark);
+      outline: none;
+    }
+  }
+
+  .header-shadow {
+    box-shadow: var(--shadow-dark-md);
+  }
+
+  // ==============================================
+  // Header
+  // ==============================================
+  .header {
+    background-color: var(--body-background-dark);
+
+    &.scrolled {
+      background-color: var(--body-background-dark);
+      box-shadow: var(--shadow-dark-lg);
+    }
+
+    // Menú móvil
+    &_menubar {
+      background-color: var(--elevated-background-dark);
+
+      > div {
+        background-color: var(--text-primary-dark) !important;
+      }
+    }
+
+    // Enlaces de navegación
+    &_links {
+      background-color: var(--header-background-dark);
+
+      @media (min-width: 1024px) {
+        background-color: transparent;
+      }
+
+      .triangle {
+        border-bottom-color: var(--header-background-dark) !important;
+      }
+
+      &-order {
+        border-right-color: var(--border-color-dark) !important;
+      }
+
+      .header_links-btn {
+        border-top-color: var(--border-color-dark) !important;;
+      }
+    }
+
+    // Perfil y menú desplegable
+    &_profile {
+      &-container {
+        .header_profile-content span {
+          color: var(--text-primary-dark) !important;
+        }
+      }
+
+      &-options {
+        background-color: var(--header-background-dark);
+        box-shadow: var(--shadow-dark-md);
+
+        .triangle {
+          border-bottom-color: var(--header-background-dark) !important;
+        }
+      }
+    }
+  }
+
+  // ==============================================
+  // Footer
+  // ==============================================
+  .footer {
+    background-color: var(--body-background-dark);
+    box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.5);
+
+    a {
+      &.theme {
+        background-color: var(--text-primary-dark) !important;
+        color: var(--body-background-dark) !important;
+      }
+    }
+
+    &-middle {
+      border-top-color: var(--border-color-dark);
+    }
+  }
+
+  // ==============================================
+  // Search
+  // ==============================================
+  .search {
+    p {
+      color: var(--text-primary-dark) !important;
+    }
+  }
+
+  // ==============================================
+  // Filtros y selectores
+  // ==============================================
+  .gallery-selects {
+    background-color: var(--header-background-dark);
+
+    label {
+      color: var(--text-primary-dark) !important;
+    }
+
+    .select {
+      box-shadow: var(--shadow-dark-sm);
+
+      &:hover {
+        box-shadow: var(--shadow-dark-md);
+      }
+
+      &-input {
+        input {
+          border-color: var(--border-color-dark) !important;
+          background: linear-gradient(to bottom, var(--dark-elevation-1), var(--dark-elevation-2)) !important;
+          color: var(--text-primary-dark) !important;
+        }
+
+        fa-icon {
+          color: var(--text-primary-dark) !important;
+        }
+      }
+
+      &-options {
+        background: var(--header-background-dark) !important;
+
+        &::-webkit-scrollbar-track {
+          background: var(--dark-elevation-1) !important;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: var(--text-secondary-dark) !important;
+        }
+
+        > div {
+          &:hover {
+            background-color: var(--primary-color-dark) !important;
+          }
+
+          &[aria-selected='true'] {
+            background-color: var(--primary-color-dark) !important;
+          }
+        }
+
+        &_stars {
+          .star-filled {
+            color: var(--text-primary-dark) !important;
+          }
+        }
+      }
+    }
+  }
+}

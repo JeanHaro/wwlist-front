@@ -79,7 +79,6 @@ $breakpoints: (
 
       align-items: center;
 
-      color: $primary-color;
       font-weight: 700;
 
       border: 1px solid $input-border;
@@ -92,7 +91,6 @@ $breakpoints: (
 
       &:hover {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
-        background-color: rgba(243, 243, 243, 0.8);
       }
 
       &:focus {

@@ -13,6 +13,10 @@
         <a href="#" target="_blank" aria-label="Github">
           <fa-icon [icon]="faSquareGithub"></fa-icon>
         </a>
+
+        <a class="theme" (click)="toggleTheme()"  aria-label="Cambiar tema">
+          <fa-icon [icon]="isDarkTheme ? faSun : faMoon"></fa-icon>
+        </a>
       </div><!-- $ Redes sociales -->
 
       <a class="footer-top_logo" routerLink="/" aria-label="W&W List Home">
