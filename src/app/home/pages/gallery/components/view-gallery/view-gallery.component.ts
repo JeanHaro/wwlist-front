@@ -83,6 +83,11 @@ export class ViewGalleryComponent {
       platform: 'Crunchyroll',
       completed: true,
       imageUrl: 'assets/images/anime.jpg',
+      imageFormats: {
+        jpg: 'assets/images/anime.jpg',
+        webp: 'assets/images/anime.webp',
+        avif: 'assets/images/anime.avif'
+      },
       linkUrl: 'https://www.crunchyroll.com/es-es/solo-leveling',
     },
     {
@@ -96,6 +101,11 @@ export class ViewGalleryComponent {
       platform: 'Netflix',
       completed: false,
       imageUrl: 'assets/images/serie.jpg',
+      imageFormats: {
+        jpg: 'assets/images/serie.jpg',
+        webp: 'assets/images/serie.webp',
+        avif: 'assets/images/serie.avif'
+      },
       linkUrl: 'https://www.netflix.com/',
     },
     {
@@ -109,6 +119,11 @@ export class ViewGalleryComponent {
       platform: 'Disney+',
       completed: false,
       imageUrl: 'assets/images/movie.jpg',
+      imageFormats: {
+        jpg: 'assets/images/movie.jpg',
+        webp: 'assets/images/movie.webp',
+        avif: 'assets/images/movie.avif'
+      },
       linkUrl: 'https://www.disneyplus.com/'
     }
   ])

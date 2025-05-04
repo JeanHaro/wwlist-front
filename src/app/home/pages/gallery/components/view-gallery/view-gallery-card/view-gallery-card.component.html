@@ -23,8 +23,29 @@
       </div><!-- Puntuacion -->
     </div><!-- % Card Header -->
 
-    <!-- loading=lazy - optimiza el rendimiento cargando la imagen solo cuando está cerca del viewport -->
-    <img [src]="cardData()?.imageUrl" [alt]="'Imagen de ' + cardData()?.name" loading="lazy">
+    <div class="gallery-card_image">
+      @if (cardData()?.imageFormats) {
+        <!-- Si tiene imágenes optimizadas -->
+        <picture>
+          <source [srcset]="cardData()!.imageFormats!.avif" type="image/avif">
+          <source [srcset]="cardData()!.imageFormats!.webp" type="image/webp">
+          <!-- loading=lazy - optimiza el rendimiento cargando la imagen solo cuando está cerca del viewport -->
+          <img
+            [ngSrc]="cardData()!.imageFormats!.jpg"
+            [alt]="'Imagen de ' + cardData()?.name"
+            fill
+            loading="lazy"
+          >
+        </picture>
+      } @else {
+        <img
+          [ngSrc]="cardData()!.imageUrl"
+          [alt]="'Imagen de ' + cardData()?.name"
+          fill
+          loading="lazy"
+        >
+      }
+    </div>
 
     <div class="gallery-card_footer">
       <div class="gallery-card_name">

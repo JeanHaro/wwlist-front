@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 
 // Componentes
 import { ViewGalleryComponent } from './components/view-gallery/view-gallery.component';
@@ -24,6 +24,7 @@ import { HomeModule } from "../../home.module";
   ],
   imports: [
     CommonModule,
+    NgOptimizedImage,
     GalleryRoutingModule,
     HomeModule
 ]
