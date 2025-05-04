@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  signal
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 
 // FontAwesome
@@ -27,7 +33,7 @@ import { ThemeService } from '../../../../shared/services/theme/theme.service';
   styleUrl: './footer.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FooterComponent implements OnInit, OnDestroy {
+export class FooterComponent {
   // Iconos
   readonly faSquareFacebook: IconDefinition = faSquareFacebook;
   readonly faSquareInstagram: IconDefinition = faSquareInstagram;
@@ -40,22 +46,20 @@ export class FooterComponent implements OnInit, OnDestroy {
   readonly year = new Date().getFullYear();
   private themeSubscription!: Subscription;
 
-  isDarkTheme: boolean = false;
+  // Convertir a signal
+  isDarkTheme = signal<boolean>(false);
 
   // Servicios
   private themeService = inject(ThemeService);
 
-  ngOnInit(): void {
-    this.themeSubscription = this.themeService.darkMode$.subscribe(
-      isDark => this.isDarkTheme = isDark
-    );
+  constructor() {
+    // Sincronizar con el theme service usando effect
+    effect(() => {
+      this.isDarkTheme.set(this.themeService.darkMode$());
+    })
   }
 
   toggleTheme() {
     this.themeService.toggleDarkmode();
-  }
-
-  ngOnDestroy(): void {
-      if (this.themeSubscription) this.themeSubscription.unsubscribe();
   }
 }

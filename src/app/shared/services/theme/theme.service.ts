@@ -1,12 +1,14 @@
-import { Injectable } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
-  private darkMode = new BehaviorSubject<boolean>(false);
-  public darkMode$ = this.darkMode.asObservable();
+  private darkMode = signal<boolean>(false);
+
+  // Propiedad computada para acceso readonlu
+  public darkMode$ = computed(() => this.darkMode());
 
   constructor() {
     // Inicializamos desde localStorage
@@ -23,11 +25,11 @@ export class ThemeService {
   }
 
   toggleDarkmode(): void {
-    this.setDarkMode(!this.darkMode.value);
+    this.setDarkMode(!this.darkMode());
   }
 
   setDarkMode (isDark: boolean): void {
-    this.darkMode.next(isDark);
+    this.darkMode.set(isDark);
 
     (isDark) ? document.body.classList.add('dark-theme') : document.body.classList.remove('dark-theme');
 
