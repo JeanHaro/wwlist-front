@@ -36,7 +36,7 @@
               {
                 "glob": "**/*",
                 "input": "public",
-                "output": "/assets",
+                "output": "/",
                 "ignore": [
                   "**/*.md",
                   "**/.DS_Store",
@@ -132,7 +132,7 @@
               {
                 "glob": "**/*",
                 "input": "public",
-                "output": "/assets",
+                "output": "/",
                 "ignore": [
                   "**/*.md",
                   "**/.DS_Store",
