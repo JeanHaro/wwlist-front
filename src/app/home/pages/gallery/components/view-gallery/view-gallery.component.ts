@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, signal,  Component } from '@angular/core';
+import { ChangeDetectionStrategy, signal,  Component, OnInit } from '@angular/core';
 
 // Interfaces
 import { Select } from '../../interfaces/select.interface';
@@ -16,9 +16,9 @@ import {
 /*
   OnPush mejora significativamente el rendimiento al ejecutar la detección de cambios solo cuando:
 
-    Cambian las referencias de las entradas (no valores primitivos)
-    Se dispara un evento dentro del componente
-    Se utiliza explícitamente markForCheck()
+  Cambian las referencias de las entradas (no valores primitivos)
+  Se dispara un evento dentro del componente
+  Se utiliza explícitamente markForCheck()
 */
 @Component({
   selector: 'home-view-gallery',
@@ -27,7 +27,7 @@ import {
   styleUrl: './view-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ViewGalleryComponent {
+export class ViewGalleryComponent implements OnInit {
 
   // Iconos
   readonly faSliders: IconDefinition = faSliders;
@@ -127,6 +127,25 @@ export class ViewGalleryComponent {
       linkUrl: 'https://www.disneyplus.com/'
     }
   ])
+
+  // Estado de carga
+  isLoading = signal<boolean>(true);
+
+  // Cuando inicia la página
+  ngOnInit(): void {
+    this.loadGalleryData();
+  }
+
+  // Cargar la galeria
+  loadGalleryData(): void {
+    // Establecer carga a true
+    this.isLoading.set(true);
+
+    // Simular API (se reemplaza con tu llamada de servicio real)
+    setTimeout(() => {
+      this.isLoading.set(false);
+    }, 3000);
+  }
 
   // Métodos
   // TODO: Implementamos la lógica de búsqueda específica para cada contexto

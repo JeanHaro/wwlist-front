@@ -257,4 +257,30 @@ body.dark-theme {
       }
     }
   }
+
+  // ==============================================
+  // Skeletons
+  // ==============================================
+  .skeleton-base {
+    background-color: $dark-elevation-1;
+
+    &::after {
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0)
+      );
+    }
+  }
+
+  // ==============================================
+  // Skeletons Card
+  // ==============================================
+  .skeleton-card {
+    &_header,
+    &_footer {
+      background-color: rgba($color: #1e1e1e, $alpha: 0.7) !important;
+    }
+  }
 }

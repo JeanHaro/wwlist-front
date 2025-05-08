@@ -48,18 +48,24 @@
     role="list"
     aria-label="Galería de contenido"
   >
-    <!-- track trackByCardId($index, card) - Optimiza el rendimiento usando IDs únicos para que Angular solo actualice los elementos que cambian -->
-    @for (card of galleryCards(); track trackByCardId($index, card)) {
-      <!-- role=listitem - indica que cada tarjeta es un elemento dentro de una lista, creando una estructura de navegacion semantica -->
-      <view-gallery-card [cardData]="card" role="listitem"></view-gallery-card>
-    }
 
-    <button
-      class="none btn btn-primary-light gallery-cards_btn"
-      aria-label="Agregar nuevo elemento a la galería"
-    >
-      <fa-icon [icon]="faPlus"></fa-icon>
-      <p>Agregar más</p>
-    </button><!-- $ Boton -->
+    <!-- Mostrar skeleton durante la carga -->
+    @if (isLoading()) {
+      <skeleton-gallery-container [count]="6"></skeleton-gallery-container>
+    } @else {
+      <!-- track trackByCardId($index, card) - Optimiza el rendimiento usando IDs únicos para que Angular solo actualice los elementos que cambian -->
+      @for (card of galleryCards(); track trackByCardId($index, card)) {
+        <!-- role=listitem - indica que cada tarjeta es un elemento dentro de una lista, creando una estructura de navegacion semantica -->
+        <view-gallery-card [cardData]="card" role="listitem"></view-gallery-card>
+      }
+
+      <button
+        class="none btn btn-primary-light gallery-cards_btn"
+        aria-label="Agregar nuevo elemento a la galería"
+      >
+        <fa-icon [icon]="faPlus"></fa-icon>
+        <p>Agregar más</p>
+      </button><!-- $ Boton -->
+    }
   </section><!-- & Todas las tarjetas -->
 </main><!-- # Galería -->

@@ -12,8 +12,8 @@ import { EditGalleryComponent } from './modals/edit-gallery/edit-gallery.compone
 // Routing
 import { GalleryRoutingModule } from './gallery.routing';
 
-import { HomeModule } from "../../home.module";
-
+// Modulos
+import { HomeModule } from '../../home.module';
 @NgModule({
   declarations: [
     ViewGalleryComponent,
@@ -27,6 +27,6 @@ import { HomeModule } from "../../home.module";
     NgOptimizedImage,
     GalleryRoutingModule,
     HomeModule
-]
+  ],
 })
 export class GalleryModule { }

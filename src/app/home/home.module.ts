@@ -29,8 +29,8 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule
   ],
   exports: [
-    SearchComponent,
-    SharedModule
+    SharedModule,
+    SearchComponent
   ]
 })
 export class HomeModule { }
