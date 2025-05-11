@@ -50,7 +50,7 @@
           <span>Acceder</span>
         </a><!--% Acceder -->
 
-        <a class="header_tools-link" routerLink="/profile" routerLinkActive="active">
+        <a class="header_tools-link" routerLink="/profile" routerLinkActive="active" *ngIf="isLoggedIn()">
           <fa-icon [icon]="faUser" aria-hidden="true"></fa-icon>
 
           <span>Perfil</span>

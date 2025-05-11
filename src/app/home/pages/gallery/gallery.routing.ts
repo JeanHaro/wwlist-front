@@ -5,7 +5,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { ViewGalleryComponent } from './components/view-gallery/view-gallery.component';
 
 const routes: Routes = [
-  { path: '', component: ViewGalleryComponent },
+  {
+    path: '',
+    component: ViewGalleryComponent
+  },
 ];
 
 @NgModule({

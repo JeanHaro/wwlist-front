@@ -5,7 +5,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { ViewListComponent } from './components/view-list/view-list.component';
 
 const routes: Routes = [
-  { path: '', component: ViewListComponent },
+  {
+    path: '',
+    component: ViewListComponent
+  },
 ];
 
 @NgModule({

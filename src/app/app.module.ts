@@ -1,12 +1,20 @@
 import { NgModule, isDevMode } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
+import { BrowserModule, Meta } from '@angular/platform-browser';
+import { RouterModule, TitleStrategy } from '@angular/router';
 
-import { AppRoutingModule } from './app-routing.module';
+// Componentes
 import { AppComponent } from './app.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
+
+// Rutas
+import { AppRoutingModule } from './app-routing.module';
+
+// Modulos
 import { ServiceWorkerModule } from '@angular/service-worker';
 
+// Servicios y estrategias
+import { SeoService } from './shared/services/seo/seo.service';
+import { CustomTitleStrategy } from './shared/strategies/custom-title-strategy.strategy';
 
 @NgModule({
   declarations: [
@@ -22,9 +30,13 @@ import { ServiceWorkerModule } from '@angular/service-worker';
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
   ],
-  providers: [],
+  providers: [
+    Meta,
+    SeoService,
+    { provide: TitleStrategy, useClass: CustomTitleStrategy }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
