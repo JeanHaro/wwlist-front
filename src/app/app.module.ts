@@ -6,6 +6,8 @@ import { RouterModule, TitleStrategy } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 
+// Preload
+import { QuicklinkModule } from 'ngx-quicklink';
 // Rutas
 import { AppRoutingModule } from './app-routing.module';
 
@@ -14,7 +16,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 
 // Servicios y estrategias
 import { SeoService } from './shared/services/seo/seo.service';
-import { CustomTitleStrategy } from './shared/strategies/custom-title-strategy.strategy';
+import { CustomTitleStrategy } from './shared/strategies/custom-title/custom-title-strategy.strategy';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { CustomTitleStrategy } from './shared/strategies/custom-title-strategy.s
   imports: [
     BrowserModule,
     RouterModule,
+    QuicklinkModule,
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+// Preload
+import { HybridPreloadingStrategy } from './shared/strategies/hybrid-preloading/hybrid-preloading.strategy';
 
 // Componentes
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
@@ -8,7 +10,10 @@ import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
+    data: {
+      preloadPriority: 'critical'
+    }
   },
   {
     path: 'auth',
@@ -24,10 +29,12 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(
       routes, {
-        preloadingStrategy: PreloadAllModules
+        preloadingStrategy: HybridPreloadingStrategy, // Aquí se configura la estrategia
+        scrollPositionRestoration: 'enabled'
       }
     )
   ],
+  providers: [HybridPreloadingStrategy], // Proporciona la estrategia
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

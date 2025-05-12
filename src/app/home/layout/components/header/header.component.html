@@ -50,7 +50,7 @@
           <span>Acceder</span>
         </a><!--% Acceder -->
 
-        <a class="header_tools-link" routerLink="/profile" routerLinkActive="active" *ngIf="isLoggedIn()">
+        <a class="header_tools-link" routerLink="/profile/info" routerLinkActive="active" *ngIf="isLoggedIn()">
           <fa-icon [icon]="faUser" aria-hidden="true"></fa-icon>
 
           <span>Perfil</span>
@@ -102,7 +102,7 @@
         <a
           role="menuitem"
           class="header_option-info"
-          routerLink="/profile"
+          routerLink="/profile/info"
           routerLinkActive="active"
         >
           <fa-icon [icon]="faUser" aria-hidden="true"></fa-icon>
@@ -113,7 +113,7 @@
         <a
           role="menuitem"
           class="header_option-gear"
-          routerLink="/settings"
+          routerLink="/profile/settings"
           routerLinkActive="active"
         >
           <fa-icon [icon]="faCog" aria-hidden="true"></fa-icon>

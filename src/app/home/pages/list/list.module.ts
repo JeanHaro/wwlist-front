@@ -7,6 +7,8 @@ import { ViewListComponent } from './components/view-list/view-list.component';
 import { CreateListComponent } from './modals/create-list/create-list.component';
 import { EditListComponent } from './modals/edit-list/edit-list.component';
 
+// Preload Quicklink
+import { QuicklinkModule } from 'ngx-quicklink';
 // Routing
 import { ListRoutingModule } from './list.routing';
 
@@ -18,6 +20,7 @@ import { ListRoutingModule } from './list.routing';
   ],
   imports: [
     CommonModule,
+    QuicklinkModule,
     ListRoutingModule
   ]
 })

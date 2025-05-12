@@ -8,7 +8,7 @@ import { SkeletonGalleryCardComponent } from './components/skeletons/skeleton-ga
 import { SkeletonGalleryContainerComponent } from './components/skeletons/skeleton-gallery-container/skeleton-gallery-container.component';
 
 // Modulos
-import { FaIconComponent, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [

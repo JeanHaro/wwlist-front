@@ -11,6 +11,8 @@ import { FooterComponent } from './layout/components/footer/footer.component';
 // Shared Pages
 import { SearchComponent } from './pages/shared/search/search.component';
 
+// Preload Quicklink
+import { QuicklinkModule } from 'ngx-quicklink';
 // Rutas
 import { HomeRoutingModule } from './home.routing';
 
@@ -25,6 +27,7 @@ import { SharedModule } from '../shared/shared.module';
   ],
   imports: [
     CommonModule,
+    QuicklinkModule,
     HomeRoutingModule,
     SharedModule
   ],

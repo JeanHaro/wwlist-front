@@ -53,7 +53,8 @@
                 "glob": "!(**/*.avif|**/*.webp)",
                 "input": "public",
                 "output": "/assets/images/fallback"
-              }
+              },
+              "src/_redirects" 
             ],
             "styles": [
               "src/styles.scss"
