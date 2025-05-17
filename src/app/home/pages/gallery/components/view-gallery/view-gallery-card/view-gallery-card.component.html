@@ -30,6 +30,8 @@
           <source [srcset]="cardData()!.imageFormats!.avif" type="image/avif">
           <source [srcset]="cardData()!.imageFormats!.webp" type="image/webp">
           <!-- loading=lazy - optimiza el rendimiento cargando la imagen solo cuando está cerca del viewport -->
+          <!-- fill - ajusta el tamaño del contendor padre, para evitar tamaños excesivos -->
+          <!-- ngSrc - Reemplaza el tradicional src para activar las optimizaciones automáticas -->
           <img
             [ngSrc]="cardData()!.imageFormats!.jpg"
             [alt]="'Imagen de ' + cardData()?.name"

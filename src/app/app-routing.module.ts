@@ -30,7 +30,7 @@ const routes: Routes = [
     RouterModule.forRoot(
       routes, {
         preloadingStrategy: HybridPreloadingStrategy, // Aquí se configura la estrategia
-        scrollPositionRestoration: 'enabled'
+        scrollPositionRestoration: 'enabled' // Restaura el scroll en la posición que estabas cuando le das click al botón de atras/delante del navegador
       }
     )
   ],

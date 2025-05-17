@@ -44,17 +44,7 @@
                   "**/.gitkeep"
                 ]
               },
-              {
-                "glob": "**/*.{avif,webp}",
-                "input": "public",
-                "output": "/assets/images/optimized"
-              },
-              {
-                "glob": "!(**/*.avif|**/*.webp)",
-                "input": "public",
-                "output": "/assets/images/fallback"
-              },
-              "src/_redirects" 
+              "src/_redirects"
             ],
             "styles": [
               "src/styles.scss"
@@ -140,16 +130,6 @@
                   "**/Thumbs.db",
                   "**/.gitkeep"
                 ]
-              },
-              {
-                "glob": "**/*.{avif,webp}",
-                "input": "public",
-                "output": "/assets/images/optimized"
-              },
-              {
-                "glob": "!(**/*.avif|**/*.webp)",
-                "input": "public",
-                "output": "/assets/images/fallback"
               }
             ],
             "styles": [

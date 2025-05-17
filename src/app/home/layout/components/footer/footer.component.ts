@@ -5,7 +5,6 @@ import {
   inject,
   signal
 } from '@angular/core';
-import { Subscription } from 'rxjs';
 
 // FontAwesome
 import {
@@ -44,8 +43,7 @@ export class FooterComponent {
   readonly faMoon: IconDefinition = faMoon;
 
   readonly year = new Date().getFullYear();
-  private themeSubscription!: Subscription;
-
+  
   // Convertir a signal
   isDarkTheme = signal<boolean>(false);
 
