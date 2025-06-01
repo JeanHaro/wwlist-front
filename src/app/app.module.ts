@@ -2,12 +2,13 @@ import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule, Meta } from '@angular/platform-browser';
 import { RouterModule, TitleStrategy } from '@angular/router';
 
+// Cdk
+import { DialogModule } from '@angular/cdk/dialog';
+
 // Componentes
 import { AppComponent } from './app.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 
-// Preload
-import { QuicklinkModule } from 'ngx-quicklink';
 // Rutas
 import { AppRoutingModule } from './app-routing.module';
 
@@ -26,7 +27,6 @@ import { CustomTitleStrategy } from './shared/strategies/custom-title/custom-tit
   imports: [
     BrowserModule,
     RouterModule,
-    QuicklinkModule,
     AppRoutingModule,
     // ServiceWorkerModule - Proporciona soporte para PWA en aplicaciones Angular, son scripts que se ejecutan en segundo plano
     // Permite (carga offline, caché de recursos para mejorar rendimiento, notificaciones push, actualizaciones en segundo plano)
@@ -41,6 +41,7 @@ import { CustomTitleStrategy } from './shared/strategies/custom-title/custom-tit
       // registrationStrategy: 'registerWhenStable:30000' - Esta opción define cuando debe registrarse el Service Worker
       registrationStrategy: 'registerWhenStable:30000' // Este valor específico significa registra el Service Worker cuando la aplicación se estabilice o después de 30 segundos
     }),
+    DialogModule
   ],
   // providers - son una parte fundamental del sistema de inyección de dependencias de Angular
   // Estos le dicen a Angular como crear o entregar una dependencia cuando un componente o servicio la solicita

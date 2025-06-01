@@ -24,8 +24,8 @@
     </div><!-- % Card Header -->
 
     <div class="gallery-card_image">
-      @if (cardData()?.imageFormats) {
-        <!-- Si tiene imágenes optimizadas -->
+      @if (cardData()?.imageFormats && !isBase64Image(cardData()!.imageUrl)) {
+        <!-- Si tiene imágenes optimizadas (No Base64) -->
         <picture>
           <source [srcset]="cardData()!.imageFormats!.avif" type="image/avif">
           <source [srcset]="cardData()!.imageFormats!.webp" type="image/webp">
@@ -41,7 +41,7 @@
         </picture>
       } @else {
         <img
-          [ngSrc]="cardData()!.imageUrl"
+          [src]="cardData()!.imageUrl"
           [alt]="'Imagen de ' + cardData()?.name"
           fill
           loading="lazy"

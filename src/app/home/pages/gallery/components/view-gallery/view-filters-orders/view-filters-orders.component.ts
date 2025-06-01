@@ -16,15 +16,6 @@ import {
 // Interfaces
 import { Select } from '../../../interfaces/select.interface';
 
-// FontAwesome
-import {
-  faChevronDown,
-  faStar,
-  IconDefinition,
-} from '@fortawesome/free-solid-svg-icons';
-
-import { faStar as faStarEmpty } from '@fortawesome/free-regular-svg-icons';
-
 /*
   changeDetection: ChangeDetectionStrategy.OnPush:
   Optimización clave que hace que Angular solo verifique este componente cuando:
@@ -42,12 +33,6 @@ import { faStar as faStarEmpty } from '@fortawesome/free-regular-svg-icons';
   changeDetection: ChangeDetectionStrategy.OnPush // Añadido para optimización
 })
 export class ViewFiltersOrdersComponent {
-  // Icono
-  // readonly .- Define al atributo como lectura para prevenir modificaciones accidentales
-  readonly faChevronDown: IconDefinition = faChevronDown;
-    readonly faStar: IconDefinition = faStar;
-    readonly faStarEmpty: IconDefinition = faStarEmpty;
-
   // Signals para recibir y emitir datos
   typeOption = input<Select>({}); // Señal de entrada que recibe un objeto tipo Select (configuración de filtros)
   filters_orders = output<Select>(); // Señal de salida que emite un objeto tipo Select cuando se seleccionan filtros
@@ -65,76 +50,19 @@ export class ViewFiltersOrdersComponent {
     return Object.keys(this.typeOption() || {});
   })
 
-  // TODO: Método para detectar si una opción contiene estrellas Unicode
-  isStarRating (option: string): boolean {
-    return option.includes('★') || option.includes('☆');
-  }
-
-  // TODO: Método para contar estrellas llenas
-  countFullStars (option: string): number {
-    // option.match(/★/g) - Si hay coincidencias: Devuelve un array con todas las coincidencias encontradas
-    // /★/: Busca exactamente el carácter de estrella llena (★)
-    // /g: El modificador global hace que busque todas las coincidencias, no solo la primera
-    // Por ejemplo, para "★★★☆☆" devolvería ['★', '★', '★']
-    return (option.match(/★/g) || []).length;
-  }
-
-  // TODO: Método auxiliar para generar arrays para las estrellas
-  // count: number: Un número entero que indica cuántos elementos deseamos en el array
-  getStarArray(count: number): number[] {
-    // Array(count): Crea un array con count espacios vacíos
-    // fill(0): Rellena todos los espacios del array con el valor 0
-    // map((_, index) => index): Transforma cada elemento del array
-    // El primer parámetro _ (guion bajo) indica que no usamos el valor actual (los ceros)
-    // El segundo parámetro index es la posición del elemento en el array (0, 1, 2, ...)
-    // Ejemplo: Para count = 3, el resultado es [0, 1, 2]
-    return Array(count).fill(0).map((_, index) => index);
-  }
-
   // TODO: Método que maneja la selección de una opción dentro de un selector
   optionSelect (tipo: string, value: string) {
-    // Obtiene el valor actual de la señal typeOption o un objeto vacío si es undefined
-    const currentTypeOption = this.typeOption() || {};
-
-    // Crea un nuevo objeto (no modifica el original) usando el operador spread (...)
-    // Asegura una estructura correcta con un objeto por defecto si no existe la clave
-    const updatedTypeOption = {
-      ...currentTypeOption,
+    let updatedTypeOption = {
+      ...this.typeOption(),
       // Para la clave específica ([tipo]), mantiene todas las propiedades existentes pero actualiza value
       [tipo]: {
-        ...(currentTypeOption[tipo] || { value: '', options: [] }),
+        ...(this.typeOption()[tipo] || { value: '', options: [] }),
         value: value
       }
     };
 
     // Emite el objeto actualizado para informar al componente padre del cambio
     this.filters_orders.emit(updatedTypeOption);
-  }
-
-  // TODO: Método que maneja el clic en un selector para mostrar/ocultar las opciones
-  toggleActive($event: Event): void {
-    let element = $event.currentTarget as HTMLElement; // Captura el elemento que recibió el clic (currentTarget)
-    let input = element.querySelector('input');
-
-    // Previene el comportamiento predeterminado del evento mousedown en el input
-    if (input) {
-      input.addEventListener("mousedown", (ev) => ev.preventDefault());
-    }
-
-    // Cerrar todos los selectores abiertos excepto el actual
-    this.closeAllSelectsExcept(element);
-
-    // Alternamos la clase 'active' del select actual
-    element.classList.toggle('active');
-  }
-
-  // TODO: Cerrar todos los selectores abiertos excepto el elemento que manden
-  private closeAllSelectsExcept(otherElement: HTMLElement): void {
-    document.querySelectorAll('.select').forEach((el) => {
-      if (el !== otherElement) {
-        el.classList.remove('active');
-      }
-    });
   }
 
   // TODO: Detecta si se hace click fuera del select y remueve la clase active

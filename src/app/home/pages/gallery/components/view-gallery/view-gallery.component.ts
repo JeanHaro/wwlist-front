@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, signal,  Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, signal,  Component, OnInit, inject } from '@angular/core';
 
 // Interfaces
 import { Select } from '../../interfaces/select.interface';
@@ -12,6 +12,9 @@ import {
   faStar,
   faPlus
 } from '@fortawesome/free-solid-svg-icons';
+
+// Servicios
+import { GalleryModalService } from '../../services/gallery-modal/gallery-modal.service';
 
 /*
   OnPush mejora significativamente el rendimiento al ejecutar la detección de cambios solo cuando:
@@ -28,6 +31,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewGalleryComponent implements OnInit {
+  // Servicios
+  private galleryModalService = inject(GalleryModalService);
 
   // Iconos
   readonly faSliders: IconDefinition = faSliders;
@@ -46,7 +51,7 @@ export class ViewGalleryComponent implements OnInit {
 
   // TODO: Opciones de filtros y ordenamientos
   filters = signal<Select>({
-    category: { name: 'Categorias', value: '', options: ['Acción', 'Drama', 'Comedia'] },
+    category: { name: 'Categorias', value: '', options: ['Animes', 'Series', 'Películas'] },
     subcategory: { name: 'Subcategorías', value: '', options: ['Clásico', 'Moderno'] },
     qualification: { name: 'Calificación', value: '', options: [
       '★☆☆☆☆',
@@ -78,7 +83,7 @@ export class ViewGalleryComponent implements OnInit {
       category: 'Animes',
       subcategory: 'Acción',
       rating: 5,
-      year: '2023',
+      total: 32,
       status: 'completed', // Estado: Completado
       platform: 'Crunchyroll',
       completed: true,
@@ -96,7 +101,7 @@ export class ViewGalleryComponent implements OnInit {
       category: 'Series',
       subcategory: 'Acción',
       rating: 4,
-      year: '2023',
+      total: 32,
       status: 'in-progress', // Estado: Completado
       platform: 'Netflix',
       completed: false,
@@ -114,7 +119,7 @@ export class ViewGalleryComponent implements OnInit {
       category: 'Películas',
       subcategory: 'Acción',
       rating: 3,
-      year: '2025',
+      total: 1,
       status: 'waiting', // Estado: Completado
       platform: 'Disney+',
       completed: false,
@@ -130,6 +135,10 @@ export class ViewGalleryComponent implements OnInit {
 
   // Estado de carga
   isLoading = signal<boolean>(true);
+
+  // Signals del modal (opcional para UI reactiva)
+  readonly isModalOpen = this.galleryModalService.isModalOpen;
+  readonly modalData = this.galleryModalService.modalData;
 
   // Cuando inicia la página
   ngOnInit(): void {
@@ -181,4 +190,68 @@ export class ViewGalleryComponent implements OnInit {
   trackByCardId (index: number, card: GalleryCard): string {
     return card.id;
   }
+
+  // ============================================
+  // MÉTODOS CDK DIALOG
+  // ============================================
+  // TODO: Abrir modal para crear nueva tarjeta
+  onCreateNewCard(): void {
+    this.galleryModalService.openCreateGalleryModal()
+      .subscribe(result => {
+        if (result) {
+          // Agregar nueva tarjeta a la lista
+          this.addNewCard(result);
+        }
+      })
+  }
+
+  // TODO: Abrir modal para editar tarjeta existente
+  onEditCard (card: GalleryCard): void {
+    this.galleryModalService.openCreateGalleryModal(card)
+      .subscribe(result => {
+        if (result) {
+          // Actualizar tarjeta existente
+          this.updateCard(result);
+        }
+      })
+  }
+
+  // TODO: Agregar nueva tarjeta a la selección
+  private addNewCard (card: GalleryCard): void {
+    // Generar ID único
+    const newId = (this.galleryCards().length + 1).toString();
+    const newCard = { ...card, id: newId };
+
+    this.galleryCards.update( cards => [...cards, newCard]);
+
+    // Mostrar notificación de éxito
+    console.log('Tarjeta creada exitosamente:', newCard);
+  }
+
+  // TODO: Actualizar tarjeta existente
+  private updateCard (updateCard: GalleryCard): void {
+    this.galleryCards.update( cards =>
+      cards.map( card =>
+        card.id === updateCard.id ? updateCard : card
+      )
+    );
+
+    console.log('Tarjeta actualizada exitosamente:', updateCard)
+  }
+
+  // TODO: Eliminar tarjeta
+  onDeleteCard (cardId: string): void {
+    // Confirmar eliminación
+    if (confirm('¿Estás seguro de que quieres eliminar esta tarjeta?')) {
+      this.galleryCards.update( cards =>
+        cards.filter( card => card.id !== cardId)
+      );
+    }
+  }
+
+  // TODO: Verificar si hay modales abiertos
+  get hasOpenModals(): boolean {
+    return this.galleryModalService.hasOpenModals();
+  }
+
 }

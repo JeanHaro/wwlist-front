@@ -56,11 +56,12 @@
       <!-- track trackByCardId($index, card) - Optimiza el rendimiento usando IDs únicos para que Angular solo actualice los elementos que cambian -->
       @for (card of galleryCards(); track trackByCardId($index, card)) {
         <!-- role=listitem - indica que cada tarjeta es un elemento dentro de una lista, creando una estructura de navegacion semantica -->
-        <view-gallery-card [cardData]="card" role="listitem"></view-gallery-card>
+        <view-gallery-card [cardData]="card" role="listitem" style="" (click)="onEditCard(card)" title="Doble click para editar"></view-gallery-card>
       }
 
       <button
         class="none btn btn-primary-light gallery-cards_btn"
+        (click)="onCreateNewCard()"
         aria-label="Agregar nuevo elemento a la galería"
       >
         <fa-icon [icon]="faPlus"></fa-icon>
@@ -69,3 +70,4 @@
     }
   </section><!-- & Todas las tarjetas -->
 </main><!-- # Galería -->
+

@@ -1,0 +1,76 @@
+<!-- role="combobox" - Atributo ARIA para accesibilidad, define el elemento como un cuadro combinado de entrada y lista -->
+<!-- [attr.aria-labelledby]="filterKey..." - Conecta este combobox con su etiqueta -->
+<!-- attr.aria-expanded]="element.classList.contains('active')" -  Indica si el combobox está expandido o colapsado -->
+<!-- #element - Crea una referencia de plantilla a este elemento, usada en la expresión aria-expanded -->
+<div
+    class="select"
+    role="combobox"
+    [attr.aria-labelledby]="filterKey + '-label'"
+    [attr.aria-expanded]="selector.classList.contains('active')"
+    (click)="toggleActive($event)"
+    #selector
+>
+  <!-- readonly - Hace que el input no sea editable directamente -->
+  <div class="select-input">
+    <!-- [attr.aria-controls]="'options-' + filterKey" - Indica qué elemento de lista controla esta entrada -->
+    <input
+      [id]="filterKey()"
+      class="none input"
+      type="text"
+      [placeholder]="'Seleccione ' + (typeOption()[filterKey()].name | lowercase)"
+      [value]="typeOption()[filterKey()].value || ''"
+      readonly
+      [attr.aria-controls]="'options-' + filterKey"
+    >
+    <!-- aria-hidden="true" - Oculta el icono para los lectores de pantalla ya que es decorativo -->
+    <fa-icon
+      [ngStyle]="{
+        'color': typeOption()[filterKey()].value
+        ? 'var(--primary-color-light)'
+        : 'var(--input-border-light)'
+      }"
+      [icon]="faChevronDown"
+      aria-hidden="true"
+    >
+    </fa-icon>
+  </div><!-- Input -->
+
+  <!-- role="listbox" - Atributo ARIA que define el elemento como una lista de opciones seleccionables -->
+  <!-- [id]="'options-' + filterKey": ID único para conectarlo con el input a través de aria-controls -->
+  <!-- [attr.aria-labelledby]="filterKey...'" - Conecta esta lista con su etiqueta -->
+  <div
+    class="select-options"
+    [id]="'options-' + filterKey"
+    role="listbox"
+    [attr.aria-labelledby]="filterKey + '-label'"
+    [ngStyle]="{ '--i': filterKeys().length - index() }"
+  >
+    <!-- (typeOption()[filterKey]!.options || []) - Accede a las opciones o usa un array vacío si no existen -->
+    <!-- track option - Usa el valor de la opción como identificador único para el renderizado. -->
+    <!-- [attr.aria-selected]="..." - Indica si esta opción está seleccionada actualmente -->
+    <!-- tabindex="0": Hace que el elemento sea enfocable con teclado -->
+    @for (option of (typeOption()[filterKey()]!.options || []); track option) {
+      <div
+        role="option"
+        [attr.aria-selected]="typeOption()[filterKey()]!.value === option"
+        (keydown.enter)="optionSelect(option)"
+        tabindex="0"
+        (click)="optionSelect(option)"
+      >
+        <!-- Si es una calificación con estrellas Unicode, transforma a FontAwesome -->
+        @if (isStarRating(option)) {
+          <div class="select-options_stars">
+            @for (i of getStarArray(countFullStars(option)); track i) {
+              <fa-icon [icon]="faStar" class="star-filled"></fa-icon>
+            }
+            @for (i of getStarArray(5 - countFullStars(option)); track i) {
+              <fa-icon [icon]="faStarEmpty" class="star-empty"></fa-icon>
+            }
+          </div>
+        } @else {
+          {{ option }}
+        }
+      </div>
+    }
+  </div><!-- Opciones -->
+</div><!-- % Selector -->

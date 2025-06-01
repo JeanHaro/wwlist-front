@@ -2,6 +2,9 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Lilita+One&family=Poppins:wght@300;400;500;600;700&display=swap');
 
+// CDK
+@import '@angular/cdk/overlay-prebuilt.css';
+
 // Variables
 $white: #FFFFFF;
 $off-white: #F5F5F5;
@@ -33,8 +36,8 @@ $confirm-dark-green: #009933;
   --font-weight-extrabold: 800;
 
   // Border Radii
-  --border-radius-sm: 0.4rem;
-  --border-radius-md: 0.5rem;
+  --border-radius-sm: 0.5rem;
+  --border-radius-md: 0.6rem;
   --border-radius-lg: 1rem;
 
   // Border Widths
@@ -79,6 +82,11 @@ $confirm-dark-green: #009933;
   // Inputs
   --input-background-light: #{$light-gray}; // Modo Claro
   --input-border-light: #{$dark-gray}; // Modo Claro
+
+  // Modal
+  --wwlist-modal-backdrop: rgba(0, 0, 0, 0.8);
+  --wwlist-modal-border-radius: 1rem;
+  --wwlist-modal-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 html {
@@ -219,9 +227,29 @@ ul {
   }
 }
 
+.btn-warn {
+  background-color: var(--delete-color);
+  color: var(--text-color-dark);
+
+  &:hover {
+    background-color: var(--delete-color-hover);
+  }
+}
+
+.btn-warn-light {
+  background-color: var(--text-color-dark);
+  border-color: var(--delete-color);
+  color: var(--delete-color);
+
+  &:hover {
+    background-color: var(--delete-color);
+    color: var(--text-color-dark);
+  }
+}
+
 .input {
   width: 100%;
-  padding: 1.2rem 1.4rem;
+  padding: 0.75rem 1rem;
   border: var(--border-width-thin) solid var(--input-border-light);
   border-radius: var(--border-radius-sm);
 
@@ -233,5 +261,23 @@ ul {
 
   &::placeholder {
     color: var(--input-border-light);
+  }
+}
+
+// ====================
+// Clases Globales - Modal Cdk
+// ======================
+.wwlist-modal-backdrop {
+  background: var(--wwlist-modal-backdrop) !important;
+  backdrop-filter: blur(4px);
+}
+
+.wwlist-modal-panel {
+  height: 100vh !important;
+
+  @media (min-width: 768px) {
+    max-height: 90vh !important;
+    height: fit-content !important;
+    margin: auto !important;
   }
 }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 // Preload
-import { HybridPreloadingStrategy } from './shared/strategies/hybrid-preloading/hybrid-preloading.strategy';
+import { PriorityPreloadingStrategy } from './shared/strategies/priority-preloading/priority-preloading.strategy';
 
 // Componentes
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
@@ -29,12 +29,12 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(
       routes, {
-        preloadingStrategy: HybridPreloadingStrategy, // Aquí se configura la estrategia
+        preloadingStrategy: PriorityPreloadingStrategy, // Aquí se configura la estrategia
         scrollPositionRestoration: 'enabled' // Restaura el scroll en la posición que estabas cuando le das click al botón de atras/delante del navegador
       }
     )
   ],
-  providers: [HybridPreloadingStrategy], // Proporciona la estrategia
+  providers: [PriorityPreloadingStrategy], // Proporciona la estrategia
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

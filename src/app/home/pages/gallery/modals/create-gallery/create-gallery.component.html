@@ -1,1 +1,189 @@
-<p>create-gallery works!</p>
+<section class="gallery-modal">
+  <header class="gallery-modal-header" id="modal-title">
+    <h4>{{ isEditing() ? 'Editar': 'Crear' }} Tarjeta</h4>
+
+    <button
+      type="button"
+      class="none btn btn-warn"
+      (click)="onCancel()"
+      aria-label="Cerrar modal"
+    >
+      <fa-icon [icon]="faXmark"></fa-icon>
+    </button>
+  </header><!-- $ Cabecera -->
+
+  <form [formGroup]="galleryForm" (ngSubmit)="OnSave()" class="gallery-modal-form">
+    <div class="gallery-modal_preview">
+      <view-gallery-card
+        [cardData]="card()"
+        class="preview-card"
+      >
+      </view-gallery-card>
+    </div><!-- & Vista de la tarjeta -->
+
+    <div class="gallery-modal_image-controls">
+      <input
+        type="file"
+        id="imageInput"
+        accept="image/*"
+        (change)="onFileSelected($event)"
+      >
+
+      <label for="imageInput" [ngClass]="previewImage() ? 'active' : ''" class="none btn btn-primary-light">
+        <fa-icon [icon]="faCamera"></fa-icon>
+        <span>{{ previewImage() ? 'Cambiar imagen' : 'Cargar imagen' }}</span>
+      </label><!-- % Cargar -->
+
+      @if (previewImage()) {
+        <button
+          type="button"
+          [ngClass]="previewImage() ? 'active' : ''"
+          class="none btn btn-warn-light"
+          (click)="onDeleteImag()"
+        >
+          <fa-icon [icon]="faTrash"></fa-icon>
+          <span>Eliminar</span>
+        </button><!-- % Eliminar -->
+      }
+    </div><!-- & Controles de la imagen -->
+
+    <div class="gallery-modal_inputs">
+      <div class="gallery-modal_input">
+        <label for="name">Nombre *</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          class="none input"
+          [class.error]="nameError"
+          placeholder="Nombre del contenido"
+        >
+
+        @if (nameError) {
+          <span class="error-message">{{ nameError }}</span>
+        }
+      </div><!-- % Nombre-->
+
+      <div class="gallery-modal_input">
+        <label for="category">Categoría *</label>
+
+        <home-shared-select
+          [filterKeys]="filterKeys()"
+          [filterKey]="'category'"
+          [typeOption]="selects()"
+          (filters_orders)="updateSelect('category', $event)"
+          [index]="0"
+        ></home-shared-select>
+      </div><!-- % Categoria -->
+
+      <div class="gallery-modal_input">
+        <label for="subcategory">Subcategoría *</label>
+
+        <home-shared-select
+          [filterKeys]="filterKeys()"
+          [filterKey]="'subcategory'"
+          [typeOption]="selects()"
+          (filters_orders)="updateSelect('subcategory', $event)"
+          [index]="1"
+        ></home-shared-select>
+      </div><!-- % Subcategoría -->
+
+      <div class="gallery-modal_input">
+        <label for="platform">Plataforma *</label>
+
+        <home-shared-select
+        [filterKeys]="filterKeys()"
+        [filterKey]="'platform'"
+        [typeOption]="selects()"
+        (filters_orders)="updateSelect('platform', $event)"
+        [index]="2"
+        ></home-shared-select>
+      </div><!-- % Plataforma -->
+
+      <div class="gallery-modal_input">
+        <label for="state">Estado *</label>
+
+        <home-shared-select
+          [filterKeys]="filterKeys()"
+          [filterKey]="'state'"
+          [typeOption]="selects()"
+          (filters_orders)="updateSelect('state', $event)"
+          [index]="3"
+        ></home-shared-select>
+      </div><!-- % Estado -->
+
+      <div class="gallery-modal_input">
+        <label for="qualification">Calificación *</label>
+
+        <home-shared-select
+          [filterKeys]="filterKeys()"
+          [filterKey]="'qualification'"
+          [typeOption]="selects()"
+          (filters_orders)="updateSelect('qualification', $event)"
+          [index]="4"
+        ></home-shared-select>
+      </div><!-- % Calificación -->
+
+      <div class="gallery-modal_input">
+        <label for="seasons">Temporadas</label>
+
+        <input
+          type="number"
+          id="seasons"
+          formControlName="seasons"
+          class="none input"
+          min="1"
+          placeholder="1"
+        >
+      </div><!-- % Temporadas -->
+
+      <div class="gallery-modal_input">
+        <label for="total">Episodios totales</label>
+
+        <input
+          type="number"
+          id="total"
+          formControlName="total"
+          class="none input"
+          min="1"
+          placeholder="1"
+        >
+      </div><!-- % Total de episodios, paginas, etc -->
+
+      <div class="gallery-modal_input">
+        <label for="linkUrl">Enlace</label>
+
+        <input
+          type="url"
+          id="linkUrl"
+          formControlName="linkUrl"
+          class="none input"
+          placeholder="https://..."
+        >
+      </div><!-- % URL -->
+    </div><!-- & Inputs -->
+
+    <footer class="gallery-modal_btns">
+      <button
+        type="button"
+        class="btn btn-default"
+        (click)="onCancel()"
+        [disabled]="isLoading()"
+      >
+        Cancelar
+      </button><!-- % Cancelar -->
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!isFormValid || isLoading()"
+      >
+        @if (isLoading()) {
+          <span class="loading-spinner"></span>
+        }
+
+        {{ isEditing() ? 'Actualizar': 'Guardar' }}
+      </button><!-- % Guardar o Actualizar -->
+    </footer><!-- & Botones de acción -->
+  </form><!-- $ Formulario-->
+</section><!-- # Modal -->

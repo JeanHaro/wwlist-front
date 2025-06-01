@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 // -> Layout
 import { LayoutComponent } from './layout/layout.component';
@@ -10,30 +11,34 @@ import { FooterComponent } from './layout/components/footer/footer.component';
 // Pages
 // Shared Pages
 import { SearchComponent } from './pages/shared/search/search.component';
+import { InputSelectComponent } from './pages/shared/input-select/input-select.component';
 
-// Preload Quicklink
-import { QuicklinkModule } from 'ngx-quicklink';
 // Rutas
 import { HomeRoutingModule } from './home.routing';
 
 // Modulos
 import { SharedModule } from '../shared/shared.module';
+
 @NgModule({
   declarations: [
     LayoutComponent,
     HeaderComponent,
     FooterComponent,
     SearchComponent,
+    InputSelectComponent,
   ],
   imports: [
     CommonModule,
-    QuicklinkModule,
+    NgOptimizedImage,
+    ReactiveFormsModule,
     HomeRoutingModule,
     SharedModule
   ],
   exports: [
     SharedModule,
-    SearchComponent
+    ReactiveFormsModule,
+    SearchComponent,
+    InputSelectComponent
   ]
 })
 export class HomeModule { }

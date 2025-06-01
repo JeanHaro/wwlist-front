@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-edit-gallery',
+  selector: 'modal-edit-gallery',
   standalone: false,
 
   templateUrl: './edit-gallery.component.html',

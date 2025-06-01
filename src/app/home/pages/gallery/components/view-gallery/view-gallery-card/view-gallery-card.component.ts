@@ -130,4 +130,9 @@ export class ViewGalleryCardComponent {
       element.style.transition = `transform ${this.tiltSettings.transitionSpeed} ${this.tiltSettings.easing}`
     })
   }
+
+  // TODO: Detectar si la imagen es base64
+  isBase64Image (url: string): boolean {
+    return url ? url.startsWith('data:image/') : false;
+  }
 }

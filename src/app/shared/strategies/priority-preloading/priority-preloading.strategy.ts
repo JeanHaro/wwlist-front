@@ -1,14 +1,11 @@
-import { inject, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { PreloadingStrategy, Route } from "@angular/router";
 import { Observable, of } from "rxjs";
-import { QuicklinkStrategy } from 'ngx-quicklink';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HybridPreloadingStrategy implements PreloadingStrategy {
-  private quicklinkStrategy = inject(QuicklinkStrategy);
-
+export class PriorityPreloadingStrategy implements PreloadingStrategy {
   // route: Route - es un objeto que representa la definición de la ruta de Angular, contiene toda la información como path, component, redirectTo, etc
   // load: () => - es una función que cuando se invoca carga el modulo de la ruta, es un observable porque la carga de modulos es asincrona
   // el resultado Observable<any> - debe devolver un observable que indique si se debe precargar el módulo o no, si devuelve otro tipo de observable que no ejecuta load, el modulo no se precarga
@@ -39,8 +36,7 @@ export class HybridPreloadingStrategy implements PreloadingStrategy {
       return load();
     }
 
-    // Para el resto, usar QuickLink (precarga enlaces visibles)
-    // QuickLink es una biblioteca que precarga los módulos cuyos enlaces están visibles en la pantalla
-    return this.quicklinkStrategy.preload(route, load);
+    // Para el resto no se precargará 
+    return of(null);
   }
 }

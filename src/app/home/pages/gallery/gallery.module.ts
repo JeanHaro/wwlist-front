@@ -9,13 +9,12 @@ import { ViewGalleryCardComponent } from './components/view-gallery/view-gallery
 import { CreateGalleryComponent } from './modals/create-gallery/create-gallery.component';
 import { EditGalleryComponent } from './modals/edit-gallery/edit-gallery.component';
 
-// Preload Quicklink
-import { QuicklinkModule } from 'ngx-quicklink';
 // Routing
 import { GalleryRoutingModule } from './gallery.routing';
 
 // Modulos
 import { HomeModule } from '../../home.module';
+
 @NgModule({
   declarations: [
     ViewGalleryComponent,
@@ -27,7 +26,6 @@ import { HomeModule } from '../../home.module';
   imports: [
     CommonModule,
     NgOptimizedImage,
-    QuicklinkModule,
     GalleryRoutingModule,
     HomeModule
   ],

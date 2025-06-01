@@ -208,51 +208,54 @@ body.dark-theme {
     label {
       color: var(--text-primary-dark) !important;
     }
+  }
 
-    .select {
-      box-shadow: var(--shadow-dark-sm);
+  // -----------------------------------------------------
+  // COMPONENTE SELECT PERSONALIZADO
+  // -----------------------------------------------------
+  .select {
+    box-shadow: var(--shadow-dark-sm);
 
-      &:hover {
-        box-shadow: var(--shadow-dark-md);
+    &:hover {
+      box-shadow: var(--shadow-dark-md);
+    }
+
+    &-input {
+      input {
+        border-color: var(--border-color-dark) !important;
+        background: linear-gradient(to bottom, var(--dark-elevation-1), var(--dark-elevation-2)) !important;
+        color: var(--text-primary-dark) !important;
       }
 
-      &-input {
-        input {
-          border-color: var(--border-color-dark) !important;
-          background: linear-gradient(to bottom, var(--dark-elevation-1), var(--dark-elevation-2)) !important;
-          color: var(--text-primary-dark) !important;
+      fa-icon {
+        color: var(--text-primary-dark) !important;
+      }
+    }
+
+    &-options {
+      background: var(--header-background-dark) !important;
+
+      &::-webkit-scrollbar-track {
+        background: var(--dark-elevation-1) !important;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: var(--text-secondary-dark) !important;
+      }
+
+      > div {
+        &:hover {
+          background-color: var(--primary-color-dark) !important;
         }
 
-        fa-icon {
-          color: var(--text-primary-dark) !important;
+        &[aria-selected='true'] {
+          background-color: var(--primary-color-dark) !important;
         }
       }
 
-      &-options {
-        background: var(--header-background-dark) !important;
-
-        &::-webkit-scrollbar-track {
-          background: var(--dark-elevation-1) !important;
-        }
-
-        &::-webkit-scrollbar-thumb {
-          background: var(--text-secondary-dark) !important;
-        }
-
-        > div {
-          &:hover {
-            background-color: var(--primary-color-dark) !important;
-          }
-
-          &[aria-selected='true'] {
-            background-color: var(--primary-color-dark) !important;
-          }
-        }
-
-        &_stars {
-          .star-filled {
-            color: var(--text-primary-dark) !important;
-          }
+      &_stars {
+        .star-filled {
+          color: var(--text-primary-dark) !important;
         }
       }
     }
