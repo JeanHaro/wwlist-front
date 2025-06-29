@@ -1,0 +1,99 @@
+<!-- # SELECT -->
+<div
+    class="select"
+    (click)="toggleActive($event)"
+    #selector
+>
+  <!-- $ Input -->
+  <div class="select-input">
+    <input
+      [id]="filterKey()"
+      class="none input"
+      type="text"
+      [placeholder]="'Seleccione ' + (typeOption()[filterKey()].name | lowercase)"
+      [class.empty]="!typeOption()[filterKey()].value"
+      [value]="typeOption()[filterKey()].value || ''"
+      readonly
+    >
+    <fa-icon
+      [ngStyle]="{
+        'color': typeOption()[filterKey()].value
+        ? 'var(--primary-color-light)'
+        : 'var(--input-border-light)'
+      }"
+      [icon]="faChevronDown"
+      aria-hidden="true"
+    >
+    </fa-icon>
+  </div>
+
+  <!-- $ Opciones -->
+  <div
+    class="select-options"
+    [id]="'options-' + filterKey()"
+    role="listbox"
+    [ngStyle]="{ '--i': filterKeys().length - index() }"
+  >
+    @for (option of enhancedOptions(); track option) {
+      <!-- & Opcion -->
+      <div
+        role="option"
+        [attr.aria-selected]="typeOption()[filterKey()]!.value === option"
+        (keydown.enter)="handleOptionClick($event, option)"
+        tabindex="0"
+        (click)="handleOptionClick($event, option)"
+        [class.add-new-option]="option === '+ Agregar nuevo'"
+      >
+        @if (isStarRating(option)) {
+          <!-- % Estrellas -->
+          <div class="select-options_stars">
+            @for (i of getStarArray(countFullStars(option)); track i) {
+              <fa-icon [icon]="faStar" class="star-filled"></fa-icon>
+            }
+            @for (i of getStarArray(5 - countFullStars(option)); track i) {
+              <fa-icon [icon]="faStarEmpty" class="star-empty"></fa-icon>
+            }
+          </div>
+        } @else {
+          {{ option }}
+        }
+      </div>
+    }
+
+    @if (showCustomInput()) {
+      <!-- & Agregar opciones -->
+      <div class="addOption" role="option">
+        <input
+          type="text"
+          class="input none"
+          placeholder="Escribir nueva opción..."
+          [value]="customInputValue()"
+          (input)="onCustomInputChange($event)"
+          (keydown.enter)="confirmCustomOption()"
+          (keydown.escape)="cancelCustomOption()"
+          (click)="$event.stopPropagation()"
+          #customInput
+        />
+
+        <!-- % Botones de acciones -->
+        <div class="addOption_actions">
+          <button
+            type="button"
+            class="none btn btn-primary"
+            (click)="confirmCustomOption(); $event.stopPropagation()"
+            [disabled]="!customInputValue().trim()"
+          >
+            <fa-icon [icon]="faCheck"></fa-icon>
+          </button>
+          <button
+            type="button"
+            class="none btn btn-warn"
+            (click)="cancelCustomOption(); $event.stopPropagation()"
+          >
+            <fa-icon [icon]="faXmark"></fa-icon>
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

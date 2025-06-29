@@ -1,16 +1,6 @@
-// importa el modulo map de Sass para trabajar con el mapa de breakpoints
+// Imports y variables existentes...
 @use 'sass:map';
 
-// Variables para reutilización
-$border-radius-sm: 0.5rem;
-$transition-standard: 0.5s ease;
-$primary-color: var(--primary-color-light);
-$input-border: var(--input-border-light);
-$text-dark: var(--text-color-dark);
-
-// Breakpoints para media queries
-// Almacena los breakpoints en un mapa clave-valor
-// Centraliza los puntos de ruptura para asegurar consistencia en todo el diseño responsive.
 $breakpoints: (
   sm: 540px,
   md: 768px,
@@ -18,42 +8,53 @@ $breakpoints: (
   xl: 1900px
 );
 
-// Mixins para reutilizar estilos
 @mixin respond-to($breakpoint) {
-  // map-get: Obtiene el valor asociado a la clave del mapa de breakpoints
   $value: map.get($breakpoints, $breakpoint);
-
-  // @if: Verifica que el breakpoint exista antes de generar la media query
   @if $value != null {
     @media (min-width: $value) {
-      // @content: Permite inyectar estilos dentro de la media query
       @content;
     }
   }
 }
 
+// SOPORTE PARA HOST BINDINGS
+.wwlist-gallery-container {
+  &.loading {
+    .gallery-stats {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+  }
+
+  &.has-modals {
+    .gallery-cards_btn {
+      pointer-events: none;
+    }
+  }
+
+  &[data-cards-count="0"] {
+    .gallery-stats {
+      display: none;
+    }
+  }
+}
+
+
 // -----------------------------------------------------
-// # COMPONENTE GALERÍA PRINCIPAL
+// # COMPONENTE GALERÍA PRINCIPAL (MODERNIZADO)
 // -----------------------------------------------------
 .gallery {
   width: 100%;
   margin-top: 5rem;
 
-  // -----------------------------------------------------
-  // & CONTENEDOR DE FILTROS Y ORDENAMIENTOS
-  // -----------------------------------------------------
-  // &-content: Sintaxis de anidamiento BEM usando el operador & que se traduce a .gallery-content.
+  // $ CONTENEDOR DE FILTROS Y ORDENAMIENT
   &-content {
     position: relative;
-
     margin-bottom: 8rem;
 
     &:nth-child(1) {
       > button {
         top: -3%;
-
-        // media queries con mixin: Ajusta la posición en diferentes tamaños de pantalla.
-        // Posicionamiento responsive preciso que mantiene la relación visual adecuada en todos los dispositivos.
         @include respond-to(sm) { top: -4%; }
         @include respond-to(md) { top: -5%; }
         @include respond-to(lg) { top: -6%; }
@@ -63,7 +64,6 @@ $breakpoints: (
     &:nth-child(2) {
       > button {
         top: -5%;
-
         @include respond-to(sm) { top: -6%; }
         @include respond-to(md) { top: -8%; }
       }
@@ -77,25 +77,32 @@ $breakpoints: (
 
       z-index: 1;
 
-      align-items: center;
+      padding: 1.5rem 2.5rem !important;
+      border: 1px solid var(--input-border-light);
+      border-radius: var(--border-radius-sm);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 
       font-weight: 700;
 
-      border: 1px solid $input-border;
-      border-radius: $border-radius-sm;
-      box-shadow: 0 1px 3px rgba($color: #000000, $alpha: 0.08);
-
       transition:
-        box-shadow $transition-standard,
-        background-color $transition-standard;
+        box-shadow var(--transition-normal),
+        background-color var(--transition-normal),
+        transform var(--transition-normal);
 
       &:hover {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+        transform: translateY(-1px);
       }
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 0 2px rgba($primary-color, 0.5);
+        box-shadow: 0 0 0 2px rgba(#1562CA, 0.5);
+      }
+
+      &[data-active="false"] {
+        background-color: var(--primary-color-light);
+        color: white;
+        border-color: var(--primary-color-light);
       }
 
       span {
@@ -103,58 +110,195 @@ $breakpoints: (
       }
 
       fa-icon {
-        transition: transform $transition-standard;
+        transition: transform var(--transition-normal);
       }
     }
   }
 
-  // -----------------------------------------------------
-  // & CONTENEDOR DE TARJETAS
-  // -----------------------------------------------------
-  // & Todas las tarjetas
+  // $ ESTADÍSTICAS DE LA GALERÍA
+  &-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    gap: 2rem;
+
+    margin-bottom: 5rem;
+    padding: 0 2rem;
+
+    font-weight: 500;
+    text-align: center;
+
+    @media (min-width: 768px) {
+      padding: 0 4rem;
+    }
+
+    p {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      user-select: none;
+
+      padding: 1rem;
+      width: 100%;
+      max-width: 27rem;
+      border-radius: var(--border-radius-sm);
+      box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+
+      color: var(--body-background-light);
+
+      transition: all var(--transition-normal);
+
+      &:hover {
+        transform: translateY(-4px);
+      }
+
+      &:first-child {
+        color: var(--primary-color-light);
+      }
+
+      &:nth-child(2) {
+        background-color: #009688;
+      }
+
+      &:nth-child(3) {
+        background-color: #2196F3;
+      }
+
+      &:nth-child(4) {
+        background-color: #FF9800;
+      }
+
+      &.filtered {
+        background: var(--primary-color-light);
+      }
+
+      > span {
+        flex: 1;
+
+        &:nth-child(1) {
+          margin-left: 1rem;
+
+          text-align: left;
+        }
+
+        &:nth-child(2) {
+          font-size: 2rem;
+        }
+      }
+    }
+
+    // Botón para limpiar filtros y ordenamiento
+    &_actions {
+      width: 100%;
+      max-width: 27rem;
+
+      .btn {
+        width: 100%;
+        min-height: 100%;
+
+        padding: 1.5rem;
+
+        transition: all var(--transition-normal);
+
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+      }
+    }
+  }
+
+  // $ CARDS
   &-cards {
     display: flex;
-
-    margin-bottom: 6rem;
 
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+
     gap: 4rem;
 
-    // $ Botón
+    margin-bottom: 6rem;
+
+    &[data-count="0"] {
+      &::after {
+        content: "No hay elementos que mostrar";
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+        height: 20rem;
+
+        font-size: 1.8rem;
+        color: var(--text-color-light);
+        font-style: italic;
+      }
+    }
+
+    // Agregar más cards
     &_btn {
       display: flex;
-
-      width: 100%;
-      max-width: 24rem;
-      height: 24rem;
 
       flex-direction: column;
       align-items: center;
       justify-content: center;
 
+      width: 100%;
+      max-width: 24rem;
+      height: 24rem;
       box-shadow: 10px 5px 24px -2px rgba(0,0,0,0.46);
       border-radius: 1rem;
 
-      transition-property: all;
+      contain: layout style;
+      backface-visibility: hidden;
 
-      &:hover {
-        box-shadow: 10px 5px 24px -2px rgba(0,0,0,0.46),
-                    inset -2px 5px 10px rgba(0, 0, 0, 0.5);
+      transition:
+        box-shadow 0.3s ease,
+        transform 0.3s ease,
+        opacity 0.3s ease;
+      transform: translateZ(0);
+      will-change: auto;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      &:hover:not(:disabled) {
+        box-shadow:
+          10px 5px 24px -2px rgba(0,0,0,0.46),
+          inset -2px 5px 10px rgba(0, 0, 0, 0.5) !important;
 
         fa-icon {
-          transform: rotateZ(90deg); // Rota el icono +
+          transform: rotateZ(90deg);
         }
       }
 
-      &:active {
-        transform: scale(0.95);
+      &:active:not(:disabled) {
+        transform: translateZ(0) scale(0.95);
       }
 
       &:focus {
-        box-shadow: 10px 5px 24px -2px rgba(0,0,0,0.46),
-                    inset -2px 5px 10px rgba(0, 0, 0, 0.5);
+        outline: none;
+        box-shadow:
+          10px 5px 24px -2px rgba(0,0,0,0.46),
+          0 0 0 3px rgba(#1562CA, 0.4);
+      }
+
+      &.modal-open {
+        animation: none !important;
+        transition: none !important;
+
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
       }
 
       fa-icon {
@@ -164,7 +308,8 @@ $breakpoints: (
         font-size: 10rem;
         font-weight: 900;
 
-        transition: transform 0.5s ease;
+        transition: transform 0.3s ease;
+        transform-origin: center;
       }
 
       p {

@@ -1,21 +1,39 @@
-<home-shared-search [pageType]="'gallery'" (searchValue)="handleSearch($event)"></home-shared-search>
+<!-- # SEARCH-->
+<home-shared-search
+  [pageType]="'gallery'"
+  (searchValue)="handleSearch($event)"
+>
+  @if (isSearching()) {
+    <skeleton-gallery-container [count]="6"></skeleton-gallery-container>
+  } @else if (resultCount() > 0) {
+    @for (card of searchResults(); track trackByCardId($index, card)) {
+      <view-gallery-card
+        [cardData]="card"
+        [isDisabled]="false"
+        (click)="onEditCard(card)"
+        role="listitem"
+      ></view-gallery-card>
+    }
+  }
+</home-shared-search>
 
+<!-- # GALERÍA -->
 <main class="gallery max-width">
-  <!-- track section - optimiza el rendimiento al indicar a Angular cómo identificar cada elemento -->
-  @for (section of sections; track section) {
-    <!-- [attr.aria-label] proporciona una etiqueta descriptiva para lectores de pantalla, cambiando dinámicamente según el tipo de sección -->
+  @for (section of sections(); track section) {
+    <!-- $ CONTENEDOR DE FILTROS Y ORDENAMIENTO -->
     <div
       class="gallery-content"
       role="region"
       [attr.aria-label]="section === 'filters' ? 'Filtros' : 'Ordenación'"
+      [attr.data-section]="section"
     >
-      <!-- [attr.aria-expanded] - comunica a lectores de pantalla si el panel está expandido o colapsado -->
-      <!-- [attr.aria-controls] - vincula este botón con el panel que controla mediante un ID único -->
+      <!-- & Botón para ver filtros y ordenamientos -->
       <button
         class="none btn btn-default-light"
         (click)="toggleSection(section)"
         [attr.aria-expanded]="!activeSections()[section]"
         [attr.aria-controls]="section + '-panel'"
+        [attr.data-active]="!activeSections()[section]"
       >
         <fa-icon
           [icon]="faSliders"
@@ -29,45 +47,81 @@
           [icon]="faChevronDown"
           aria-hidden="true"
         ></fa-icon>
-      </button><!-- $ Botón para ver filtros y ordenamientos -->
+      </button>
 
-      <!-- [id]="section...'" - proporciona un ID único que conecta con el botón vía aria-controls -->
+      <!-- & Filtros y ordenamientos -->
       <view-filters-orders
         [id]="section + '-panel'"
         (filters_orders)="updateSelect(section, $event)"
         [activeSections]="activeSections()[section]"
         [typeOption]="section === 'filters' ? filters() : orders()">
-      </view-filters-orders><!-- $ Filtros y ordenamientos -->
-    </div><!-- & Contenedor de filtros y ordenamientos -->
+      </view-filters-orders>
+    </div>
   }
 
-  <!-- role=list - indica a tecnologias asistivas que este elemento funciona como una lista, mejorando la navegacion por teclado -->
-  <!-- aria-label="galeria..." - proporciona un nombre descriptivo accesible para la lista -->
+  <!-- $ ESTADÍSTICAS DE LA GALERÍA -->
+  @if (!isLoading()) {
+    <div class="gallery-stats" role="status" aria-live="polite">
+      <p><span>Total</span> <span>{{ cardsStats().total }}</span></p>
+      <p><span>Completados</span> <span>{{ cardsStats().completed }}</span></p>
+      <p><span>En progreso</span> <span>{{ cardsStats().inProgress }}</span></p>
+      <p><span>En espera</span> <span>{{ cardsStats().waiting }}</span></p>
+
+      @if (hasActiveFilters()) {
+        <p class="filtered"><span>Filtrado</span> <span>{{ filteredCards().length }}</span></p>
+      }
+
+      <!-- & Botón para limpiar filtros y ordenamiento -->
+      @if (hasActiveFilters() && !isLoading() || hasActiveOrders()) {
+        <div class="gallery-stats_actions">
+          <button
+            class="none btn btn-warn"
+            (click)="clearAllFilters(); clearAllOrders()"
+            aria-label="Limpiar todos los filtros activos"
+          >
+            Limpiar selectores (x)
+          </button>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- $ CARDS -->
   <section
     class="gallery-cards"
     role="list"
     aria-label="Galería de contenido"
+    [attr.data-count]="displayCards.length"
   >
-
-    <!-- Mostrar skeleton durante la carga -->
+    <!-- & Mostrar skeleton durante la carga -->
     @if (isLoading()) {
       <skeleton-gallery-container [count]="6"></skeleton-gallery-container>
     } @else {
-      <!-- track trackByCardId($index, card) - Optimiza el rendimiento usando IDs únicos para que Angular solo actualice los elementos que cambian -->
-      @for (card of galleryCards(); track trackByCardId($index, card)) {
-        <!-- role=listitem - indica que cada tarjeta es un elemento dentro de una lista, creando una estructura de navegacion semantica -->
-        <view-gallery-card [cardData]="card" role="listitem" style="" (click)="onEditCard(card)" title="Doble click para editar"></view-gallery-card>
+      <!-- & Usar displayCards en lugar de galleryCards para mostrar filtrados/ordenados -->
+      @for (card of displayCards; track trackByCardId($index, card)) {
+        <view-gallery-card
+          [cardData]="card"
+          [isDisabled]="!isCardFromSelectedMonth(card)"
+          role="listitem"
+          (click)="onEditCard(card)"
+          title="Click para editar"
+          [attr.data-status]="card.status"
+          [attr.data-completed]="card.completed"
+          [attr.data-disabled]="!isCardFromSelectedMonth(card)"
+        ></view-gallery-card>
       }
 
+      <!-- & Agregar más cards -->
       <button
         class="none btn btn-primary-light gallery-cards_btn"
         (click)="onCreateNewCard()"
         aria-label="Agregar nuevo elemento a la galería"
+        [disabled]="isLoading()"
+        #addButton
       >
         <fa-icon [icon]="faPlus"></fa-icon>
         <p>Agregar más</p>
-      </button><!-- $ Boton -->
+      </button>
     }
-  </section><!-- & Todas las tarjetas -->
-</main><!-- # Galería -->
-
+  </section>
+</main>

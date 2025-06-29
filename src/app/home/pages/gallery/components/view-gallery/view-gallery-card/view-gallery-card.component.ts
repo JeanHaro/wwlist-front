@@ -3,9 +3,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
+  effect,
   ElementRef,
   input,
-  ViewChild
+  signal,
+  viewChild,
 } from '@angular/core';
 
 import {
@@ -17,122 +20,158 @@ import {
 import { GalleryCard } from '../../../interfaces/gallery-card.interface';
 import { CardTransform, TiltSettings3D } from '../../../interfaces/tilt-transform-settings.interface';
 
+// Types
+type CardState = 'completed' | 'waiting' | 'in-progress';
+
+interface StateInfo {
+  class: string;
+  text: string;
+}
+
 @Component({
   selector: 'view-gallery-card',
   standalone: false,
   templateUrl: './view-gallery-card.component.html',
   styleUrl: './view-gallery-card.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
 
 export class ViewGalleryCardComponent {
-  // Iconos
+  // ============================================
+  // TODO: VIEWCHILD MODERNO
+  // ============================================
+  // Permite acceder y manipular directamente el elemento DOM para aplicar transformaciones 3D.
+  private readonly cardElement = viewChild<ElementRef<HTMLDivElement>>('cardElement');
+
+  // ============================================
+  // TODO: ICONOS
+  // ============================================
   readonly faStar: IconDefinition = faStar;
 
-  // Referencia al elemento DOM de la tarjeta
-  // Permite acceder y manipular directamente el elemento DOM para aplicar transformaciones 3D.
-  @ViewChild('cardElement') cardElement: ElementRef | undefined;
-
-  // TODO: Signals para recibir datos de la tarjeta
+  // ============================================
+  // TODO: SIGNALS DE ENTRADA
+  // ============================================
+  // # Signals para recibir datos de la tarjeta
   cardData = input<GalleryCard | null>(null);
+  // Input para indicar si la card está deshabilitada
+  isDisabled = input<boolean>(false);
 
-  // TODO: Variables para controlar la rotación de la tarjeta
-  private readonly tiltSettings: TiltSettings3D = {
+  // ============================================
+  // TODO: SIGNALS INTERNOS
+  // ============================================
+  // # Almacena el estado actual de la tarjeta
+  // Se actualiza basado en la posición del ratón y se aplica mediante CSS.
+  private readonly cardTransform = signal<CardTransform>({
+    rotateX: 0,
+    rotateY: 0,
+    scale: 1
+  });
+
+  // ============================================
+  // TODO: CONFIGURACIÓN
+  // ============================================
+  // # Variables para controlar la rotación de la tarjeta
+  private readonly tiltSettings: Readonly<TiltSettings3D> = {
     maxRotation: 15, // Rotación máxima en grados
     perspective: 1000, // Perspectiva 3D
     scale: 1.05, // Escala al hacer hover
     transitionSpeed: '1s', // Velocidad de transicion
     easing: 'cubic-bezier(0.03, 0.98, 0.52, 0.99)' // La curva de Bézier proporciona una aceleración y desaceleración natural.
-  }
+  } as const;
 
-  // TODO: Almacena el estado actual de la tarjeta
-  // Se actualiza basado en la posición del ratón y se aplica mediante CSS.
-  private cardTransform: CardTransform = {
-    rotateX: 0,
-    rotateY: 0,
-    scale: 1
-  }
 
-  // TODO: Mapeo para los estados con clases y textos
-  private readonly stateMap = {
+  // # Mapeo para los estados con clases y textos
+  private readonly stateMap: Readonly<Record<CardState, StateInfo>> = {
     'completed': { class: 'completed', text: 'Completado' },
     'waiting': { class: 'waiting', text: 'En espera' },
     'in-progress': { class: 'in-progress', text: 'En proceso' }
-  }
+  } as const;
 
-  // TODO: Obtiene la información de estado (clase CSS y texto) basado en el status de la tarjeta
-  getStateInfo(): { class: string, text: string } {
-    const status = this.cardData()?.status; // Estados
+  // ============================================
+  // TODO: COMPUTED SIGNALS
+  // ============================================
+  // # Obtiene la información de estado (clase CSS y texto) basado en el status de la tarjeta
+  readonly stateInfo = computed<StateInfo>(() => {
+    const status = this.cardData()?.status as CardState | undefined;
+    return status ? this.stateMap[status] : { class: '', text: '' };
+  });
 
-    return status ? this.stateMap[status] : { class: '', text: '' }
-  }
+  // # Detectar si la imagen es base64
+  readonly isBase64Image = computed<boolean>(() => {
+    const url = this.cardData()?.imageUrl;
+    return url ? url.startsWith('data:image/') : false;
+  });
 
-  // TODO: Método para manejar el movimiento del mouse sobre la tarjeta para el efecto 3D
-  onMouseMove (event: MouseEvent) {
-    if (!this.cardElement) return;
+  readonly hasOptimizedImages = computed<boolean>(() => {
+    return !!(this.cardData()?.imageFormats && !this.isBase64Image());
+  });
 
-    const card = this.cardElement.nativeElement;
-    const cardRect = card.getBoundingClientRect(); // Obtiene las dimensiones y posición de la tarjeta.
+  readonly displayName = computed<string>(() => {
+    const name = this.cardData()?.name || '';
+    return name.length > 20 ? `${name.slice(0, 20)}...` : name;
+  });
 
-    // Calcular la posición relativa del mouse dentro de la tarjeta
-    const mouseX = event.clientX - cardRect.left; // Posición X del ratón relativa a la tarjeta
-    const mouseY = event.clientY - cardRect.top; // Posición Y del ratón relativa a la tarjeta
-
-    // Normalizar la posición para un control preciso (convertir a valores entre -1 y 1)
-    const normalizedX = (mouseX / cardRect.width) * 2 - 1;
-    const normalizedY = (mouseY / cardRect.height) * 2 - 1;
-
-    // Calcular la rotación basada en la posición del mouse
-    // Invertimos el eje Y para que la rotación sea natural (el mouse arriba rota hacia arriba)
-    this.cardTransform = {
-      rotateX: -normalizedY * this.tiltSettings.maxRotation, // Rotación en el eje X (arriba/abajo)
-      rotateY: normalizedX * this.tiltSettings.maxRotation, // Rotación en el eje Y (izquierda/derecha)
-      scale: this.tiltSettings.scale
-    };
-
-    // Aplicar la transformación a la tarjeta
-    this.updateCardTransform(card);
-  }
-
-  // TODO: Método para restablecer la posición cuando el mouse sale de la tarjeta
-  onMouseLeave(): void {
-    if (!this.cardElement) return;
-
-    // Restablecer transformación
-    this.cardTransform = {
-      rotateX: 0,
-      rotateY: 0,
-      scale: 1
-    };
-
-    // Aplicar la transformación a la tarjeta
-    this.updateCardTransform(this.cardElement.nativeElement);
-  }
-
-  // TODO: Método para aplicar la transformación CSS al elemento DOM
-  private updateCardTransform (element: HTMLElement): void {
-    const { rotateX, rotateY, scale } = this.cardTransform;
-
-    // Construir la cadena de transformación CSS
-    const transform = `
+  // # Método para aplicar la transformación CSS al elemento DOM
+  readonly transformStyle = computed<string>(() => {
+    const { rotateX, rotateY, scale } = this.cardTransform();
+    return `
       perspective(${this.tiltSettings.perspective}px)
       rotateX(${rotateX}deg)
       rotateY(${rotateY}deg)
       scale3d(${scale}, ${scale}, ${scale})
-    `;
+    `.trim();
+  });
 
-    // requestAnimationFrame - Optimiza el rendimiento sincronizando las actualizaciones visuales con el ciclo de repintado del navegador.
+    // ============================================
+  // TODO: EFFECTS
+  // ============================================
+  private readonly transformEffect = effect(() => {
+    const element = this.cardElement()?.nativeElement;
+    if (!element) return;
+
+    const transform = this.transformStyle();
+
+    // Usar requestAnimationFrame para optimizar el rendimiento
     requestAnimationFrame(() => {
-      // Aplicar la transformación
       element.style.transform = transform;
+      element.style.transition = `transform ${this.tiltSettings.transitionSpeed} ${this.tiltSettings.easing}`;
+    });
+  });
 
-      // Aplicar la transición
-      element.style.transition = `transform ${this.tiltSettings.transitionSpeed} ${this.tiltSettings.easing}`
-    })
+  // ============================================
+  // TODO: MÉTODOS DE INTERACCIÓN
+  // ============================================
+  // # Método para manejar el movimiento del mouse sobre la tarjeta para el efecto 3D
+  onMouseMove (event: MouseEvent): void {
+    const element = this.cardElement()?.nativeElement;
+    if (!element || this.isDisabled()) return;
+
+    const rect = element.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    // Normalizar posición (-1 a 1)
+    const normalizedX = (mouseX / rect.width) * 2 - 1;
+    const normalizedY = (mouseY / rect.height) * 2 - 1;
+
+    // Actualizar transformación
+    this.cardTransform.set({
+      rotateX: -normalizedY * this.tiltSettings.maxRotation,
+      rotateY: normalizedX * this.tiltSettings.maxRotation,
+      scale: this.tiltSettings.scale
+    });
   }
 
-  // TODO: Detectar si la imagen es base64
-  isBase64Image (url: string): boolean {
-    return url ? url.startsWith('data:image/') : false;
+  // # Método para restablecer la posición cuando el mouse sale de la tarjeta
+  onMouseLeave(): void {
+    if (this.isDisabled()) return;
+
+    // Restablecer transformación
+    this.cardTransform.set({
+      rotateX: 0,
+      rotateY: 0,
+      scale: 1
+    });
   }
 }

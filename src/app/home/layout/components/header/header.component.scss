@@ -2,7 +2,6 @@
 @use 'styles.scss' as *;
 
 // Variables
-$header-transition: 0.3s ease;
 $profile-border-radius: 0.5rem;
 $menu-border-radius: 1rem;
 
@@ -16,7 +15,7 @@ $menu-border-radius: 1rem;
   border-radius: $profile-border-radius;
 
   color: var(--primary-color-light);
-  transition: $header-transition;
+  transition: var(--transition-fast);
 
   &:hover {
     background-color: var(--primary-color-light);
@@ -29,7 +28,9 @@ $menu-border-radius: 1rem;
   }
 }
 
-// # Cabecera
+// ============================================
+// # COMPONENTE PRINCIPAL DEL HEADER
+// ============================================
 .header {
   position: sticky;
   top: 0;
@@ -56,14 +57,14 @@ $menu-border-radius: 1rem;
     justify-content: space-between;
   }
 
-  // & Logo
+  // $ LOGO
   &_logo {
     color: var(--primary-color-light);
 
     cursor: pointer;
   }
 
-  // & Checkbox
+  // $ CHECKBOX
   #menu-bar {
     display: none;
     visibility: hidden;
@@ -108,7 +109,7 @@ $menu-border-radius: 1rem;
     }
   }
 
-  // & Menu bar
+  // $ HAMBURGER ICON
   &_menubar {
     display: flex;
     flex-direction: column;
@@ -135,28 +136,28 @@ $menu-border-radius: 1rem;
       height: 3px;
 
       background-color: var(--primary-color-light);
-      transition: $header-transition;
+      transition: var(--transition-fast);
     }
 
-    // $ Line 1
+    // & Line 1
     &-l1 {
       top: 10px;
 
       transform: rotate(0);
     }
 
-    // $ Line 2
+    // & Line 2
     &-l2 {
       top: 20px;
     }
 
-    // $ Line 3
+    // & Line 3
     &-l3 {
       top: 30px;
     }
   }
 
-  // & Enlaces
+  // $ ENLACES
   &_links {
     position: absolute;
     top: 95%;
@@ -173,7 +174,7 @@ $menu-border-radius: 1rem;
 
     visibility: hidden;
 
-    transition: $header-transition;
+    transition: var(--transition-fast);
 
     @media (min-width: 1024px) {
       display: flex;
@@ -212,7 +213,7 @@ $menu-border-radius: 1rem;
       }
     }
 
-    // $ Enlaces por nav
+    // & Enlaces por nav
     nav {
       display: flex;
       flex-direction: column;
@@ -221,19 +222,19 @@ $menu-border-radius: 1rem;
         flex-direction: row;
         align-items: center;
 
-        // $ Enlaces de orden
+        // & Enlaces de orden
         &.header_links-order {
           padding-right: 2rem;
           border-right: 2px dotted var(--primary-color-light);
         }
 
-        // $ Enlaces de herramientas
+        // & Enlaces de herramientas
         &.header_links-tools {
           padding-left: 2rem;
         }
       }
 
-      // $ Enlaces de iniciar sesión - mobile
+      // & Enlaces de iniciar sesión - mobile
       &.header_links-btn {
         margin-top: 1rem;
         border-top: 2px solid var(--primary-color-light);
@@ -281,7 +282,7 @@ $menu-border-radius: 1rem;
     }
   }
 
-  // & Botones
+  // $ BOTONES DE AUTENTICACION (DESKTOP
   &_buttons {
     display: none;
 
@@ -298,7 +299,7 @@ $menu-border-radius: 1rem;
       fa-icon {
         margin-right: 1.2rem;
 
-        transition: $header-transition;
+        transition: var(--transition-fast);
       }
 
       &:first-child {
@@ -316,7 +317,7 @@ $menu-border-radius: 1rem;
         }
 
         span {
-          transition: $header-transition;
+          transition: var(--transition-fast);
         }
       }
 
@@ -332,7 +333,7 @@ $menu-border-radius: 1rem;
     }
   }
 
-  // & Perfil
+  // $ PERFIL
   &_profile {
     display: none;
     position: relative;
@@ -343,7 +344,7 @@ $menu-border-radius: 1rem;
       display: block;
     }
 
-    // $ Contenedor del perfil
+    // & Contenedor del perfil
     &-container {
       display: flex;
       align-items: center;
@@ -351,7 +352,7 @@ $menu-border-radius: 1rem;
       padding: 1.5rem;
       border-radius: $profile-border-radius;
 
-      transition: $header-transition;
+      transition: var(--transition-fast);
 
       &:hover, &.active {
         background-color: var(--primary-color-light);
@@ -380,7 +381,7 @@ $menu-border-radius: 1rem;
         span {
           color: var(--primary-color-light);
 
-          transition: $header-transition;
+          transition: var(--transition-fast);
 
           &:last-child {
             margin-top: -0.3rem;
@@ -393,11 +394,11 @@ $menu-border-radius: 1rem;
       &-icon {
         color: var(--primary-color-light);
 
-        transition: $header-transition;
+        transition: var(--transition-fast);
       }
     }
 
-    // $ Opciones del perfil
+    // & Opciones del perfil
     &-options {
       position: absolute;
       top: 105%;
@@ -417,7 +418,7 @@ $menu-border-radius: 1rem;
       opacity: 0;
       visibility: hidden;
 
-      transition: $header-transition;
+      transition: var(--transition-fast);
 
       &.visible {
         z-index: 5;

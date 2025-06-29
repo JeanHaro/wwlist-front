@@ -21,7 +21,9 @@ $card-height: 25rem;
   height: $card-height;
 }
 
-// $ Tarjeta
+// -----------------------------------------------------
+// # COMPONENTE TARJETA
+// -----------------------------------------------------
 .gallery-card {
   width: 100%;
   max-width: 25rem;
@@ -59,7 +61,48 @@ $card-height: 25rem;
     }
   }
 
-  // Contenido de la tarjeta
+  // # Desabilitada
+  &-disabled {
+    position: relative;
+    opacity: 0.7; // Reducir opacidad
+    filter: grayscale(30%); // Añadir efecto de escala de grises
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(0, 0, 0, 0.15) 10px,
+        rgba(0, 0, 0, 0.15) 20px
+      );
+      pointer-events: none; // No interferir con clicks
+      z-index: 10;
+      border-radius: inherit; // Mantener el border-radius de la card
+    }
+
+    // Reducir el efecto 3D en hover
+    &:hover {
+      transform: scale(1.02) !important; // Menor escala en hover
+    }
+
+    // Indicador visual adicional
+    .gallery-card_content {
+      filter: contrast(0.8); // Reducir contraste
+    }
+
+    // Hacer el estado más evidente
+    .gallery-card_state {
+      opacity: 0.6;
+    }
+  }
+
+  // $ CONTENIDO DE LA TARJETA
   &_content {
     position: relative;
 
@@ -86,7 +129,7 @@ $card-height: 25rem;
         opacity: 1;
       }
 
-      // Oscurecimiento de colors en los estados
+      // % Estado
       .gallery-card_state {
         @each $state, $color in $state-colors { // Itera sobre el mapa de estados y colores para generar reglas CSS dinámicas.
           &.#{$state} {
@@ -95,10 +138,12 @@ $card-height: 25rem;
         }
       }
 
+      // % Puntuación
       .gallery-card_score {
         background-color: color.adjust(#1562CA, $lightness: -5%);
       }
 
+      // & Imagen
       .gallery-card_image {
         filter: grayscale(0%);
         transform: scale(1.1);
@@ -132,29 +177,9 @@ $card-height: 25rem;
 
       pointer-events: none; // Permite que los eventos del ratón pasen a través de este elemento.
     }
-
-    .gallery-card_image {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-
-      filter: grayscale(100%);
-
-      transition: filter $transition-duration ease,
-                    transform $transition-duration ease;
-
-      img {
-        width: 100%;
-        height: 100%;
-
-        object-fit: cover;
-        object-position: center;
-      }
-    }
   }
 
-  // % Card Header
+  // & Card Header
   &_header {
     display: flex;
 
@@ -168,7 +193,7 @@ $card-height: 25rem;
     color: var(--text-color-dark);
   }
 
-  // Estado
+  // % Estado
   &_state {
     padding: 0.5rem 1rem;
 
@@ -183,7 +208,7 @@ $card-height: 25rem;
     }
   }
 
-  // Puntuacion
+  // % Puntuacion
   &_score {
     display: flex;
     align-items: center;
@@ -200,7 +225,28 @@ $card-height: 25rem;
     }
   }
 
-  // % Card Footer
+  // & Imagen
+  &_image {
+    position: absolute;
+    margin: 0;
+    inset: 0;
+    overflow: hidden;
+
+    filter: grayscale(100%);
+
+    transition: filter $transition-duration ease,
+                  transform $transition-duration ease;
+
+    img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  // & Card Footer
   &_footer {
     display: flex;
     flex-direction: column;
@@ -217,7 +263,7 @@ $card-height: 25rem;
     background-color: rgba(0, 0, 0, 0.7);
   }
 
-  // Nombre
+  // % Nombre
   &_name {
     margin-bottom: 0.3rem;
     width: 100%;
@@ -233,7 +279,7 @@ $card-height: 25rem;
     }
   }
 
-  // Categorias
+  // % Categorias
   &_categories {
     margin-bottom: 0.3rem;
 
@@ -242,7 +288,7 @@ $card-height: 25rem;
     text-transform: uppercase;
   }
 
-  // Plataforma
+  // % Plataforma
   &_platform {
     font-size: 0.9rem;
     font-weight: 500;

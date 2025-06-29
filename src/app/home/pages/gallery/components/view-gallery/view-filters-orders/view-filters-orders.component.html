@@ -1,19 +1,13 @@
-<!-- activeSections() - esta función viene de un input signal de tipo boolean que controla la visibilidad de la sección -->
-<!-- role="group" - Atributo ARIA que indica que este elemento contiene un conjunto relacionado de controles -->
-<!-- aria-label="Filtros disponibles": Proporciona una descripción del grupo para tecnologías asistivas -->
+<!-- # FILTROS Y ORDENAMIENTOS -->
 <div
   class="gallery-selects"
   [ngClass]="{ 'active' : !activeSections() }"
   role="group"
   aria-label="Filtros disponibles"
 >
-  <!-- @for - sintaxis moderna de Angular 17+ que reemplaza a ngFor -->
-  <!-- filterKey of filterKeys(): Itera sobre cada clave de filtro devuelta por el método filterKeys() -->
-  <!-- track trackByFilterKey($index, filterKey) - Esta función determina cuándo los elementos del DOM deben ser recreados durante la actualización. -->
+  <!-- $ ITEMS -->
   @for (filterKey of filterKeys(); track trackByFilterKey($index, filterKey)) {
     <div class="gallery-selects_item">
-      <!-- typeOption()[filterKey].name - Muestra el nombre del filtro obtenido del objeto typeOption -->
-      <!-- [id]="filterKey..." - Crea un ID única que se usará para asociar con el combobox mediante aria-labelledby -->
       <label [for]="filterKey" [id]="filterKey + '-label'">
         {{ typeOption()[filterKey].name || filterKey }}
       </label>
@@ -26,6 +20,6 @@
         (filters_orders)="optionSelect(filterKey, $event)"
       >
       </home-shared-select>
-    </div><!-- $ Item -->
+    </div>
   }
-</div><!-- & Filtros -->
+</div>

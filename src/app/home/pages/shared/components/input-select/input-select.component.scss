@@ -1,23 +1,15 @@
-// Variables para reutilización
-$border-radius-sm: 0.5rem;
-$transition-standart: 0.5s ease;
-$primary-color: var(--primary-color-light);
-$input-border-light: var(--input-border-light);
-
 // -----------------------------------------------------
-// COMPONENTE SELECT PERSONALIZADO
+// # COMPONENTE SELECT PERSONALIZADO
 // -----------------------------------------------------
-
-// % Selector
 .select {
   position: relative;
 
   margin: 1rem 0;
+  border-radius: var(--border-radius-sm);
 
-  border-radius: $border-radius-sm;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 
-  transition: box-shadow $transition-standart;
+  transition: box-shadow var(--transition-normal);
 
   &:hover {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
@@ -27,34 +19,30 @@ $input-border-light: var(--input-border-light);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
 
     input {
-      border-radius: $border-radius-sm $border-radius-sm 0 0 !important;
+      border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;
     }
 
-    fa-icon {
-      transform: rotate(180deg) !important;
+    .select-input fa-icon {
+      transform: rotate(180deg);
     }
 
     .select-options {
       max-height: 25rem;
       padding: 1rem;
+      overflow-y: auto;
 
       opacity: 1;
 
-      overflow-y: auto;
-
-      // Scrollbar general
       &::-webkit-scrollbar {
         width: 4px;
       }
 
-      // Fondo del scrollbar
       &::-webkit-scrollbar-track {
         background: #eeeeee;
       }
 
-      // Barra de desplazamiento (scroll)
       &::-webkit-scrollbar-thumb {
-        background: $primary-color;
+        background: var(--primary-color-light);
 
         transition: background 0.3s ease;
 
@@ -74,24 +62,25 @@ $input-border-light: var(--input-border-light);
     }
   }
 
-  // -----------------------------------------------------
-  // ENTRADA DEL SELECT (Parte visible siempre)
-  // -----------------------------------------------------
-
-  // Input
+  // $ INPUT
   &-input {
     position: relative;
 
     input {
       width: 100%;
-
       border: 1px solid #CCCCCC !important;
-      border-radius: $border-radius-sm;
-      color: $primary-color;
+
+      color: var(--primary-color-light);
+
       background: linear-gradient(to bottom, #FFFFFF, #F7F7F7);
 
-      cursor: pointer;
       transition: 0.5s ease;
+
+      cursor: pointer;
+
+      &.empty {
+        color: #999 !important;
+      }
 
       &:focus {
         outline: none;
@@ -104,49 +93,45 @@ $input-border-light: var(--input-border-light);
       right: 5%;
       top: 22%;
 
-      color: $primary-color;
+      color: var(--primary-color-light);
+
+      transform: rotate(0deg);
+      transition: var(--transition-normal);
 
       cursor: pointer;
-      transform: rotate(0deg);
-      transition: $transition-standart;
     }
   }
 
-  // -----------------------------------------------------
-  // PANEL DE OPCIONES DESPLEGABLE
-  // -----------------------------------------------------
-
-  // Opciones
+  // $ OPCIONES
   &-options {
     position: absolute;
-    z-index: var(--i); // z-index dinámico basado en el índice del filtro
+    z-index: var(--i);
 
     width: 100%;
     max-height: 0;
     padding: 0 1rem;
-
-    border-radius: 0 0 $border-radius-sm $border-radius-sm;
-    border: 1px solid $input-border-light;
+    border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
+    border: 1px solid var(--input-border-light);
     border-top: none;
+    overflow: hidden;
+
     background: linear-gradient(to bottom, #FFFFFF, #F7F7F7);
     opacity: 0;
 
-    overflow: hidden;
-    // Transiciones suaves para mostrar/ocultar opciones
     transition: max-height 0.4s ease-in-out,
                 opacity 0.3s ease-in-out,
                 padding 0.3s ease-in-out;
 
-    // Estilo de opciones individuales
+    // & Opción y Agregar opciones
     > div {
       margin-top: 0.4rem;
       padding: 1rem;
+      border-radius: var(--border-radius-sm);
 
-      border-radius: $border-radius-sm;
+      transition: background-color var(--transition-normal),
+                  color var(--transition-normal);
 
       cursor: pointer;
-      transition: background-color 0.5s ease,
-                  color 0.5s ease;
 
       &:hover {
         background-color: #eeeeee;
@@ -158,18 +143,71 @@ $input-border-light: var(--input-border-light);
       }
     }
 
+    // % Estrellas
     &_stars {
       fa-icon {
         margin-right: 2px;
+
         font-size: 1.4rem;
 
         &.star-filled {
-          color: $primary-color;
+          color: var(--primary-color-light);
         }
 
         &.star-empty {
           color: #cccccc;
         }
+      }
+    }
+  }
+}
+
+// -----------------------------------------------------
+// & Agregar Opciones
+// -----------------------------------------------------
+.addOption {
+  position: relative;
+
+  input {
+    border-radius: var(--border-radius-sm) !important;
+  }
+
+  // % Botones de acciones
+  .addOption_actions {
+    position: absolute;
+    top: 0;
+    right: 20px;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+
+    height: 6.2rem;
+
+    button {
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+
+      width: 3rem;
+      height: 3rem;
+
+      transition: transform var(--transition-normal);
+
+      &:hover {
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);
+
+        transform: scale(1.2);
+      }
+
+      fa-icon {
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
       }
     }
   }

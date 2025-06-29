@@ -1,4 +1,6 @@
-<section class="gallery-modal">
+<!-- # MODAL -->
+<section class="gallery-modal min-width">
+  <!-- $ CABECERA -->
   <header class="gallery-modal-header" id="modal-title">
     <h4>{{ isEditing() ? 'Editar': 'Crear' }} Tarjeta</h4>
 
@@ -6,126 +8,195 @@
       type="button"
       class="none btn btn-warn"
       (click)="onCancel()"
-      aria-label="Cerrar modal"
+      [attr.aria-label]="'Cerrar modal de ' + (isEditing() ? 'edición' : 'creación')"
+      [disabled]="isLoading()"
     >
       <fa-icon [icon]="faXmark"></fa-icon>
     </button>
-  </header><!-- $ Cabecera -->
+  </header>
 
-  <form [formGroup]="galleryForm" (ngSubmit)="OnSave()" class="gallery-modal-form">
-    <div class="gallery-modal_preview">
+  <!-- $ FORMULARIO -->
+  <form
+    [formGroup]="galleryForm"
+    (ngSubmit)="onSave()"
+    class="gallery-modal-form"
+    #formElement
+    [attr.aria-busy]="isLoading()"
+    novalidate
+  >
+    <!-- & Vista de la tarjeta -->
+    <div class="gallery-modal_preview" [class.loading]="isLoading()">
       <view-gallery-card
         [cardData]="card()"
         class="preview-card"
+        [attr.aria-live]="'polite'"
       >
       </view-gallery-card>
-    </div><!-- & Vista de la tarjeta -->
+    </div>
 
+    <!-- & Controles de la imagen -->
     <div class="gallery-modal_image-controls">
       <input
         type="file"
         id="imageInput"
         accept="image/*"
         (change)="onFileSelected($event)"
+        #fileInput
+        [disabled]="isLoading()"
       >
 
-      <label for="imageInput" [ngClass]="previewImage() ? 'active' : ''" class="none btn btn-primary-light">
+      <!-- % Cargar -->
+      <label
+        for="imageInput"
+        [class.active]="previewImage()"
+        [class.loading]="isLoading()"
+        class="none btn btn-primary-light"
+        [attr.aria-describedby]="imageError ? 'image-error' : null"
+      >
         <fa-icon [icon]="faCamera"></fa-icon>
         <span>{{ previewImage() ? 'Cambiar imagen' : 'Cargar imagen' }}</span>
-      </label><!-- % Cargar -->
+      </label>
 
+      <!-- % Eliminar -->
       @if (previewImage()) {
         <button
           type="button"
-          [ngClass]="previewImage() ? 'active' : ''"
-          class="none btn btn-warn-light"
-          (click)="onDeleteImag()"
+          class="none btn btn-warn-light active"
+          (click)="onDeleteImage()"
+          [disabled]="isLoading()"
+          aria-label="Eliminar imagen actual"
         >
           <fa-icon [icon]="faTrash"></fa-icon>
           <span>Eliminar</span>
-        </button><!-- % Eliminar -->
+        </button>
       }
-    </div><!-- & Controles de la imagen -->
+    </div>
 
+    @if (imageError) {
+      <span id="image-error" class="error-message" role="alert">
+        {{ imageError }}
+      </span>
+    }
+
+    <!-- & Inputs -->
     <div class="gallery-modal_inputs">
+      <!-- % Nombre-->
       <div class="gallery-modal_input">
-        <label for="name">Nombre *</label>
+        <label for="name">Nombre <span aria-label="requerido">*</span></label>
         <input
           type="text"
           id="name"
           formControlName="name"
           class="none input"
           [class.error]="nameError"
+          [attr.aria-describedby]="nameError ? 'name-error' : null"
+          [attr.aria-invalid]="!!nameError"
           placeholder="Nombre del contenido"
+          [disabled]="isLoading()"
+          (blur)="onInputBlur('name')"
+          autocomplete="off"
+          required
         >
 
         @if (nameError) {
-          <span class="error-message">{{ nameError }}</span>
+          <span id="name-error" class="error-message" role="alert">
+            {{ nameError }}
+          </span>
         }
-      </div><!-- % Nombre-->
+      </div>
 
+      <!-- % Categoria -->
       <div class="gallery-modal_input">
-        <label for="category">Categoría *</label>
+        <label for="category">Categoría <span aria-label="requerido">*</span></label>
 
         <home-shared-select
           [filterKeys]="filterKeys()"
           [filterKey]="'category'"
           [typeOption]="selects()"
           (filters_orders)="updateSelect('category', $event)"
+          (addCustomOption)="addCustomOption($event)"
+          (onBlur)="markSelectAsTouched('category')"
           [index]="0"
         ></home-shared-select>
-      </div><!-- % Categoria -->
 
+        @if (categoryError) {
+          <span class="error-message" role="alert">{{ categoryError }}</span>
+        }
+      </div>
+
+      <!-- % Subcategoría -->
       <div class="gallery-modal_input">
-        <label for="subcategory">Subcategoría *</label>
+        <label for="subcategory">Subcategoría</label>
 
         <home-shared-select
           [filterKeys]="filterKeys()"
           [filterKey]="'subcategory'"
           [typeOption]="selects()"
           (filters_orders)="updateSelect('subcategory', $event)"
+          (addCustomOption)="addCustomOption($event)"
+          (onBlur)="markSelectAsTouched('subcategory')"
           [index]="1"
         ></home-shared-select>
-      </div><!-- % Subcategoría -->
+      </div>
 
+      <!-- % Plataforma -->
       <div class="gallery-modal_input">
-        <label for="platform">Plataforma *</label>
+        <label for="platform">Plataforma <span aria-label="requerido">*</span></label>
 
         <home-shared-select
-        [filterKeys]="filterKeys()"
-        [filterKey]="'platform'"
-        [typeOption]="selects()"
-        (filters_orders)="updateSelect('platform', $event)"
-        [index]="2"
+          [filterKeys]="filterKeys()"
+          [filterKey]="'platform'"
+          [typeOption]="selects()"
+          (filters_orders)="updateSelect('platform', $event)"
+          (addCustomOption)="addCustomOption($event)"
+          (onBlur)="markSelectAsTouched('platform')"
+          [index]="2"
         ></home-shared-select>
-      </div><!-- % Plataforma -->
 
+        @if (platformError) {
+          <span class="error-message" role="alert">{{ platformError }}</span>
+        }
+      </div>
+
+      <!-- % Estado -->
       <div class="gallery-modal_input">
-        <label for="state">Estado *</label>
+        <label for="state">Estado <span aria-label="requerido">*</span></label>
 
         <home-shared-select
           [filterKeys]="filterKeys()"
           [filterKey]="'state'"
           [typeOption]="selects()"
           (filters_orders)="updateSelect('state', $event)"
+          (onBlur)="markSelectAsTouched('state')"
           [index]="3"
         ></home-shared-select>
-      </div><!-- % Estado -->
 
+        @if (stateError) {
+          <span class="error-message" role="alert">{{ stateError }}</span>
+        }
+      </div>
+
+      <!-- % Calificación -->
       <div class="gallery-modal_input">
-        <label for="qualification">Calificación *</label>
+        <label for="qualification">Calificación <span aria-label="requerido">*</span></label>
 
         <home-shared-select
           [filterKeys]="filterKeys()"
           [filterKey]="'qualification'"
           [typeOption]="selects()"
           (filters_orders)="updateSelect('qualification', $event)"
+          (onBlur)="markSelectAsTouched('qualification')"
           [index]="4"
         ></home-shared-select>
-      </div><!-- % Calificación -->
 
+        @if (qualificationError) {
+          <span class="error-message" role="alert">{{ qualificationError }}</span>
+        }
+      </div>
+
+      <!-- % Temporadas -->
       <div class="gallery-modal_input">
-        <label for="seasons">Temporadas</label>
+        <label for="seasons">Temporadas, capítulos, etc.</label>
 
         <input
           type="number"
@@ -134,11 +205,14 @@
           class="none input"
           min="1"
           placeholder="1"
+          [disabled]="isLoading()"
+          (blur)="onInputBlur('seasons')"
         >
-      </div><!-- % Temporadas -->
+      </div>
 
+      <!-- % Total de episodios, paginas, etc -->
       <div class="gallery-modal_input">
-        <label for="total">Episodios totales</label>
+        <label for="total">Total de episodios, páginas, etc.</label>
 
         <input
           type="number"
@@ -147,22 +221,38 @@
           class="none input"
           min="1"
           placeholder="1"
+          [disabled]="isLoading()"
+          (blur)="onInputBlur('total')"
         >
-      </div><!-- % Total de episodios, paginas, etc -->
+      </div>
 
+      <!-- % URL -->
       <div class="gallery-modal_input">
-        <label for="linkUrl">Enlace</label>
+        <label for="linkUrl">Enlace <span aria-label="requerido">*</span></label>
 
         <input
           type="url"
           id="linkUrl"
           formControlName="linkUrl"
           class="none input"
+          [class.error]="linkUrlError"
+          [attr.aria-describedby]="linkUrlError ? 'linkUrl-error' : null"
+          [attr.aria-invalid]="!!linkUrlError"
           placeholder="https://..."
+          [disabled]="isLoading()"
+          (blur)="onInputBlur('linkUrl')"
+          required
         >
-      </div><!-- % URL -->
-    </div><!-- & Inputs -->
 
+        @if (linkUrlError) {
+          <span id="linkUrl-error" class="error-message" role="alert">
+            {{ linkUrlError }}
+          </span>
+        }
+      </div>
+    </div>
+
+    <!-- & Botones de acción -->
     <footer class="gallery-modal_btns">
       <button
         type="button"
@@ -176,14 +266,30 @@
       <button
         type="submit"
         class="btn btn-primary"
-        [disabled]="!isFormValid || isLoading()"
+        [disabled]="!isFormValid() || isLoading()"
+        [attr.aria-describedby]="!isFormValid() ? 'form-errors' : null"
       >
         @if (isLoading()) {
-          <span class="loading-spinner"></span>
+          <span class="loading-spinner" aria-hidden="true"></span>
+          <span>Guardando</span>
+        } @else {
+          {{ isEditing() ? 'Actualizar': 'Guardar' }}
         }
 
-        {{ isEditing() ? 'Actualizar': 'Guardar' }}
+
       </button><!-- % Guardar o Actualizar -->
-    </footer><!-- & Botones de acción -->
-  </form><!-- $ Formulario-->
-</section><!-- # Modal -->
+
+      @if (!isFormValid()) {
+        <div id="form-errors" class="sr-only" role="status" aria-live="polite">
+          Formulario incompleto. Revise los campos marcados con error.
+        </div>
+      }
+
+      @if (generalError) {
+        <div class="error-message general-error" role="alert">
+          {{ generalError }}
+        </div>
+      }
+    </footer>
+  </form>
+</section>

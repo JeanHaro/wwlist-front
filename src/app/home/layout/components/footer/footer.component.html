@@ -1,47 +1,58 @@
+<!-- # FOOTER -->
 <footer class="footer" role="contentinfo">
   <div class="footer-container max-width">
+
+    <!-- $ SECCIÓN SUPERIOR -->
     <div class="footer-top">
-      <div class="footer-top_socials" aria-label="Social networks">
-        <a href="#" target="_blank" aria-label="Facebook">
-          <fa-icon [icon]="faSquareFacebook"></fa-icon>
-        </a>
+      <!-- & Redes sociales -->
+      <div class="footer-top_socials" aria-label="Redes sociales">
+        @for(social of socialLinks(); track social.key) {
+          <a
+            [href]="social.url"
+            target="_blank"
+            [attr.aria-label]="social.label"
+          >
+            <fa-icon [icon]="socialIcons[social.key]"></fa-icon>
+          </a>
+        }
 
-        <a href="#" target="_blank" aria-label="Instagram">
-          <fa-icon [icon]="faSquareInstagram"></fa-icon>
+        <a
+          class="theme"
+          (click)="toggleTheme()"
+          [attr.aria-label]="'Cambiar tema' + (isDarkTheme() ? 'claro' : 'oscuro')"
+        >
+          <fa-icon [icon]="currentThemeIcon()"></fa-icon>
         </a>
+      </div>
 
-        <a href="#" target="_blank" aria-label="Github">
-          <fa-icon [icon]="faSquareGithub"></fa-icon>
-        </a>
-
-        <a class="theme" (click)="toggleTheme()"  aria-label="Cambiar tema">
-          <fa-icon [icon]="isDarkTheme() ? faSun : faMoon"></fa-icon>
-        </a>
-      </div><!-- $ Redes sociales -->
-
-      <a class="footer-top_logo" routerLink="/" aria-label="W&W List Home">
+      <!-- & Logo -->
+      <a class="footer-top_logo" routerLink="/" aria-label="Ir al inicio de W&W List">
         <h1>W&W List</h1>
-      </a><!-- $ Logo -->
+      </a>
 
-      <nav class="footer-top_languages" aria-label="Technologies">
-        <a href="#" aria-label="Angular">
-          <fa-icon [icon]="faAngular"></fa-icon>
+      <!-- & Tecnologías -->
+      <nav class="footer-top_languages" aria-label="Tecnologías utilizadas">
+        @for (tech of techLinks(); track tech.key) {
+          <a
+            href="#"
+            [attr.aria-label]="tech.label"
+          >
+            <fa-icon [icon]="techIcons[tech.key]"></fa-icon>
+          </a>
+        }
+      </nav>
+    </div>
+
+    <!-- $ NAVEGACIÓN PRINCIPAL -->
+    <nav class="footer-middle" aria-label="Navegación principal">
+      @for (navigation of navigationLinks(); track navigation.route) {
+        <a [routerLink]="navigation.route" [attr.aria-label]="'Ir a' +  navigation.label">
+          {{ navigation.label }}
         </a>
+      }
+    </nav>
 
-        <a href="#" aria-label="Node.js">
-          <fa-icon [icon]="faNode"></fa-icon>
-        </a>
-      </nav><!-- $ Lenguajes  -->
-    </div><!-- & Top -->
-
-    <nav class="footer-middle" aria-label="Main navigation">
-      <a routerLink="/gallery">Cards</a>
-      <a routerLink="/list">Lista</a>
-      <a routerLink="/calendar">Calendario</a>
-      <a routerLink="/dates">Fechas</a>
-      <a routerLink="/profile">Perfil</a>
-    </nav><!-- & Enlaces -->
-
+    <!-- $ COPYRIGHT -->
     <p>W%W List &copy; {{ year }}. Todos los derechos reservados</p><!-- & Copyright -->
-  </div><!-- Contenedor -->
-</footer><!-- # Footer -->
+  </div>
+</footer>

@@ -1,5 +1,6 @@
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule, Meta } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, TitleStrategy } from '@angular/router';
 
 // Cdk
@@ -19,6 +20,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { SeoService } from './shared/services/seo/seo.service';
 import { CustomTitleStrategy } from './shared/strategies/custom-title/custom-title-strategy.strategy';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +28,7 @@ import { CustomTitleStrategy } from './shared/strategies/custom-title/custom-tit
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     RouterModule,
     AppRoutingModule,
     // ServiceWorkerModule - Proporciona soporte para PWA en aplicaciones Angular, son scripts que se ejecutan en segundo plano

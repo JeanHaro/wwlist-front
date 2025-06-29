@@ -12,9 +12,9 @@ export interface GalleryCard {
   category: string;
   subcategory: string;
   rating: number;
-  start_date?: Date;
-  end_date?: Date;
-  seasons?: number;
+  start_date: string;
+  end_date?: string;
+  seasons: number;
   total: number;
   status: CardStatus;
   platform: string;

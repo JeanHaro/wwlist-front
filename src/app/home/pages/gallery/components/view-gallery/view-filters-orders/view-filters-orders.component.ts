@@ -1,13 +1,8 @@
-// ChangeDetectionStrategy - Estrategia de detección de cambios para optimizar el rendimiento
-// Component - Decorador que define un componente en Angular
-// computed - Para manejar estado reactivo (Angular v17+)
-// HostListener - Decorador que permite escuchar eventos del DOM
-// input - Función para defiir propiedades de entrada (Angular v17+)
-// output - Función para definir eventos de salida (nueva API de señales en Angular 17+)
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   HostListener,
   input,
   output
@@ -16,77 +11,159 @@ import {
 // Interfaces
 import { Select } from '../../../interfaces/select.interface';
 
-/*
-  changeDetection: ChangeDetectionStrategy.OnPush:
-  Optimización clave que hace que Angular solo verifique este componente cuando:
-
-    Cambian las entradas de referencia (no valores primitivos).
-    El componente emite eventos.
-    Se dispara la detección de cambios manualmente.
-*/
 @Component({
   selector: 'view-filters-orders',
   standalone: false,
-
   templateUrl: './view-filters-orders.component.html',
   styleUrl: './view-filters-orders.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush // Añadido para optimización
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'class': 'wwlist-view-filters-orders',
+    '[class.has-filters]': 'hasActiveFilters()',
+    '[attr.data-section-type]': 'sectionType()',
+    'role': 'group'
+  }
 })
 export class ViewFiltersOrdersComponent {
-  // Signals para recibir y emitir datos
-  typeOption = input<Select>({}); // Señal de entrada que recibe un objeto tipo Select (configuración de filtros)
-  filters_orders = output<Select>(); // Señal de salida que emite un objeto tipo Select cuando se seleccionan filtros
-  activeSections = input<boolean>(false); //  Señal de entrada booleana que controla si las secciones están activas (visible=false)
+  // ============================================
+  // TODO: SIGNALS DE ENTRADA
+  // ============================================
+  readonly typeOption = input<Select>({});
+  readonly activeSections = input<boolean>(false);
 
-  // Método que extrae y devuelve todas las claves del objeto typeOption
-  // Incluye || {} como fallback para evitar errores si typeOption es undefined
-  /*
-    computed - Crea una señal que se recalcula automáticamente cuando cambian sus dependencias.
-    En este caso, devuelve un array de claves del objeto typeOption.
-    Esto permite que el componente reaccione a cambios en typeOption sin necesidad de lógica adicional.
-    Se utiliza para renderizar dinámicamente los selectores en la plantilla HTML.
-  */
+  // ============================================
+  // TODO: SIGNALS DE SALIDA
+  // ============================================
+  readonly filters_orders = output<Select>();
+
+  // ============================================
+  // TODO: COMPUTED SIGNALS
+  // ============================================
   readonly filterKeys = computed<string[]>(() => {
     return Object.keys(this.typeOption() || {});
-  })
+  });
 
-  // TODO: Método que maneja la selección de una opción dentro de un selector
-  optionSelect (tipo: string, value: string) {
-    let updatedTypeOption = {
+  readonly hasActiveFilters = computed<boolean>(() => {
+    const options = this.typeOption();
+    return Object.values(options).some(filter => filter.value !== '');
+  });
+
+  readonly sectionType = computed<string>(() => {
+    const keys = this.filterKeys();
+
+    // Identificar por claves típicas de filtros
+    if (
+      keys.includes('category') ||
+      keys.includes('subcategory') ||
+      keys.includes('qualification')
+    )  return 'filters';
+
+    // Identificar por claves típicas de ordenamiento
+    if (
+      keys.includes('date') ||
+      keys.includes('name') ||
+      keys.includes('total')
+    ) return 'orders';
+
+    return 'mixed';
+  });
+
+  // # Contar los selects que están con valores
+  readonly activeSelectionsCount = computed<number>(() => {
+    const options = this.typeOption();
+    return Object.values(options).filter(opt => opt.value !== '').length;
+  });
+
+  // ============================================
+  // TODO: CONSTRUCTOR Y EFFECTS
+  // ============================================
+  constructor() {
+    // Effect para debug en desarrollo
+    effect(() => {
+      const count = this.activeSelectionsCount();
+      const type = this.sectionType();
+
+      if (count > 0) {
+        console.log(`📊 ${type} activos:`, count);
+      }
+    });
+
+    // Effect para limpiar selectores cuando se colapsa la sección
+    effect(() => {
+      if (!this.activeSections()) {
+        // Pequeño delay para permitir que termine la animación
+        setTimeout(() => this.closeAllSelects(), 300);
+      }
+    });
+  }
+
+  // ============================================
+  // TODO: MÉTODOS PÚBLICOS
+  // ============================================
+  // # Colocar el valor de la opción seleccionada
+  optionSelect(tipo: string, value: string): void {
+    // Crear copia del objeto actual con el valor actualizado
+    const updatedTypeOption: Select = {
       ...this.typeOption(),
-      // Para la clave específica ([tipo]), mantiene todas las propiedades existentes pero actualiza value
       [tipo]: {
-        ...(this.typeOption()[tipo] || { value: '', options: [] }),
+        ...(this.typeOption()[tipo] || { name: '', value: '', options: [] }),
         value: value
       }
     };
 
-    // Emite el objeto actualizado para informar al componente padre del cambio
+    // Emitir el objeto completo actualizado al componente padre
     this.filters_orders.emit(updatedTypeOption);
   }
 
-  // TODO: Detecta si se hace click fuera del select y remueve la clase active
-  // Decorador @HostListener('document:click'... escucha eventos de clic en todo el documento
-  @HostListener('document:click', ['$event'])
-  clickOutside($event: Event): void {
-    // ev.target - Elemento que se le dio click
-    // closest - Busca el elemento más cercano que cumpla con la condicion dada
-    if (!($event.target as HTMLElement).closest('.select')) {
-      // Si el clic fue fuera de todos los selectores, cierra todos los selectores abiertos
-      this.closeAllSelects();
-    };
-  }
-
-  // TODO: Método para cerrar todos los selectores
-  private closeAllSelects(): void {
-    document.querySelectorAll('.select').forEach((el) => {
-      el.classList.remove('active');
-    });
-  }
-
-  // TODO: Método para seguimiento de elementos en bucles @
-  // Ayuda a Angular a identificar qué elementos del DOM deben recrearse cuando cambia la lista.
+  // # Para el @for
   trackByFilterKey(index: number, filterKey: string): string {
     return filterKey;
+  }
+
+  // ============================================
+  // TODO: EVENT LISTENERS
+  // ============================================
+  /**
+   * Detecta clics fuera de los selectores para cerrarlos
+   * Escucha eventos de clic en todo el documento
+   *
+   * @param $event - Evento de clic del DOM
+   */
+  @HostListener('document:click', ['$event'])
+  clickOutside($event: Event): void {
+    const target = $event.target as HTMLElement;
+
+    // Verificar si el clic fue fuera de elementos interactivos
+    const isOutsideSelect = !target.closest('.select');
+    const isOutsideModal = !target.closest('.gallery-modal');
+    const isOutsideCdkOverlay = !target.closest('.cdk-overlay-container');
+
+    if (isOutsideSelect && isOutsideModal && isOutsideCdkOverlay) {
+      this.closeAllSelects();
+    }
+  }
+
+  /**
+   * Maneja el evento de tecla Escape para cerrar selectores
+   *
+   * @param event - Evento de teclado
+   */
+  @HostListener('document:keydown.escape', ['$event'])
+  handleEscapeKey(event: KeyboardEvent): void {
+    const hasOpenSelects = document.querySelector('.gallery-selects .select.active');
+
+    if (hasOpenSelects) {
+      event.preventDefault();
+      this.closeAllSelects();
+    }
+  }
+
+  // ============================================
+  // TODO: MÉTODOS PRIVADOS
+  // ============================================
+  // # Cerrar selects
+  private closeAllSelects(): void {
+    const selectors = document.querySelectorAll('.gallery-selects .select');
+    selectors.forEach((element) => element.classList.remove('active'));
   }
 }

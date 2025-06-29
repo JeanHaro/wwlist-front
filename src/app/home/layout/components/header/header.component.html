@@ -1,137 +1,208 @@
-<!-- role: banner - representa la región de contenido introductorio o de navegación de alto nivel en una página -->
-<header class="header" [ngClass]="{ 'scrolled' : isScrolled() }" role="banner">
+<!-- # HEADER -->
+<header class="header" [ngClass]="{ 'scrolled' : isScrolled() }" role="banner" aria-label="Navegación principal">
+  <!-- Contenedor -->
   <div class="header-container max-width">
-    <a routerLink="/" class="header_logo" aria-label="W&W List Home">
+    <!-- $ LOGO -->
+    <a routerLink="/" class="header_logo" aria-label="Ir a la página principal W&W List">
       <h1>W&W List</h1>
-    </a><!--& Logo -->
+    </a>
 
-    <input #menuCheckbox type="checkbox" id="menu-bar" aria-hidden="true" (change)="toggleMobileMenu()">
-    <label for="menu-bar" class="header_menubar" aria-label="Menú de navegación">
-      <div class="header_menubar-l1"></div><!-- $ Line 1-->
-      <div class="header_menubar-l2"></div><!-- $ Line 2-->
-      <div class="header_menubar-l3"></div><!-- $ Line 3-->
-    </label><!-- & Menu bar -->
+    <!-- Navegación mobile -->
+    <!-- Mobile Menu Toggle -->
+    <input
+      #menuCheckbox
+      type="checkbox"
+      id="menu-bar"
+      aria-hidden="true"
+      (change)="toggleMobileMenu()"
+    >
 
+    <!-- $ HAMBURGER ICON -->
+    <label for="menu-bar" class="header_menubar" aria-label="Abrir menú de navegación móvil">
+      <div class="header_menubar-l1" aria-hidden="true"></div><!-- $ Line 1-->
+      <div class="header_menubar-l2" aria-hidden="true"></div><!-- $ Line 2-->
+      <div class="header_menubar-l3" aria-hidden="true"></div><!-- $ Line 3-->
+    </label>
+
+    <!-- $ ENLACES -->
     <div class="header_links">
       <div class="triangle" aria-hidden="true"></div>
 
-      <nav class="header_links-order" aria-label="Enlaces principales">
-        <a class="header_order-link" routerLink="/gallery" routerLinkActive="active">
+      <!-- & Enlaces de orden  -->
+      <nav class="header_links-order" aria-label="Navegación principal">
+        <!-- % Cards -->
+        <a
+          class="header_order-link"
+          routerLink="/gallery"
+          routerLinkActive="active"
+          aria-label="Ver galería de cards"
+        >
           <fa-icon [icon]="faBoxesStacked" aria-hidden="true"></fa-icon>
-
           <span>Cards</span>
-        </a><!--% Cards -->
+        </a>
 
-        <a class="header_order-link" routerLink="/list" routerLinkActive="active">
+        <!--% Lista -->
+        <a
+          class="header_order-link"
+          routerLink="/list"
+          routerLinkActive="active"
+          aria-label="Ver lista de elementos"
+        >
           <fa-icon [icon]="faList" aria-hidden="true"></fa-icon>
-
           <span>Lista</span>
-        </a><!--% Lista -->
-      </nav><!--$ Enlaces de orden -->
+        </a>
+      </nav>
 
+      <!-- & Enlaces de herramientas (Extra) -->
       <nav class="header_links-tools" aria-label="Herramientas">
-        <a class="header_tools-link" routerLink="/calendar" routerLinkActive="active">
+        <!--% Calendario -->
+        <a
+          class="header_tools-link"
+          routerLink="/calendar"
+          routerLinkActive="active"
+          aria-label="Ver calendario"
+        >
           <fa-icon [icon]="faCalendar" aria-hidden="true"></fa-icon>
-
           <span>Calendario</span>
-        </a><!--% Calendario -->
+        </a>
 
-        <a routerLink="/dates" class="header_tools-link" routerLink="/dates" routerLinkActive="active">
+        <!--% Fecha -->
+        <a
+          class="header_tools-link"
+          routerLink="/dates"
+          routerLinkActive="active"
+          aria-label="Ver fechas importantes"
+        >
           <fa-icon [icon]="faClock" aria-hidden="true"></fa-icon>
-
           <span>Fechas</span>
-        </a><!--% Fecha -->
-      </nav><!--$ Enlaces de herramientas (Extra) -->
+        </a>
+      </nav>
 
-      <nav class="header_links-btn" aria-label="Acceso">
-        <a class="header_tools-link" routerLink="/auth/login" *ngIf="!isLoggedIn()">
+      <!-- & Enlaces de iniciar sesión - mobile -->
+      <nav class="header_links-btn" aria-label="Autenticación móvil">
+        @if(!isLoggedIn()) {
+          <!--% Acceder -->
+          <a
+            class="header_tools-link"
+            routerLink="/auth/login"
+            aria-label="Iniciar sesión"
+          >
+            <fa-icon [icon]="faArrowRight" aria-hidden="true"></fa-icon>
+            <span>Acceder</span>
+          </a>
+        } @else {
+          <!--% Perfil -->
+          <a
+            class="header_tools-link"
+            routerLink="/profile/info"
+            routerLinkActive="active"
+            aria-label="Ver mi perfil"
+          >
+            <fa-icon [icon]="faUser" aria-hidden="true"></fa-icon>
+            <span>Perfil</span>
+          </a>
+        }
+      </nav>
+    </div>
+
+    <!-- $ BOTONES DE AUTENTICACION (DESKTOP) -->
+    @if(!isLoggedIn()) {
+      <div class="header_buttons">
+        <!-- & Login -->
+        <button
+          class="none btn btn-primary-light"
+          routerLink="/auth/login"
+          aria-label="Iniciar sesión en la aplicación"
+        >
           <fa-icon [icon]="faArrowRight" aria-hidden="true"></fa-icon>
-
           <span>Acceder</span>
-        </a><!--% Acceder -->
+        </button>
 
-        <a class="header_tools-link" routerLink="/profile/info" routerLinkActive="active" *ngIf="isLoggedIn()">
-          <fa-icon [icon]="faUser" aria-hidden="true"></fa-icon>
-
-          <span>Perfil</span>
-        </a><!--% Perfil -->
-      </nav><!--$ Enlaces de iniciar sesión - mobile -->
-    </div><!--& Enlaces -->
-
-    <div class="header_buttons" *ngIf="!isLoggedIn()">
-      <button class="none btn btn-primary-light" routerLink="/auth/login">
-        <fa-icon [icon]="faArrowRight" aria-hidden="true"></fa-icon>
-        <span>Acceder</span>
-      </button><!--$ Login -->
-
-      <button class="none btn btn-primary" routerLink="/auth/register">
-        <fa-icon [icon]="faUserPlus" aria-hidden="true"></fa-icon>
-        <span>Crear cuenta</span>
-      </button><!--$ Crear cuenta -->
-    </div><!--& Botones -->
-
-    <div class="header_profile" *ngIf="isLoggedIn()" [class.active]="isProfileMenuOpen()">
-      <div
-        class="header_profile-container"
-        role="button"
-        tabindex="0"
-        (click)="toggleProfileMenu($event)"
-        [class.active]="isProfileMenuOpen()"
-        aria-haspopup="true"
-        [attr.aria-expanded]="isProfileMenuOpen()"
-      >
-        <img [src]="userProfile()?.avatarUrl || '/assets/images/profile.jpg'" [alt]="'Foto de perfil de ' + (userProfile()?.name || 'usuario')">
-
-        <div class="header_profile-content">
-          <span>{{ userProfile()?.name || 'Usuario' }}</span>
-          <span>mi perfil</span>
-        </div><!--% Contenido del perfil -->
-
-        <fa-icon class="header_profile-icon" [icon]="faChevronDown" aria-hidden="true"></fa-icon>
-      </div><!--$ Contenedor del perfil -->
-
-      <div
-        class="header_profile-options"
-        role="menu"
-        (click)="toggleProfileMenu($event)"
-        [class.visible]="isProfileMenuOpen()"
-        [attr.aria-hidden]="!isProfileMenuOpen()"
-      >
-        <div class="triangle" aria-hidden="true"></div>
-
-        <a
-          role="menuitem"
-          class="header_option-info"
-          routerLink="/profile/info"
-          routerLinkActive="active"
+        <!-- & Crear cuenta -->
+        <button
+          class="none btn btn-primary"
+          routerLink="/auth/register"
+          aria-label="Crear nueva cuenta"
         >
-          <fa-icon [icon]="faUser" aria-hidden="true"></fa-icon>
-
-          <span>Mi perfil</span>
-        </a><!--% Mi perfil -->
-
-        <a
-          role="menuitem"
-          class="header_option-gear"
-          routerLink="/profile/settings"
-          routerLinkActive="active"
-        >
-          <fa-icon [icon]="faCog" aria-hidden="true"></fa-icon>
-
-          <span>Configuración</span>
-        </a><!--% Configuración -->
-
-        <a
-          role="menuitem"
-          class="header_option-logout"
-          (click)="logout()"
+          <fa-icon [icon]="faUserPlus" aria-hidden="true"></fa-icon>
+          <span>Crear cuenta</span>
+        </button>
+      </div>
+    } @else {
+      <!-- $ PERFIL -->
+      <div class="header_profile" [class.active]="isProfileMenuOpen()">
+        <!-- & Contenedor del perfil -->
+        <div
+          class="header_profile-container"
+          role="button"
           tabindex="0"
+          (click)="toggleProfileMenu($event)"
+          [class.active]="isProfileMenuOpen()"
+          aria-haspopup="menu"
+          [attr.aria-label]="'Menú de ' + (userProfile()?.name || 'usuario')"
+          [attr.aria-expanded]="isProfileMenuOpen()"
         >
-          <fa-icon [icon]="faSignOutAlt" aria-hidden="true"></fa-icon>
+          <img
+            [src]="userProfile()?.avatarUrl || '/assets/images/profile.jpg'"
+            [alt]="'Foto de perfil de ' + (userProfile()?.name || 'usuario')"
+          >
 
-          <span>Cerrar sesión</span>
-        </a><!--% Cerrar sesión -->
-      </div><!--$ Opciones del perfil -->
-    </div><!--& Perfil -->
-  </div><!-- Contenedor -->
-</header><!--# Cabecera -->
+          <div class="header_profile-content">
+            <span>{{ userProfile()?.name || 'Usuario' }}</span>
+            <span>mi perfil</span>
+          </div><!--% Contenido del perfil -->
+
+          <fa-icon class="header_profile-icon" [icon]="faChevronDown" aria-hidden="true"></fa-icon>
+        </div>
+
+        <!-- & Opciones del perfil -->
+        <div
+          class="header_profile-options"
+          role="menu"
+          (click)="toggleProfileMenu($event)"
+          [class.visible]="isProfileMenuOpen()"
+          [attr.aria-hidden]="!isProfileMenuOpen()"
+        >
+          <div class="triangle" aria-hidden="true"></div>
+
+          <!--% Mi perfil -->
+          <a
+            role="menuitem"
+            class="header_option-info"
+            routerLink="/profile/info"
+            routerLinkActive="active"
+            tabindex="0"
+          >
+            <fa-icon [icon]="faUser" aria-hidden="true"></fa-icon>
+            <span>Mi perfil</span>
+          </a>
+
+          <!--% Configuración -->
+          <a
+            role="menuitem"
+            class="header_option-gear"
+            routerLink="/profile/settings"
+            routerLinkActive="active"
+            tabindex="0"
+          >
+            <fa-icon [icon]="faCog" aria-hidden="true"></fa-icon>
+
+            <span>Configuración</span>
+          </a>
+
+          <!--% Cerrar sesión -->
+          <a
+            role="menuitem"
+            class="header_option-logout"
+            type="button"
+            (click)="logout()"
+            tabindex="0"
+          >
+            <fa-icon [icon]="faSignOutAlt" aria-hidden="true"></fa-icon>
+            <span>Cerrar sesión</span>
+          </a>
+        </div>
+      </div>
+    }
+  </div>
+</header>

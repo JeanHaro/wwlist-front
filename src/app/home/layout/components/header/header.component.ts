@@ -13,7 +13,10 @@ import { Router } from '@angular/router';
 
 // FontAwesome
 import {
-  IconDefinition,
+  IconDefinition
+} from '@fortawesome/fontawesome-svg-core';
+
+import {
   faList,
   faArrowRight,
   faUser,
@@ -43,42 +46,66 @@ interface UserProfile {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
-  // Servicios inyectados
-  private router = inject(Router);
+  // ============================================
+  // TODO: INYECCIÓN DE DEPENDENCIAS
+  // ============================================
+  private readonly router = inject(Router);
 
-  @ViewChild('menuCheckbox')
-  menuCheckbox!: ElementRef<HTMLInputElement>;
+  // --------------------------------------------------------------------------
+  // TODO: VIEW REFERENCES
+  // --------------------------------------------------------------------------
+  @ViewChild('menuCheckbox') menuCheckbox!: ElementRef<HTMLInputElement>;
 
-  // Señales para estado
-  private scrolled = signal<boolean>(false);
-  private mobileMenuOpen = signal<boolean>(false);
-  private profileMenuOpen = signal<boolean>(false);
-  private loggedIn = signal<boolean>(true); // Simulación - Reemplazar con AuthService
-  private profile = signal< UserProfile | null >({
+  // --------------------------------------------------------------------------
+  // TODO: SIGNALS DE ESTADO PRIVADOS
+  // --------------------------------------------------------------------------
+  private readonly scrolled = signal<boolean>(false);
+  private readonly mobileMenuOpen = signal<boolean>(false);
+  private readonly profileMenuOpen = signal<boolean>(false);
+
+  // # Reemplazar con AuthService
+  private readonly loggedIn = signal<boolean>(true);
+
+  // # Reemplazar con UserService
+  private readonly profile = signal< UserProfile | null >({
     name: 'Jean Haro',
     avatarUrl: 'assets/images/profile.jpg'
-  }) // Simulación - Reemplazar con UserService
+  })
 
-  // Señales computadas
+  // --------------------------------------------------------------------------
+  // TODO: COMPUTED SIGNALS PÚBLICOS
+  // --------------------------------------------------------------------------
   readonly isScrolled = computed(() => this.scrolled());
   readonly isMobileMenuOpen = computed(() => this.mobileMenuOpen());
   readonly isProfileMenuOpen = computed(() => this.profileMenuOpen());
   readonly isLoggedIn = computed(() => this.loggedIn());
   readonly userProfile = computed(() => this.profile());
 
-  // Iconos
+  // --------------------------------------------------------------------------
+  // TODO: ICONOS (AGRUPADOS POR CATEGORÍA)
+  // --------------------------------------------------------------------------s
+  // Navigation Icons
+  readonly faBoxesStacked: IconDefinition = faBoxesStacked;
   readonly faList: IconDefinition = faList;
+
+  // Tool Icons
   readonly faCalendar: IconDefinition = faCalendar;
   readonly faClock: IconDefinition = faClock;
+
+  // User Action Icons
   readonly faArrowRight: IconDefinition = faArrowRight;
   readonly faUser: IconDefinition = faUser;
   readonly faUserPlus: IconDefinition = faUserPlus;
+
+  // Interface Icons
   readonly faChevronDown: IconDefinition = faChevronDown;
   readonly faCog: IconDefinition = faCog;
   readonly faSignOutAlt: IconDefinition = faSignOutAlt;
-  readonly faBoxesStacked: IconDefinition = faBoxesStacked;
 
-  // Detectar scroll para la barra de navegación
+  // --------------------------------------------------------------------------
+  // TODO: HOST LISTENERS
+  // --------------------------------------------------------------------------
+  // # Detectar scroll para la barra de navegación
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     const scrollPosition = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
@@ -96,12 +123,12 @@ export class HeaderComponent {
     }
   }
 
-  // Cerrar menú cuando se hace click fuera
+  // # Cerrar menú cuando se hace click fuera
   @HostListener('document:click', ['$event'])
   onDocumentClick (event: MouseEvent): void {
     const target = event.target as HTMLElement;
 
-     // Control para menú móvil
+     // Control para menú mobile
     if (
       this.isMobileMenuOpen() && (
         !target.closest('.header_menubar') &&
@@ -114,15 +141,20 @@ export class HeaderComponent {
     }
 
     // Control para menú de perfil
-    if (
-      this.isProfileMenuOpen() &&
-      !target.closest('.header_profile-container')
-    ) {
+    if (this.isProfileMenuOpen() && !target.closest('.header_profile-container')) {
       this.closeProfileMenu();
     }
   }
 
-  // Método para cerrar el menú móvil
+  // --------------------------------------------------------------------------
+  // TODO: MÉTODOS PÚBLICOS - MOBILE MENU
+  // --------------------------------------------------------------------------
+  // # Método para alternar el menu movil
+  toggleMobileMenu(): void {
+    this.mobileMenuOpen.set(this.menuCheckbox.nativeElement.checked);
+  }
+
+  // # Método para cerrar el menú móvil
   closeMobileMenu(): void {
     if (this.menuCheckbox && this.menuCheckbox.nativeElement.checked) {
       this.menuCheckbox.nativeElement.checked = false;
@@ -130,26 +162,27 @@ export class HeaderComponent {
     }
   }
 
-  // Método para alternar el menu movil
-  toggleMobileMenu(): void {
-    this.mobileMenuOpen.set(this.menuCheckbox.nativeElement.checked);
-  }
-
-  // Método para cerrar el menú de perfil
-  closeProfileMenu(): void {
-    this.profileMenuOpen.set(false);
-  }
-
-  // Método para alternar el menú de perfil
+  // --------------------------------------------------------------------------
+  // TODO: MÉTODOS PÚBLICOS - PROFILE MENU
+  // --------------------------------------------------------------------------
+  // # Método para alternar el menú de perfil
   toggleProfileMenu (event: Event): void {
     event.preventDefault();
     event.stopPropagation();
     this.profileMenuOpen.update(value => !value);
   }
 
-  // Método para cerrar sesión
+  // # Método para cerrar el menú de perfil
+  closeProfileMenu(): void {
+    this.profileMenuOpen.set(false);
+  }
+
+  // --------------------------------------------------------------------------
+  // TODO: MÉTODOS PÚBLICOS - USER ACTIONS
+  // --------------------------------------------------------------------------
+  // # Método para cerrar sesión
   logout(): void {
-    // Implementación real con AuthService
+    // Implementar con AuthService real
     this.loggedIn.set(false);
     this.profileMenuOpen.set(false);
     this.router.navigate(['/auth/login']);

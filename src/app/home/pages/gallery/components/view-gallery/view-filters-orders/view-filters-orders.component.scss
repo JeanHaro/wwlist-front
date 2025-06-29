@@ -1,7 +1,3 @@
-// Variables para reutilización
-$primary-color: var(--primary-color-light);
-$text-dark: var(--text-color-dark);
-
 // Mixins para reutilizar estilos
 @mixin responsive-padding ($sides: '') {
   @media (min-width: 540px) {
@@ -14,19 +10,17 @@ $text-dark: var(--text-color-dark);
 }
 
 // -----------------------------------------------------
-// COMPONENTE DE FILTROS Y ORDENACIÓN
+// # COMPONENTE DE FILTROS Y ORDENACIÓN
 // -----------------------------------------------------
-
-// & Filtros y Ordenar
 .gallery-selects {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  // align-items: center;
 
   height: fit-content;
-  padding: 5rem 0;
+  padding: 5rem 2rem;
 
-  background-color: $text-dark;
+  background-color:  var(--text-color-dark);
   opacity: 1;
 
   transition: 0.5s ease-out;
@@ -42,7 +36,7 @@ $text-dark: var(--text-color-dark);
   }
 
   @media (min-width: 1900px) {
-    border-radius: 2rem;
+    border-radius:  var(--border-radius-sm);
   }
 
   // Estado colapsado - cuando está activa la clase 'active'
@@ -56,7 +50,7 @@ $text-dark: var(--text-color-dark);
     @include responsive-padding();
   }
 
-  // $ Item
+  // $ ITEM
   > div {
     @media (min-width: 540px) {
       flex-basis: calc(50% - 1rem);
@@ -93,7 +87,7 @@ $text-dark: var(--text-color-dark);
     display: block;
 
     font-weight: 500;
-    color: $primary-color;
+    color: var(--primary-color-light);
 
     user-select: none;
   }

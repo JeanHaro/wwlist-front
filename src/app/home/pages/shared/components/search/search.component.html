@@ -1,0 +1,84 @@
+<!-- # SECCIÓN PRINCIPAL DE BÚSQUEDA -->
+<section class="search max-width" role="search">
+  <!-- $ Texto dinámico adaptable al contexto -->
+  <p aria-live="polite">
+    <span>Crea y Organiza</span> tu propia
+    <!-- Utilizamos [innerHTML] para renderizar HTML dinámico -->
+    <span [innerHTML]="displayText().text"></span>
+    de los temas que deseas <span>guardar</span>
+  </p>
+
+  <!-- $ FORMULARIO DE BÚSQUEDA -->
+  <form class="search-form" (submit)="onSubmit($event)" aria-label="Formulario de búsqueda">
+    <input
+      class="none input"
+      type="text"
+      [value]="searchTerm"
+      (input)="updateSearchTerm($event)"
+      [attr.placeholder]="displayText().placeholder"
+      aria-label="Campo de búsqueda"
+      [attr.aria-describedby]="hasResults() ? 'search-results-count' : null"
+    >
+  </form>
+
+  <!-- $ INDICADOR DE RESULTADOS CON FLECHA -->
+  @if (showArrow()) {
+    <div
+      class="search-indicator"
+      @arrowIndicator
+      (click)="toggleResults()"
+      role="button"
+      tabindex="0"
+      [attr.aria-expanded]="showResultsSection()"
+      aria-controls="search-results-section"
+      #resultsSection
+    >
+      <!-- & Contador de resultados -->
+      <p id="search-results-count">
+        Se encontraron
+        <strong>
+          {{  resultCount() }} {{ resultCount() === 1 ? 'resultado' : 'resultados' }}
+        </strong>
+      </p>
+
+      <!-- & Ícono de flecha con rotación dinámica -->
+      <fa-icon
+        [icon]="faChevronDown"
+        [ngStyle]="{ 'transform' : arrowRotation() }"
+        aria-hidden="true"
+      ></fa-icon>
+    </div>
+  }
+</section>
+
+<!-- # SECCIÓN DE RESULTADOS DE BÚSQUEDA -->
+@if (showResultsSection() && hasResults()) {
+  <section
+    id="search-results-section"
+    class="search-results max-width"
+    @resultsSection
+    role="region"
+    aria-label="Resultados de búsqueda"
+  >
+    <!-- $ Header de resultados -->
+    <div class="search-results_header">
+      <p>Resultados para: <span>{{ searchTerm }}</span></p>
+
+      <button
+        class="none btn btn-warn"
+        (click)="clearSearch()"
+        aria-label="Limpiar búsqueda"
+      >
+        Limpiar búsqueda
+      </button>
+    </div>
+
+    <!-- $ Contenedor de cards (proyección de contenido) -->
+    <div
+      class="search-results_cards"
+      role="list"
+    >
+      <ng-content></ng-content>
+    </div>
+  </section>
+}

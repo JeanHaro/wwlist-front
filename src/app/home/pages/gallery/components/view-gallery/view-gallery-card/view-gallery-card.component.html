@@ -1,37 +1,44 @@
-<!-- #cardElement - Crea una referencia de plantilla que se conecta con la propiedad viewChild en el TS -->
-<!-- tabindex=0 - Hace que la tarjeta sea focusable con teclado, mejorando la accesibilidad para usuarios que no usan raton -->
-<!-- attr.aria-label - proporciona una descripción concisa para lectores de pantalla  -->
-<!-- attr.aria-describedby - proporciona una descripcion mas detallada incluyendo plataforma -->
+<!-- # TARJETA -->
 <div
   #cardElement
   class="gallery-card"
+  [class.gallery-card-disabled]="isDisabled()"
   (mousemove)="onMouseMove($event)"
   (mouseleave)="onMouseLeave()"
   tabindex="0"
   [attr.aria-label]="'Tarjeta de ' + cardData()?.name"
   [attr.aria-describedby]="'Tarjeta de ' + cardData()?.name + ' en ' + cardData()?.platform"
 >
+  <!-- $ CONTENIDO DE LA TARJETA -->
   <div class="gallery-card_content">
-    <div class="gallery-card_header">
-      <div class="gallery-card_state" [ngClass]="getStateInfo().class">
-        {{ getStateInfo().text }}
-      </div><!-- Estado -->
+    <!-- & Card header -->
+    <header class="gallery-card_header">
+      <!-- % Estado-->
+      <div
+        class="gallery-card_state"
+        [ngClass]="stateInfo().class"
+        [attr.aria-label]="'Estado: ' + stateInfo().text"
+      >
+        {{ stateInfo().text }}
+      </div>
 
-      <div class="gallery-card_score">
+      <!-- % Puntuación -->
+      <div
+        class="gallery-card_score"
+        [attr.aria-label]="'Puntuación: ' + cardData()?.rating + ' estrellas'"
+      >
         <span>{{ cardData()?.rating }}</span>
         <fa-icon [icon]="faStar"></fa-icon>
-      </div><!-- Puntuacion -->
-    </div><!-- % Card Header -->
+      </div>
+    </header>
 
-    <div class="gallery-card_image">
-      @if (cardData()?.imageFormats && !isBase64Image(cardData()!.imageUrl)) {
-        <!-- Si tiene imágenes optimizadas (No Base64) -->
+    <!-- & Imagen -->
+    <figure class="gallery-card_image">
+      @if (hasOptimizedImages()) {
+        <!-- % Si tiene imágenes optimizadas (No Base64) -->
         <picture>
           <source [srcset]="cardData()!.imageFormats!.avif" type="image/avif">
           <source [srcset]="cardData()!.imageFormats!.webp" type="image/webp">
-          <!-- loading=lazy - optimiza el rendimiento cargando la imagen solo cuando está cerca del viewport -->
-          <!-- fill - ajusta el tamaño del contendor padre, para evitar tamaños excesivos -->
-          <!-- ngSrc - Reemplaza el tradicional src para activar las optimizaciones automáticas -->
           <img
             [ngSrc]="cardData()!.imageFormats!.jpg"
             [alt]="'Imagen de ' + cardData()?.name"
@@ -47,20 +54,24 @@
           loading="lazy"
         >
       }
-    </div>
+    </figure>
 
-    <div class="gallery-card_footer">
+    <!-- & Card Footer -->
+    <footer class="gallery-card_footer">
+      <!-- % Mombre usando pipe slice -->
       <div class="gallery-card_name">
-        <span>{{ cardData()?.name | slice:0:20 }}{{ cardData()?.name && cardData()!.name.length > 20 ? '...' : '' }}</span>
-      </div><!-- Mombre usando pipe slice -->
+        <span [title]="cardData()?.name">{{ displayName() }}</span>
+      </div>
 
+      <!-- % Categoria y Subcategoría -->
       <div class="gallery-card_categories">
         {{ cardData()?.category }} - {{ cardData()?.subcategory }}
-      </div><!-- Categoria -->
+      </div>
 
+      <!-- % Plataforma -->
       <div class="gallery-card_platform">
         {{ cardData()?.platform }}
-      </div><!-- Plataforma -->
-    </div><!-- % Card Footer -->
-  </div><!-- Contenido de la tarjeta -->
-</div><!-- $ Tarjeta-->
+      </div>
+    </footer>
+  </div>
+</div>

@@ -10,8 +10,8 @@ import { FooterComponent } from './layout/components/footer/footer.component';
 
 // Pages
 // Shared Pages
-import { SearchComponent } from './pages/shared/search/search.component';
-import { InputSelectComponent } from './pages/shared/input-select/input-select.component';
+import { SearchComponent } from './pages/shared/components/search/search.component';
+import { InputSelectComponent } from './pages/shared/components/input-select/input-select.component';
 
 // Rutas
 import { HomeRoutingModule } from './home.routing';
@@ -32,7 +32,7 @@ import { SharedModule } from '../shared/shared.module';
     NgOptimizedImage,
     ReactiveFormsModule,
     HomeRoutingModule,
-    SharedModule
+    SharedModule,
   ],
   exports: [
     SharedModule,
